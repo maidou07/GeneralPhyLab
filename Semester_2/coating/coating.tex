@@ -1,0 +1,272 @@
+\documentclass[12pt]{article}
+\usepackage{xeCJK}
+\usepackage{fontspec}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{circuitikz}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{lastpage}
+\usepackage{booktabs}
+\usepackage{tikz}
+\captionsetup[figure]{
+    font=footnotesize,
+    name=图
+}
+\captionsetup[table]{
+    font=footnotesize,
+    name=表
+}
+\setCJKmainfont{Songti SC}
+\setCJKfamilyfont{kaishu}{Kaiti SC} % 定义楷书字体族
+\geometry{a4paper, margin=1in, top=1in}
+\setlength{\parindent}{12pt}
+\setlength{\headheight}{13.6pt}
+% 页眉页脚设置
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\small 普通物理实验报告}
+\fancyhead[C]{\small 实验名称：真空镀膜}
+\fancyfoot[C]{\small 第 \thepage\ 页/共 \pageref{LastPage} 页}
+\fancypagestyle{plain}{%
+    \fancyhf{}
+    \fancyfoot[C]{\small 第 \thepage\ 页/共 \pageref{LastPage} 页}
+    \renewcommand{\headrulewidth}{0pt}  % 移除页眉分割线
+}
+\newcommand{\question}[1]{{\CJKfamily{kaishu}#1}}
+\title{\Large\textbf {真空镀膜实验报告}}
+\author{普通物理实验2\\
+        姓名：\underline{\hspace{1cm}[REDACTED]\hspace{1cm}} \\
+        学号：\underline{\hspace{0.5cm}[REDACTED]\hspace{0.5cm}} \\
+        序号：\underline{\hspace{1.3cm}[REDACTED]\hspace{1.3cm}}}
+\date{\today}
+
+\begin{document}
+\maketitle
+\section{实验数据和现象分析}
+\subsection{估计真空度下限}
+根据教材，对于气体分子而言满足关系
+\begin{equation}
+    p  = \frac{kT}{\sqrt{2}\pi d^2\lambda}
+\end{equation}
+其中
+\begin{enumerate}
+    \item $k$是玻尔兹曼常数，$k=1.38\times 10^{-23}$\,J/K
+    \item $\lambda$为气体分子的平均自由程,真空镀膜要求$\lambda \gg L$,即气体分子自由程远大于镀膜仪器线度，$L \sim 10cm$，于是我们取
+        \begin{equation*} 
+            \lambda = 10 L \approx 100cm = 1m
+        \end{equation*}
+    \item $T$为气体温度，不妨选取室温 $T_0 \approx 300K $
+    \item $d$为气体分子直径，由于大气中以氮气和氧气分子为主，不妨选取 $d = \frac{d_{N_2}+d_{O_2}}{2} = 3.5\times 10^{-10}m$
+\end{enumerate}
+经计算，真空度下限估计为
+\begin{equation*}
+    p_0 = \frac{kT_0}{\sqrt{2}\pi d^2\lambda} = \frac{1.38\times 10^{-23}\times 300}{\sqrt{2}\pi \times (3.5\times 10^{-10})^2 \times 1} \approx 8\times 10^{-3}Pa
+\end{equation*}
+
+\subsection{分子泵开始工作后压强随时间关系}
+\begin{table}[H]
+    \centering
+    \caption{分子泵工作后 P-t 关系实验数据}
+    \label{tab:p-t-data}
+    \scalebox{0.8}{
+    % 表格分为两部分，每部分8个数据点
+    \begin{tabular}{ccccccccc}
+    \toprule
+    \textbf{t/s} & 30 & 35 & 40 & 45 & 50 & 55 & 60 & 75 \\
+    \midrule
+    \textbf{P/Pa} & 1.0 & $1.1\times10^{-1}$ & $7.4\times10^{-2}$ & $5.5\times10^{-2}$ & $4.3\times10^{-2}$ & $3.6\times10^{-2}$ & $3.2\times10^{-2}$ & $2.4\times10^{-2}$ \\
+    \bottomrule
+    \\
+    \toprule
+    \textbf{t/s} & 90 & 120 & 150 & 180 & 210 & 240 & 270 & 300 \\
+    \midrule
+    \textbf{P/Pa} & $1.9\times10^{-2}$ & $1.5\times10^{-2}$ & $1.2\times10^{-2}$ & $1.1\times10^{-2}$ & $1.0\times10^{-2}$ & $9.2\times10^{-3}$ & $8.5\times10^{-3}$ & $8.0\times10^{-3}$ \\
+    \bottomrule
+\end{tabular}
+    }
+
+   
+\end{table}
+\begin{figure}[H] 
+\centering
+\caption{分子泵工作后 系统压强随时间变化 曲线}
+\includegraphics[width=0.8\textwidth]{plot/pt1.png}
+
+\end{figure}
+\par
+\hspace{1em}以上我们记录了分子泵开始工作后系统压强随时间的变化情况，数据如上表所示，其中在t=120s时分子泵达到51000rpm工作转速。并绘制了相应的曲线图。注意到由于压强变化范围较大，我们对纵坐标采用对数刻度进行绘图。
+\par
+\vspace{1em}
+从图中
+我们可以发现，分子泵打开后系统压强随时间而减小，直到我们估算的真空度下限，此时即达到了镀膜所要求的真空度范围。我们发现压强下降速率逐渐减小，这主要有两层原因
+\begin{enumerate}
+    \item 此时主要的抽气过程从抽除气相分子转向\underline{处理表面释出的顽固气体分子}，以水蒸气为例，在大气中水分子会吸附到容器内壁上，当系统压强减小到一定数值后，例如此类的极性分子难以被去除
+    \item 分子泵的工作能力会与系统内残余气体分子密度有关，在系统压强逐渐降低的过程中，分子泵的工作能力会逐渐减弱。可以以一个简单的建模来理解这个过程
+    \begin{equation*}
+        \frac{dP}{dt} = Q - kP
+    \end{equation*}
+    这是一个线性的建模，表征抽气能力正比于气体压强$P$，而$Q$是漏气包括吸附分子回到气相的总速率，在P较低时有$kP \approx Q$，于是$\frac{dP}{dt} \approx 0 $ 此时压强趋于稳定。
+\end{enumerate}
+    
+\subsection{加预蒸发电流到5A后电流变化}
+实验数据记录如下表所示，
+
+\begin{table}[H]
+\centering
+\caption{预热蒸发电流随时间变化数据}
+\label{tab:current-data}
+\scalebox{0.9}{
+\begin{tabular}{lcccccccccc}
+\toprule
+\textbf{t/s} & 0 & 5 & 10 & 15 & 20 & 25 & 30 & 35 & 40 & 45 \\
+\midrule
+\textbf{I/A} & 4.8 & 4.7 & 4.6 & 4.5 & 4.4 & 4.4 & 4.4 & 4.3 & 4.3 & 4.3 \\
+\bottomrule
+\\
+\toprule
+\textbf{t/s} & 50 & 55 & 60 & 65 & 70 & 75 & 80 & 85 & 90 & \\
+\midrule
+\textbf{I/A} & 4.3 & 4.3 & 4.3 & 4.2 & 4.2 & 4.2 & 4.2 & 4.2 & 4.2 & \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\par
+实验中观测到预蒸发电流随时间而下降，这主要是由于通电后电流热效应导致金属温度升高，阻值变大，从而电流下降。经过一段时间后，电流趋于稳定。
+
+\subsection{预蒸发过程中的压强变化}
+实验数据记录如下表所示，
+\begin{table}[H]
+\centering
+\caption{预蒸发电流维持5A工作后压强变化数据}
+\label{tab:pressure-change-5A}
+\begin{tabular}{cc c cc c cc}
+\toprule
+\textbf{t}/\small{s} & \textbf{P}/\small{$10^{-3}$Pa} & \phantom{abc} & \textbf{t}/\small{s} & \textbf{P}/\small{$10^{-3}$Pa} & \phantom{abc} & \textbf{t}/\small{s} & \textbf{P}/\small{$10^{-3}$Pa} \\
+\midrule
+0  & 5.7 && 30 & 6.8 && 60 & 5.6 \\
+3  & 5.8 && 33 & 6.7 && 63 & 5.6 \\
+6  & 5.9 && 36 & 6.6 && 66 & 5.5 \\
+9  & 6.0 && 39 & 6.6 && 69 & 5.5 \\
+12 & 6.1 && 42 & 6.6 && 72 & 5.5 \\
+15 & 6.3 && 45 & 6.6 && 75 & 5.5 \\
+18 & 6.5 && 48 & 6.6 && 78 & 5.5 \\
+21 & 6.7 && 51 & 6.1 && 81 & 5.4 \\
+24 & 6.8 && 54 & 5.7 && 84 & 5.4 \\
+27 & 6.8 && 57 & 5.7 && 87 & 5.4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\hfill
+\begin{figure}[H]
+\centering
+\caption{预蒸发过程中 系统压强随时间变化 曲线}
+\includegraphics[width=0.8\textwidth]{plot/pt3.png}
+\end{figure}
+\begin{center}
+\footnotesize{注：由于压强变化较小，有效位数不够，故采取误差棒方式呈现，没有拟合曲线}
+\end{center}
+\par
+\textbf{预蒸发实验现象分析：}
+\par
+\begin{enumerate}
+    \item \textbf{预蒸发时系统压强值先增大后减小}:这是因为一开始电阻丝加热产生气体速率暂时大于分子泵的抽气速率，导致系统压强上升。一开始蒸出的气体除了铜蒸汽之外，还有金属丝包括铜表面吸附的其他气体等等。随着时间推移，吸附气体被逐渐清除，蒸发出的主要是铜蒸汽，蒸出气体变少。而另一方面随着压强增大，分子泵的工作能力也增强（前序实验发现），最终系统压强逐渐减小并趋于稳定，接近动态平衡。
+    \item \textbf{预蒸发时有少量雾状灰气产生}：这主要是由于铜表面包括电阻丝表面存在一些杂质，包括油脂、水分子等，在加热过程中挥发产生的，这也体现了预蒸发的提纯作用。
+    \item \textbf{炉体内有些许亮光}：这是电阻丝和铜丝加热到一定温度后辐射发光所导致的。
+\end{enumerate}
+
+\subsection{正式蒸发镀膜}
+我们两次实验均维持蒸发电流$I=20A$左右进行正式蒸发镀膜，记录下列数据：
+\begin{equation*}
+\begin{aligned}
+    \text{第一次镀膜} &: I=20.0A \; & t = 120s \;&  \;P_{max,10s\text{内}}=6.7\times 10^{-2}Pa  & P_{end} = 0.29Pa \\
+    \text{第二次镀膜} &: I=20.0A \; & t = 10s \;\;\;&  \;P_{max}=P_{end} = 8.8\times 10^{-3}\,Pa & \\
+\end{aligned}
+\end{equation*}
+\footnotesize{注：$P_{max,10s\text{内}}$表示在镀膜开始后10秒内的最大压强值,便于两次实验相比较。而$P_{end}$表示整个镀膜过程中的最大压强值,也即停止镀膜时的压强。}
+\vspace{1em}
+\par
+\normalsize{
+镀膜过程中，电阻丝显著发光发热，压强计示数不断上涨，同时筒壁的窗口也逐渐镀上一层铜膜。两次镀膜10s内的最大压强有较大差异的原因是第二次我们开始蒸发的起始压强比第一次低很多。
+}
+\subsection{第二次抽气真空实验}
+\begin{table}[H]
+\centering
+\caption{第二次抽真空实验 P-t 关系数据}
+\label{tab:pt-data-second}
+\begin{tabular}{cc c cc c cc}
+\toprule
+% 表头定义
+\textbf{t/min} & \textbf{P/Pa} & \phantom{abc} & \textbf{t/min} & \textbf{P/10\textsuperscript{-3}Pa} & \phantom{abc} & \textbf{t/min} & \textbf{P/10\textsuperscript{-3}Pa} \\
+\midrule
+% 第一列数据 (t=0.5 到 t=5.0)
+
+0.5 & $1.5\times 10^{3} $&& 5.5 & 11   && 10.5 & 4.1 \\
+1.0 & $1.0\times 10^{2} $ && 6.0 & 9.4  && 11.0 & 3.9 \\
+1.5 & 42   && 6.5 & 8.0  && 11.5 & 3.7 \\
+2.0 & 23   && 7.0 & 7.0  && 12.0 & 3.6 \\
+2.5 & 15   && 7.5 & 6.3  && 12.5 & 3.4 \\
+3.0 & 11   && 8.0 & 5.8  && 13.0 & 3.3 \\
+3.5 & 8.8  && 8.5 & 5.3  && 13.5 & 3.1 \\
+4.0 & 2.7  && 9.0 & 4.9  && 14.0 & 3.0 \\
+4.5 & $3.0 \times 10^{-2}$ && 9.5 & 4.6  && 14.5 & 2.9 \\
+5.0 & $1.5 \times 10^{-2}$ && 10.0 & 4.3 && 15.0 & 2.8 \\
+
+\bottomrule
+\end{tabular}
+\end{table}
+
+\par
+\hspace{1em}实验中测量了抽气全过程的压强变化，在3.5min时开启分子泵，在5.5分钟时达到51000rpm工作转速。选取开分子泵后的数据绘制P-t曲线，如下图所示。
+
+\begin{figure}[H]
+\centering
+\caption{分子泵开启后的 系统压强随时间变化关系图}
+\includegraphics[width=0.7\textwidth]{plot/pt2.png}
+\end{figure}
+
+\par
+可以看出，第二次抽真空时所用时间远小于第一次实验所用时间，具体来说第一次从开启分子泵到达$8\times 10^{-3}Pa$用了约300s，而第二次仅用了约3min即180s，时间接近缩短一半。这主要是因为第一次实验中的抽气、加热步骤已经将系统内壁上难以去除的水分子等吸附分子去除掉了，根据我们先前的分析，这会使得系统抽气效率大大提升。
+\section{镀膜经验总结}
+\begin{enumerate}
+    \item \textbf{材料准备：} 需要注意缠绕钼丝时注意 \underline{不要出现折角}，这样容易导致热积压甚至熔断钼丝。另一个是要控制好铜丝的 \underline{松紧度和长度}，过松可能会导致铜丝掉落，过长则会使得铜丝部分蒸发，而剩余漏在外面的部分会 \underline{掉落}下来造成实验失败。铜丝长度$\approx$钼丝螺旋部分长度，铜丝插入有一定弹性即可。
+    \item  \textbf{预蒸发过程：} 预蒸发过程很重要，一个是可以 \underline{去除材料杂质}和表面吸附分子，提升正式镀膜的纯度，还有就是检验系统的条件是否满足镀膜要求，包括真空度能否恢复以及蒸发设备连接是否紧密。
+    \item \textbf{保持系统内清洁：} 正如我们实验发现，当系统内壁吸附分子被去除后，抽气效率大大提升。因此每次实验后都需要抽真空来保持系统内的\underline{真空清洁}，这样对下次实验的正常进行有很大帮助。
+    \item \textbf{注意气密性：} 比如罩子和机器连接处需注意灰尘和油脂的 \underline{清理}，防止漏气。如果系统真空性能不好，后面的镀膜则无法满足真空度下限需求。
+    \item \textbf{控制好蒸发电流：} 蒸发电流过大会导致电阻丝熔断，过小则无法达到蒸发温度。镀膜时需时刻关注压强和电流大小，尽可能维持稳定。
+\end{enumerate}
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.45\textwidth}
+    \centering
+    \includegraphics[height=0.7\textwidth]{img/IMG_0710.jpeg}
+    \caption{镀膜效果}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.45\textwidth}
+    \centering
+    \includegraphics[height=0.7\textwidth]{img/IMG_0711.jpeg}
+    \caption{钼电阻丝（连续弯曲）}
+\end{subfigure}
+
+\bigskip % Add some vertical space between the rows of subfigures
+
+\begin{subfigure}{0.45\textwidth}
+    \centering
+    \includegraphics[height=0.7\textwidth]{img/IMG_0713.jpeg}
+    \caption{错误的铜丝长度}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.45\textwidth}
+    \centering
+    \includegraphics[height=0.7\textwidth]{img/IMG_0714.jpeg}
+    \caption{铜丝未蒸发部分掉落}
+\end{subfigure}
+\end{figure}
+\end{document}   

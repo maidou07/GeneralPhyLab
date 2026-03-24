@@ -1,0 +1,441 @@
+\documentclass[10pt,twocolumn]{article}
+
+% --- 基础宏包 ---
+\usepackage{xeCJK} % 中文支持核心
+\usepackage{fontspec} % 字体选择
+\usepackage{amsmath} % 数学公式
+\usepackage{graphicx} % 插入图片
+\usepackage{geometry} % 页面布局
+\usepackage{siunitx} % SI 单位排版
+\usepackage{float} % 控制图表浮动 (建议使用 [H] 选项谨慎)
+\usepackage{fancyhdr} % 自定义页眉页脚
+\usepackage{caption} % 图表标题自定义
+\usepackage{subcaption} % 并排子图
+\usepackage{lastpage} % 获取总页数
+\usepackage{hyperref} % 超链接 (可选，推荐)
+\usepackage{indentfirst} % 首段缩进 (符合中文习惯)
+\usepackage{titlesec} % 用于自定义章节标题样式
+% \usepackage{setspace} % 如果需要调整行距，取消注释并使用 \onehalfspacing 或 \doublespacing
+
+% --- 中文字体设置 ---
+% 请确保您的系统安装了这些字体，或者替换为您可用的字体
+\setCJKmainfont[ItalicFont=Kaiti SC]{Songti SC} % 主字体 (宋体)，指定楷体为斜体
+\setCJKsansfont{Heiti SC} % 无衬线字体 (黑体)
+\setCJKmonofont{STFangsong} % 等宽字体 (仿宋)
+% 如果需要，可以单独设置数学环境中的字体
+% \setmathfont{Latin Modern Math} % 例如
+
+% --- 页面布局设置 ---
+\geometry{
+    a4paper,
+    left=1.5cm,
+    right=1.5cm,
+    top=2.0cm,
+    bottom=2.0cm,
+    headheight=14pt, % 为页眉预留足够空间
+    columnsep=0.8cm % 两栏之间的距离
+}
+\setlength{\parindent}{2em} % 设置段落首行缩进为2个中文字符宽度
+%\setlength{\parskip}{-1pt} % 可选：在段落间增加少量垂直间距
+
+
+% --- 页眉页脚设置 ---
+\pagestyle{fancy} % 应用 fancy 样式
+\fancyhf{} % 清空默认的页眉页脚
+\fancyhead[C]{\small 实验名称：弦上驻波} % 页眉居中，small 字号
+
+\fancyfoot[C]{\small 第 \thepage\ 页 / 共 \pageref{LastPage} 页} % 页脚居中，small 字号
+\renewcommand{\headrulewidth}{0.4pt} % 页眉分割线宽度
+\renewcommand{\footrulewidth}{0pt} % 不显示页脚分割线
+
+% 定义 \maketitle 页面的样式 (通常是 plain 样式)
+\fancypagestyle{plain}{%
+    \fancyhf{} % 清空页眉页脚
+    \fancyfoot[C]{\small 第 \thepage\ 页 / 共 \pageref{LastPage} 页} % 首页页脚
+    \renewcommand{\headrulewidth}{0pt} % 首页无页眉分割线
+}
+
+% --- 图表标题设置 ---
+\captionsetup{
+    font=footnotesize, % 标题使用 footnotesize (比 small 更小)
+    labelsep=quad, % 标签 (如图/表 N) 和标题文字之间的间距
+    justification=centering, % 标题文本两端对齐 (或 center)
+    singlelinecheck=false % 即使只有一行也应用对齐方式
+}
+\captionsetup[figure]{name=图} % 图标题前缀为 "图"
+\captionsetup[table]{name=表} % 表标题前缀为 "表"
+
+% --- 调整章节标题样式 ---
+\titleformat{\section}{\normalfont\large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalfont\small\bfseries}{\thesubsubsection}{1em}{}
+% 可选：调整标题间距
+% \titlespacing*{\section}{0pt}{*3}{*2} % {左右缩进}{段前距}{段后距}
+% \titlespacing*{\subsection}{0pt}{*2}{*1}
+% \titlespacing*{\subsubsection}{0pt}{*1.5}{*0.5}
+
+% --- 中文环境名称定义 ---
+\renewcommand{\abstractname}{摘要}
+\renewcommand{\refname}{参考文献}
+% 对于章节标题，article 类默认不带 "第 N 章" 前缀，直接用中文即可
+% 如果使用 book 或 report 类，可能需要设置 \chaptername 等
+
+% --- 标题和作者信息 ---
+\title{\Large\bfseries 弦上驻波实验报告} % 标题：大号、加粗
+\author{%
+    \normalsize % 作者信息用 normalsize
+    普通物理实验2 \\[0.5em] % 换行并增加少量垂直间距
+    \normalsize 姓名：\underline{\hspace{0.6cm}[REDACTED]\hspace{0.5cm}} % 留出下划线填空
+    \quad % 间隔
+    \normalsize 学号：\underline{\hspace{0.1cm}[REDACTED]\hspace{0.1cm}} % 留出下划线填空
+    \quad % 间隔
+    \normalsize 序号：\underline{\hspace{0.9cm}[REDACTED]\hspace{0.9cm}} % 留出下划线填空
+}
+\date{\small\today} % 日期，使用 small 字号
+
+% --- 文档开始 ---
+\begin{document}
+
+\maketitle % 显示标题、作者、日期
+
+\section{实验数据与分析}
+
+\subsection{弦线密度测量}
+\begin{table}[h!]
+\centering
+\caption{弦的物理参数测量（包括直径均匀性检查）}
+\label{tab:string-parameters}
+\scalebox{0.8}{
+\begin{tabular}{cccccc}
+\hline
+测量序号 & $d_0$ / mm & $d$ / mm & $L$ / cm & $m$ / g & $\mu$ / (kg·m$^{-1}$) \\
+\hline
+1 & 1.092 & 1.090 & 96.05 & 5.37 &  \\
+2 & 1.096 & 1.088 & 96.15 & 5.36 &  \\
+3 & 1.098 & 1.089 & 96.10 & 5.37 &  \\
+\textbf{平均值} & \textbf{1.095} & \textbf{1.089} & \textbf{96.10} & \textbf{5.37} & \textbf{$5.58 \times 10^{-3}$} \\
+\hline
+\end{tabular}
+}
+\end{table}
+\par
+多点测量实验弦的直径为$d_0 = 1.092\,mm$，样品弦的直径$d = 1.089\,mm$,相对偏差为
+\begin{equation}
+    \Delta = \frac{|d - d_0|}{d_0} \times 100\% = 0.3\%
+\end{equation}
+\par
+故可以使用样品弦的线密度代替实验弦的线密度。
+\subsection{共振频率测量}
+\begin{table}[H]
+\centering
+\caption{驻波共振频率测量 (L = 60.0cm, T = 29.403N)}
+\scalebox{0.8}{
+\begin{tabular}{cccccc}
+\hline
+$N$ & $f_c$ / Hz & $f_e$ / Hz & $|\frac{f_e - f_c}{f_c}|$ / \% & $v_c$ / (m·s$^{-1}$) & $v_e$ / (m·s$^{-1}$) \\
+\hline
+1 & 60.5 & 61.9 & 2.3 & 72.6 & 74.3 \\
+2 & 120.9 & 126.3 & 4.5 & 72.6 & 75.8 \\
+3 & 181.4 & 192 & 5.8 & 72.6 & 76.8 \\
+4 & 241.9 & 258 & 6.7 & 72.6 & 77.4 \\
+\hline
+\end{tabular}
+}
+\end{table}
+
+\vspace{-1em}
+\begin{center}
+\scriptsize{注:$f_e$保留到实验上可确定共振的有效数字位数，下同}
+\end{center}
+
+\begin{figure}[H]
+    \centering
+    \caption{驻波频率 $f$ 与谐波数 $N$ 的关系图}
+    \includegraphics[width=0.5\textwidth]{img/f-N.pdf}
+    \label{fig:f-N}
+\end{figure}
+\subsubsection{数据分析}
+\par
+可以看到，实验频率$f_e$关于谐波次数$N$的斜率大于理论频率$f_c$的斜率，$k_e > k_c $,分析如下：
+\begin{enumerate}
+    \item 斜率公式为 $k = \frac{\sqrt{{\frac{T}{\mu}}}}{2L}$ 我们认为\textbf{弦长L、张力T}为主要影响因素。
+    \item \textbf{弦的有效长度}：弦在弯曲时需要一个微小的弧度（弦不能完全柔软弯曲），这导致实际振动部分的有效长度 L 会\textbf{略小于}测量值 60.0 cm，从而使得实际频率高于理论频率，体现在斜率上 $ k \propto L^{-1}$ ，L偏大，k偏小。
+​    \item \textbf{张力的实际值}：弦在振动时在端点会有一定的斜率，使得弦张力对于杠杆的力臂减小，有效张力增大，从而使得实际频率高于理论频率，体现在斜率上 $ k \propto \sqrt{T}$ ，T偏大，k偏大。
+    \item \textbf{其他因素}：如弦在拉伸下的线密度变小、高次谐波对于弦的非理想影响等，这些因素可能会导致实际频率偏高，这部分系统误差会统一在最后进行一个分析。
+\end{enumerate}
+
+\subsubsection{共振判断标准}
+\par
+\textbf{实验现象：}从起振到达到共振，可以看到弦的振幅迅速增大，波形逐渐清晰，在共振点时振幅达到最大且波形稳定，示波器波形具有相同的变化规律。
+\par
+\textbf{判断共振：}在实验中，观察示波器上波形的稳定性和幅度的来判断何时达到共振，除此之外，还有一定的经验标准：
+\begin{itemize}
+    \item 首先是共振点的\textbf{鉴定}，由于实验发现共振点有时会与历史状态有关，因此需要检验真正的共振点，可以通过手动停止弦的振动再释放，看看能否再次达到较大幅度的共振。
+    \item 其次是有时候即使离共振点很近，弦也无法有很明显的振动，可以手动起振，然后观察波形能不能实现稳定甚至增强，这样也可以判断是否临近共振点。
+    \item 最后就是接近共振时，示波器波形的最高点常常会有一凸起，凸起最大时达到共振这也是一个经验判断标准。
+\end{itemize}
+
+\par
+ 实验观测到，通过缓慢增加频率（找到的共振频率点，系统性地\textbf{高于}通过缓慢减小频率找到的共振频率点，我们会在最后分析原因。
+\subsection{测量共振频率f与弦上张力T的关系}
+
+
+\begin{table}[H]
+\centering
+\caption{共振频率f与弦上张力T的关系测量数据}
+\scalebox{0.9}{
+\begin{tabular}{cccccc}
+\hline
+$T$ / N & $f_c$ / Hz & $f_e$ / Hz & $\frac{|f_e - f_c|}{f_c}$ / \% & $\ln(f_e)$ & $\ln(T)$ \\
+\hline
+9.801 & 34.9 & 35.7 & 2.3 & 3.575 & 2.2825 \\
+19.602 & 49.4 & 51.5 & 4.3 & 3.942 & 2.97561 \\
+29.403 & 60.5 & 63.3 & 4.6 & 4.148 & 3.38108 \\
+39.204 & 69.8 & 73.0 & 4.6 & 4.290 & 3.66878 \\
+49.005 & 78.1 & 80.7 & 3.3 & 4.391 & 3.89191 \\
+\hline
+\end{tabular}
+}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \caption{驻波频率 $f$ 与张力 $T$ 的对数关系图}
+    \includegraphics[width=0.4\textwidth]{img/lnfe_vs_lnT_fit.pdf}
+    \label{fig:f-T}
+\end{figure}
+\par
+理论上，频率与张力的平方根成正比，即 $f \propto T^{1/2}$。两边取自然对数得到：
+\begin{equation}
+    \ln(f) = \frac{1}{2}\ln(T) + \text{const}
+\end{equation}
+这是一个线性方程，其理论斜率 $m_T = 0.5$。
+\vspace{1em}
+\par
+我们可以根据线性拟合结果给出斜率的不确定度：
+\par
+\begin{minipage}{0.18\textwidth}
+\begin{equation*}
+\begin{cases}
+    k_T = 0.509 \\
+    b_T = 2.420 \\
+    r_T = 0.9997
+\end{cases}
+\end{equation*}
+\end{minipage}
+\hfill
+\begin{minipage}{0.3\textwidth}
+\begin{equation*}
+    \sigma_{k_T} = k_T \sqrt{\frac{\frac{1}{r_T^2} - 1}{n - 2}} = 0.007
+\end{equation*}
+\end{minipage}
+\par
+\vspace{0.5em}
+故实验的拟合结果为
+\begin{equation}
+    k_T = 0.509 \pm 0.007
+\end{equation}
+
+\subsubsection{误差分析}
+实验斜率与理论值的绝对偏差为 $|0.509 - 0.5| = 0.009$。该偏差略大于拟合得出的不确定度 $0.007$，位于绝对误差范围之内，理论值接近实验值的不确定度下限，故可以认为实验结果与理论吻合较好。
+
+\par
+首先，可能的随机误差来源包括：\textbf{共振频率的判断:（主要）} 
+\par
+驻波的共振峰是一个有一定宽度的区域。在实验中，通过人眼观察寻找振幅最大点对应的频率，存在主观判断误差。这是本次实验最主要的随机误差来源，直接导致了纵坐标 $\ln(f_e)$ 的不确定性,我们可以大致估算：实验上确定f的误差大约为$0.2Hz$，根据误差传递到lnf误差为$\Delta lnf = \frac{\Delta f}{f} \approx 0.004$,对最终结果的误差$\approx \frac{\Delta lnf}{\sqrt{\Sigma (lnTi-\bar{lnT})^2}} \approx 0.004$。
+\par
+可以看出，这个误差$0.004$相较于拟合误差$0.007$是一个同量级的误差，说明寻找“共振峰”这一实验操作过程本身会引入较大的随机性，这也与我们实验中观测到的一些现象相符合，包括共振的频率范围展宽较大，共振点工作的不稳定性等。
+\par
+但是，实验结果斜率系统性偏大，说明表明除了随机误差外，可能存在使斜率系统性偏高的系统误差因素，会统一在最后进行一个分析。
+
+
+\subsection{测量共振频率f与端点距离L的关系}
+\begin{table}[h]
+\centering
+\caption{改变长度 L (最终修正版)}
+\begin{tabular}{cccccc}
+\hline
+$L$ / cm & $f_c$ / Hz & $f_e$ / Hz & $\frac{|f_e - f_c|}{f_c}$ / \% & $\ln(f_e)$ & $\ln(L)$ \\
+\hline
+40.0 & 90.7 & 96.0 & 5.8 & 4.564 & 3.689 \\
+44.7 & 81.2 & 85.5 & 5.3 & 4.449 & 3.800 \\
+50.0 & 72.6 & 76.1 & 4.8 & 4.332 & 3.912 \\
+56.0 & 64.8 & 67.5 & 4.2 & 4.212 & 4.025 \\
+62.6 & 58.0 & 60.5 & 4.3 & 4.103 & 4.137 \\
+70.0 & 51.8 & 54.9 & 6.0 & 4.005 & 4.248 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \caption{驻波频率 $f$ 与弦长 $L$ 的对数关系图}
+    \includegraphics[width=0.4\textwidth]{img/lnfe_vs_lnL_fit.pdf}
+    \label{fig:f-L}
+\end{figure}
+\par
+理论上，频率与弦长的倒数成正比，即 $f \propto L^{-1}$。两边取自然对数得到：
+\begin{equation}
+    \ln(f) = -\ln(L) + \text{const}
+\end{equation}
+这是一个线性方程，其理论斜率 $m_L = -1$。
+\vspace{1em}
+\vspace{1em}
+\par
+我们可以根据线性拟合结果给出斜率的不确定度：
+\par
+\begin{minipage}{0.18\textwidth}
+\begin{equation*}
+\begin{cases}
+    k_L = -1.009 \\
+    b_L = 8.281 \\
+    r_L = 0.9995
+\end{cases}
+\end{equation*}
+\end{minipage}
+\hfill
+\begin{minipage}{0.3\textwidth}
+\begin{equation*}
+    \sigma_{k_L} = k_L \sqrt{\frac{\frac{1}{r_L^2} - 1}{n - 2}} = 0.016 
+\end{equation*}
+\end{minipage}
+\par
+\vspace{0.5em}
+故实验的拟合结果为(多保留一位有效数字)
+\begin{equation}
+    k_L = -1.009 \pm 0.016 
+\end{equation}根据拟合结果，实验斜率为 $m_{L, \text{exp}} = -1.009 \pm 0.016$，理论斜率为 $m_{L, \text{th}} = -1.0$。可以看到理论值落在实验不确定度区间 $[-1.025, -0.993]$ 之内。因此，可以认为实验结果与理论预测在误差允许的范围内吻合很好。
+\subsubsection{误差分析}
+\par
+该部分的随机误差主要来源包括：
+
+\begin{enumerate}
+    \item \textbf{共振频率的判断 (主要来源之一):} 与第三部分相同，寻找共振峰的过程存在主观判断误差，是导致纵坐标 $\ln(f_e)$ 产生不确定性的主要原因。
+    
+    \item \textbf{弦长 $L$ 的测量 :} 在本部分实验中，我们需要多次改变和测量弦长 $L$。使用米尺进行读数时，存在视差和估读引入的随机误差。这直接导致了横坐标 $\ln(L)$ 的不确定性，是本部分实验随机误差的另一个主要贡献者。
+\end{enumerate}
+
+\par
+我们可以大致估算这些测量误差对最终斜率不确定度的影响。
+\begin{itemize}
+    \item 对于频率测量，我们仍估计其误差约为 $\Delta f \approx \SI{0.2}{Hz}$。对于本部分一个典型的中间频率值 (如 $f_e \approx \SI{70}{Hz}$)，根据误差传递，其对 $\ln(f_e)$ 的不确定度贡献为：
+    $$ \Delta(\ln f_e) = \frac{\Delta f}{f} \approx \frac{\SI{0.2}{Hz}}{\SI{70}{Hz}} \approx 0.003 $$
+    
+    \item 对于长度测量，一个合理的读数误差估算为 $\Delta L \approx \SI{0.05}{cm}$ (即米尺最小分度的一半)。对于一个中间长度值 (如 $L \approx \SI{55}{cm}$)，其对 $\ln(L)$ 的不确定度贡献为：
+    $$ \Delta(\ln L) = \frac{\Delta L}{L} \approx \frac{\SI{0.05}{cm}}{\SI{55}{cm}} \approx 0.0009 $$
+\end{itemize}
+比较可知，由频率判断引入的随机误差（约 $0.003$）仍是主要部分。我们将这个占主导的纵坐标不确定度代入斜率误差估算公式：
+$$ \Delta m_L \approx \frac{\Delta \ln f_e}{\sqrt{\sum (\ln L_i - \overline{\ln L})^2}} = \frac{0.003}{0.5004} \approx 0.006 $$
+\par
+可以看出，这个估算出的斜率不确定度 ($0.006$) 与由数据点离散程度给出的拟合不确定度 ($0.016$) 在同一个数量级上，吻合得较好。这说明，我们对随机误差来源（主要是共振点判断和长度测量）的分析是正确的，并且对其量级的估算也是物理合理的。
+\par
+对于系统误差，我们将在下一部分分析
+\section{分析和拓展}
+\subsection{系统误差分析}
+接下来就是影响实验测量结果的主要系统误差来源：
+
+\begin{enumerate}
+    \item \textbf{前述因素:} 我们在第一部分提到弦张力可能会略大于砝码重力，会使得实际频率偏高，从而使得斜率偏高，还有弦线会在张力作用下拉长，使线密度减小。
+
+    \item \textbf{弦的刚度:} 模型假设弦是完全柔性的。但实际的金属弦具有一定刚度，其弯曲形变会提供一个额外的、类似弹簧的恢复力。这个效应等同于增加了弦的 \underline{“有效张力”}，从而使实际振动频率系统性地偏高。另一方面，它也是第一部分提到的有效振动长度减少的原因，因为 \underline{弦的刚度}使弦无法在支撑点处形成完美的数学节点，导致驻波的实际节点向内移动，从而减少了 \underline{有效振动长度}。这两个效应都会导致我们测得的频率高于理论预测，进而使得斜率偏高。
+
+    \item \textbf{高次谐波影响：} 弦的非线性响应可能会产生高次谐波，可能会导致频率偏高。这种效应在本实验中可以在共振时的波形图像中有所展现，是一个可能的系统误差来源，我们会在实验报告的最后一部分分析中看到，实际上 \underline{它也是弦的刚度导致的结果}。
+\end{enumerate}
+
+\subsection{有效长度修正的量级估算（$|k_L|>1$的分析、弦线刚度影响分析）}
+\par
+下一步我选择重点分析弦振动有效长度导致的系统误差并估算量级。
+\par
+有意思的是，我们恰好在第四部分中改变弦长$L$，并探究共振频率$f_e$，这部分数据除了探究理论公式正确性外，它还可以用来表征弦的有效长度修正量级。
+
+\subsubsection{估算模型与方法}
+由于弦具有刚度，其有效振动长度 $L_{\text{eff}}$ 比我们用米尺测量的物理长度 $L_{\text{meas}}$ 要略短一些，其关系可表示为 $L_{\text{eff}} = L_{\text{meas}} - \delta$，其中 $\delta$ 是一个小的修正量。可以认为真实的物理规律应为 $f = v/(2(L_{\text{meas}} - \delta))$。
+
+为了从实验数据中直接求解 $\delta$，我们将该式进行变换：
+\begin{equation}
+    \frac{1}{f_e} = \frac{2}{v} (L_{\text{meas}} - \delta) = \left(\frac{2}{v}\right)L_{\text{meas}} - \frac{2\delta}{v}
+    \label{eq:linear_L}
+\end{equation}
+这个方程表明，如果我们以 $L_{\text{meas}}$ 为横坐标，以 $1/f_e$ 为纵坐标作图拟合，该直线的 \textbf{x轴截距}就等于修正量 $\delta$。
+
+\subsubsection{基于实验数据的计算}
+我们对第四部分的实验数据 ($L_{\text{meas}}$ vs $f_e$) 进行上述处理，并进行最小二乘法拟合，得到如下拟合参数：
+\begin{itemize}
+    \item 拟合斜率: $m = 0.02604\,(Hz \cdot m)^{-1}$
+    \item 拟合截距: $b\,\,\, = \SI{-4.98e-5}{Hz^{-1}}$
+\end{itemize}
+根据拟合结果，计算 x轴截距 $\delta$：
+\begin{equation}
+    \delta = - \frac{b}{m} = - \frac{\SI{-4.98e-5}{1/Hz}}{\SI{0.02604}{1/(Hz \cdot m)}} \approx \SI{0.00191}{m} = \SI{1.91}{mm}
+\end{equation}
+
+\subsubsection{结果讨论}
+\begin{enumerate}
+    \item \textbf{物理合理性:} 我们通过数据拟合估算出，弦的有效长度比测量长度短了约 $\SI{1.91}{mm}$。这个修正量的大小与弦的直径在同一个数量级，这在物理上是完全合理的，符合振动理论对刚性弦的预测。
+
+    \item \textbf{对原对数拟合的解释:} 现在，我们可以验证这个修正量 $\delta$ 是否能解释为什么我们最初在 $\ln(f_e)$ vs $\ln(L)$ 图中得到的拟合斜率绝对值大于理论值。
+    
+    考虑到有效长度后，对数图的真实斜率$\tilde{k_L}$在某个长度 $L$ 处应为：
+    $$ \tilde{k_L} = \frac{d(\ln f)}{d(\ln L)} = \frac{d(-\ln(L-\delta))}{d(\ln L)} = -\frac{L}{L-\delta} = -\frac{1}{1 - \delta/L} $$
+    我们取实验的中间长度点，例如 $L = \SI{0.55}{m}$ ，代入我们估算出的 $\delta$：
+    $$ \tilde{k_L} \approx -\frac{1}{1 - \SI{0.00191}{m}/\SI{0.55}{m}} \approx -\frac{1}{1 - 0.00347} \approx -1.0035 $$
+    
+    \item \textbf{最终结论:} 我们将三者进行最终的比较：
+        \begin{itemize}
+            \item \textbf{理想理论斜率:} $-1.0$
+            \item \textbf{考虑有效长度修正后的理论斜率:} $\approx -1.0035$
+            \item \textbf{我们的最新实验测量斜率:} $-1.0087 \pm 0.0155$
+        \end{itemize}
+    我们可以发现，修正后的理论值比理想值更接近我们的实验测量值。这说明我们的讨论具有物理道理，有效振动长度的缩小是一个可以估计和大致修正的\textbf{重要系统误差来源}。
+\end{enumerate}
+
+\subsection{$k_T > 0.5$ 的分析}
+
+实验测得 $k_T = 0.509 \pm 0.007$，该偏差（$+0.009$）超出了不确定度范围，表明存在使斜率系统性偏大的物理因素。
+
+\par
+
+当张力 $T$ 增加时，弦被拉伸，其总长度 $L$ 增加。根据线密度的定义 $\mu = m / L$，$\mu$ 必然随 $T$ 的增加而减小，可以认为$mu(T)$是T的减函数。
+
+\par
+    我们的拟合基于 $\ln(f_e) = 0.5 \ln(T) - 0.5 \ln(\mu(T)) + C$。
+    对 $\ln(T)$ 求导，得到斜率 $k_T$：
+    \begin{equation*}
+    k_T = \frac{d(\ln(f_e))}{d(\ln(T))} = 0.5 - 0.5 \left[ \frac{d(\ln(\mu))}{d(\ln(T))} \right]
+    \end{equation*}
+    由于 $\mu$ 是 $T$ 的减函数，$\ln(\mu)$ 也是 $\ln(T)$ 的减函数，因此导数项 $\frac{d(\ln(\mu))}{d(\ln(T))}$ 必为负值。
+\par
+    $k_T = 0.5 - 0.5 \times (\text{负值}) > 0.5$。这说明在考虑弦的弹性形变后，$\ln f_e$与$lnT$ 关系的拟合斜率必然大于 0.5。这与我们的实验值$0.509$相符合。 
+\subsection{升降频率实验现象的不一致性讨论(非线性效应的分析、弦的刚度的分析)}
+
+在对弦上驻波共振频率的测量中，观察到共振频率存在一定的 \textbf{滞后现象}，共振 \textbf{振幅也存在不对称性}。具体表现为，升频扫描测得的共振频率 $f_{up}$ 高于降频扫描测得的 $f_{down}$，且前者对应的最大振幅更大。这些现象无法用标准的线性振动理论解释，其根源在于系统内在的\textbf{非线性}特性。
+
+\subsubsection{非线性的物理分析}
+
+理想线性模型假设弦的张力在振动中保持恒定。然而，当弦以有限振幅进行横向振动时，其总长度会因几何效应而伸长。根据材料的弹性特性，这种伸长会导致一个与振幅平方成正比的附加动态张力。因此，系统的总恢复力不仅包含与位移成正比的线性部分，还包含一个与位移三次方近似成正比的非线性部分。这使得振动弦表现为一个\textbf{“硬化弹簧”}系统，其有效刚度随振幅的增大而增强。
+
+\subsubsection{三次非线性振子模型与滞后现象解释}
+
+此非线性系统的动力学行为可由三次非线性振子模型描述：
+\begin{equation*}
+\ddot{x} + \delta\dot{x} + \beta x + \alpha x^3 = \gamma \cos(\omega t)
+\end{equation*}
+其中，$\alpha > 0$ 代表硬化非线性。该方程的稳态解表明，系统的振幅-频率响应曲线会在在特定频率范围内出现多值解，并且存在稳定区和非稳定区。
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{img/duffing_response.png}
+    \caption{硬化非线性系统的振幅-频率响应曲线\\(来源：http://large.stanford.edu/courses/2007/ph210/hong1/)}
+    \label{fig:duffing}
+\end{figure}
+
+红线代表增大频率系统会经历的实际状态曲线，蓝线则是降低频率对应的系统状态，两者所夹的部分系统是不稳定的。系统在 $f_{\text{jump-down}}$ 和 $f_{\text{jump-up}}$ 处发生振幅的突然跳跃。
+这种弯曲的响应曲线是滞后现象的直接原因：
+\begin{itemize}
+    \item \textbf{升频扫描}：系统沿高振幅稳定支向右移动，直至在较高的频率 $f_{\text{jump-down}}$ 处该解消失，振幅突然\textbf{向下跳跃}至低振幅支。因此系统在$f_{\text{up}} = f_{\text{jump-down}}$达到共振，且系统经历了曲线的最高振幅点。
+    \item \textbf{降频扫描}：系统沿低振幅稳定支向左移动，直至在较低的频率 $f_{\text{jump-up}}$ 处该解消失，振幅突然\textbf{向上跳跃}至高振幅支。因此，$f_{down} = f_{\text{jump-up}}$为系统的共振点。
+\end{itemize}
+
+由于硬化系统的特性，$f_{\text{jump-down}} > f_{\text{jump-up}}$，\textbf{多解性、高低振幅支、分支转换}很好地解释了观测到的频率差异和振幅不对称性。综上所述，实验中观察到的现象是受迫振动弦中内在的硬化导致非线性的表现。
+
+\end{document}

@@ -1,0 +1,103 @@
+\documentclass[12pt]{article}
+\usepackage{xeCJK}
+\usepackage{fontspec}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{circuitikz}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{lastpage}
+\usepackage{tikz}
+\captionsetup[figure]{
+    font=footnotesize,
+    name=图
+}
+\captionsetup[table]{
+    font=footnotesize,
+    name=表
+}
+\setCJKmainfont{Songti SC}
+\setCJKfamilyfont{kaishu}{Kaiti SC} % 定义楷书字体族
+\geometry{a4paper, margin=1in, top=1in}
+\setlength{\parindent}{12pt}
+\setlength{\headheight}{13.6pt}
+% 页眉页脚设置
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\small 普通物理实验报告}
+\fancyhead[C]{\small 实验名称：磁滞回线}
+\fancyfoot[C]{\small 第 \thepage\ 页/共 \pageref{LastPage} 页}
+\fancypagestyle{plain}{%
+    \fancyhf{}
+    \fancyfoot[C]{\small 第 \thepage\ 页/共 \pageref{LastPage} 页}
+    \renewcommand{\headrulewidth}{0pt}  % 移除页眉分割线
+}
+\newcommand{\question}[1]{{\CJKfamily{kaishu}#1}}
+\title{\Large\textbf {磁滞回线自主学习报告}}
+\author{普通物理实验2\\
+        姓名：\underline{\hspace{1cm}[REDACTED]\hspace{1cm}} \\
+        学号：\underline{\hspace{0.5cm}[REDACTED]\hspace{0.5cm}} \\
+        序号：\underline{\hspace{1.3cm}[REDACTED]\hspace{1.3cm}}}
+\date{\today}
+\begin{document}
+\maketitle
+\begin{enumerate}
+    \item \question{什么是饱和磁滞回线？什么是饱和磁感应强度？什么是剩余磁感应强度、矫顽力？}
+    \par
+    \hspace{1em}饱和磁滞回线指的是铁磁材料磁化到饱和状态后，再减小磁场强度H，此时磁感应强度不会沿起始磁化曲线减小，而是以更缓慢的曲线减小，并且$H=0$时,$B\neq 0$。当磁场强度反向增大到一定值时，又会达到反向的饱和状态，再从反向饱和值减小$H$并正向增大，就可以又回到正向饱和状态。正向反向饱和状态之间的$H-B$的状态曲线就叫做饱和磁滞回线，这是一个关于原点的对称曲线，反映H从正向饱和位置到反向饱和位置之间的变化过程对应的B变化。
+    \par
+    \hspace{1em}饱和磁感应强度指的是当H增大到一定值时，磁化强度M不再增大，此时材料被磁化至饱和状态，之后再增大H时，B只有极小的增量。所以当M刚刚达到饱和值时对应的B值就是饱和磁感应强度。
+    \par
+    \hspace{1em}剩余磁感应强度指的是上述当H减小到0时，B不为0，此时对应的B值就是剩余磁感应强度$B_r$。当H反向增大到一定值时，B减小到0，此时对应的H值就是矫顽力$H_c$。
+    \item \question{什么是起始磁化曲线？什么是动态磁化曲线？测量前如何对样品进行退磁？为何这种方法能有效的退
+    磁？}
+    \par
+    \hspace{1em}起始磁化曲线指的是，对于一个初始未被磁化的铁磁材料，从零开始逐渐增加磁场强度H，其磁感应强度B也会随之增加，B-H关系描绘出的曲线即为起始磁化曲线。它始于坐标原点，并随着H的增大而趋于饱和。
+    \par
+    \hspace{1em}当铁磁材料处于一个周期性的交变磁场中时，其B和H的关系不再是单值的曲线，而是形成一个封闭的磁滞回线，这个回线被称为动磁化曲线，其形状和面积与交变磁场的频率、峰值以及材料特性有态关。
+    \par
+    \hspace{1em}实验前，需要对样品进行退磁，以确保测量起始磁化曲线时样品处于磁中性状态。常用的退磁方法是交流退磁：将样品置于一个交变磁场中，然后缓慢地将励磁电流幅度从一个足以使样品饱和的值连续地减小到零。
+    \par
+    \hspace{1em}这种方法之所以有效，是因为它会使样品经历一系列幅度逐渐减小的磁滞回线。当磁场幅度趋于零时，磁滞回线的范围也最终收缩到原点，样品的剩余磁感应强度也随之趋近于零，从而达到退磁的目的。
+    \item \question{什么是振幅磁导率$\mu_m$？什么是起始磁导率$\mu_i$？  $\mu_i$ 反映了材料的什么特性？实验中如何测量？}
+    \par
+    \hspace{1em}在周期性磁化过程中，动态磁滞回线顶点的磁感应强度$B_m$与对应的磁场强度$H_m$之比，定义为振幅磁导率，即 $\mu_a = B_m/(\mu_0\ H_m)$。
+    \par
+    \hspace{1em}起始磁导率是当磁场强度H趋向于零时磁导率的极限值，即起始磁化曲线在原点处的斜率，$\mu_i = \lim_{H \to 0} (B/\mu_0 H)$。                     
+    \par
+    \hspace{1em}起始磁导率表征其实可你磁化阶段的磁化性能，反映了材料在弱磁场下被磁化的难易程度。$\mu_i$越高的材料，在弱磁场下越容易磁化，磁响应越灵敏。
+    \par
+    \hspace{1em}在实验中，可以给未磁化样品加一个非常小的磁场振幅$H_m$下测量的$B_m$值，用$\mu_i' = B_m/(\mu_0\ H_m)$来近似估算起始磁导率$\mu_i$。为保证精度，所施加的$H_m$必须足够小，使得测量点位于起始磁化曲线近似线性的区域。
+    \item \question{画出用示波器测量动态磁滞回线的电路图。实验中如何测量磁场强度和磁感应强度？对 RC 积分电路
+    的时间常量有什么要求？用感应线圈测量磁场有什么优势和局限？}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{circuit.jpg}
+        \caption{用示波器测量动态磁滞回线的电路图}
+    \end{figure}
+      \par
+    \textbf{磁场强度H：} 励磁螺线管中的磁场强度 $H = \frac{N}{l_1} I_1$，正比于励磁电流$I_1$。电流$I_1$可以通过示波器测量串联电阻$R_1$两端的电压$u_{R_1}$得到。$I_1=\frac{u_{R_1}}{R_1}$。
+    \textbf{磁感应强度B：} 根据法拉第电磁感应定律，感应线圈两端产生的感应电动势 $\mathcal{E} = -N_2 \frac{d\Phi}{dt} = -N_2 S \frac{dB}{dt}$，其中$N_2$是感应线圈总匝数，$S$是样品截面积。此信号经RC积分电路，若满足$R_2C\gg T$，示波器测量电容电压$u_C = \frac{1}{R_2C}\int \mathcal{E} dt = -\frac{N_2\ S}{R_2C}B$。
+    \par
+    \textbf{RC积分电路时间常量要求：} 为实现有效的积分，积分电路的时间常数 $\tau = RC$ 必须远大于所用交流信号的周期T，即 $RC \gg T$。这样才能保证电阻分压足够小，电容两端的电压近似等于输入感应电动势的时间积分，从而准确反映B的变化。
+    \par
+    \textbf{感应线圈测量磁场的优缺点：}
+    \begin{itemize}
+        \item \textbf{优势：} 基于法拉第电磁感应定律，原理清晰。线圈结构简单，易于制作。灵敏度可通过增加匝数来方便调节。
+        \item \textbf{局限：} 该方法本质上测量的是磁通量的变化率($d\Phi/dt$)只能直接测量交变磁场或变化的磁场。对于静态磁场，必须通过移动或翻转线圈来产生磁通量变化才能测量。此外，测量结果依赖于后续的积分电路，积分电路的条件满足不好会直接影响测量。
+    \end{itemize}
+    \item \question{实验内容(1)的3中要求固定励磁电流幅度$I_m=0.2 A$，实验中通过控制哪些可观测量并如何控制该可观
+    测量来保证这一点？实验内容(3)中要求在给定的交变磁场幅度$H_m=400 A/m$ 下测量，实验中又如何保
+    证这一点？（提示：示波器只能直接测量电压波形有关值）}
+    \par
+    \hspace{1em}示波器只能直接测量电压值。在实验中，我们通过测量一个与目标物理量成正比的电压来间接控制该物理量。
+    \par
+    \hspace{1em}\textbf{保证$I_m=0.2$\,A：} 励磁电流$I$与串联在励磁回路中的采样电阻$R_1$两端的电压$u_{R_1}$成正比，关系为$I=u_{R_1}/{R_1}$。在实验中我们只需要调节信号源输出信号幅度，观测示波器检测的$u_{R_1}$的峰峰值，使得$u_{R_1,pp}=2\times 0.2A\times R_1$。
+    \par
+    \hspace{1em}\textbf{保证$H_m=400$\,A/m：} 与保证电流幅度类似，磁场强度幅度$H_m$也与示波器上观测的电压幅度$u_{R_1,m}$成正比。根据关系式，磁场幅度 $H_m = \frac{n_p}{R_1}u_{R_1}$。其中，$n_p$是励磁线圈的单位长度匝数$n_p=\frac{N_1}{l}$，$R_1$是采样电阻阻值，这两个都是已知参数。实验中，要保证$H_m=400$\,A/m，需要使得示波器CH1通道的电压幅度$u_{R_1,m}$满足 $u_{R_1,m} = \frac{H_m \cdot R_1}{n_p} = \frac{400 \cdot R_1}{n_p}$。通过在示波器上直接测量并调节信号源输出幅度，使得$u_{R_1}$的幅度达到该计算值，即可保证$H_m$的准确性。
+\end{enumerate}
+\end{document}

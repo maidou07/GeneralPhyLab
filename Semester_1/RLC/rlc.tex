@@ -1,0 +1,820 @@
+\documentclass[12pt]{article}
+\usepackage{xeCJK}
+\usepackage{fontspec}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{circuitikz}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{lastpage}
+\captionsetup[figure]{
+    font=footnotesize,
+    name=图
+}
+\captionsetup[table]{
+    font=footnotesize,
+    name=表
+}
+\setCJKmainfont{Songti SC}
+\geometry{a4paper, margin=1in, top=1in}
+\setlength{\parindent}{12pt}
+% 页眉页脚设置
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{10pt}
+%\fancyhead[L]{\raisebox{-0.5\height}{\includegraphics[width=0.15\textwidth]{pku_logo.png}}}
+\fancyhead[R]{\small 普通物理实验报告}
+\fancyhead[C]{\small 实验名称：RLC串联谐振和拓展研究}
+\fancyfoot[C]{\small 第 \thepage\ 页/共 \pageref{LastPage} 页}
+\fancypagestyle{plain}{%
+    \fancyhf{}
+    \fancyfoot[C]{\small 第 \thepage\ 页/共 \pageref{LastPage} 页}
+    \renewcommand{\headrulewidth}{0pt}  % 移除页眉分割线
+}
+
+\title{\Large\textbf{分光计实验报告}}
+\author{普通物理实验\\
+        [REDACTED]\\
+         \\
+        姓名：\underline{\hspace{1cm}[REDACTED]\hspace{1cm}} \\
+        学号：\underline{\hspace{0.5cm}[REDACTED]\hspace{0.5cm}} \\
+        序号：\underline{\hspace{1.3cm}[REDACTED]\hspace{1.3cm}}}
+\date{\today}
+
+
+\begin{document}
+
+\maketitle
+
+\section{观测RLC串联电路的特性}
+\quad 实验使用函数信号发生器产生频正弦交流电，通过调节信号发生器的频率，观察RLC串联电路的电流、电压、阻抗的相位差等参数的变化。
+实验使用的仪器参数如下：
+\begin{minipage}{0.7\textwidth}
+
+\[
+\begin{array}{ll}
+    \text{电阻} & R = 100 \,\Omega \\
+    \text{电感} & L = 0.1 \,\text{H} \\
+    \text{电容} & C = 0.05 \,\text{$\mu F$} \\
+    \text{信号峰峰值} & V_{pp} = 3 \,\text{V} \\
+\end{array}
+\]
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
+\begin{figure}[H]
+    \centering
+    \begin{circuitikz}[scale=0.8]
+        \draw (0,0) to[sV, l=$V_{pp}$] (0,4); % 信号源
+        \draw (0,4) to[generic, l=$r$] (0,6);
+        \draw (0,6) to[short] (2,6);
+        \draw (2,6) to[L, l=$L$] (2,4);    % 电感
+        \draw (2,4) to[C, l=$C$] (2,2);    % 电容
+        \draw (2,2) to[generic, l=$R$] (2,0);    % 电阻
+        \draw (2,0) to[short] (0,0);       % 闭合回路
+    \end{circuitikz}
+\end{figure}
+\end{minipage}
+\subsection{谐振频率的测量}
+判断电路达到谐振频率有两种方法：
+\begin{enumerate}
+    \item 幅频角度：改变信号源频率，当电阻电压读数达到最大值时，对应电流幅值最大，此时频率即为谐振频率。测量得到
+    \[
+        f_0 = 2.245 \,\text{kHz}
+    \]
+    在谐振频率附近小幅移动信号源频率，直到电压表示数出现可分辨的变化，记录移动频率的范围$\delta f$，此即实验上测量$f_0$的不确定度。
+    \[
+        \delta f =0.002\,\text{kHz}
+    \]
+    因此$f_0$的幅频测量结果为
+    \begin{equation}
+        f_0 = 2.245 \pm 0.002 \,\text{kHz}
+    \end{equation}
+    \item 相频角度：谐振时整个电路恰好体现电阻性，即电压与电流同相位，因此调节信号源频率，用示波器X-Y工作模式李萨如图形观察到直线，电压与电流同相位时，对应频率即为谐振频率。测量得到
+    \[
+        f_0 = 2.2445 \,\text{kHz}
+    \]
+    同上，小幅改变信号频率，观察到李萨如图形偏离直线，记录移动频率的范围$\delta f$，此即实验上测量$f_0$的不确定度。
+    \[
+        \delta f =0.0006 \,\text{kHz}
+    \]
+    因此$f_0$的相频测量结果为
+    \begin{equation}
+        f_0 = 2.2445 \pm 0.0006 \,\text{kHz}
+    \end{equation}
+\end{enumerate}
+\textbf{讨论}
+\begin{enumerate}
+    \item 在李萨如判断$f_0$不确定度时，可以适当放大$X-Y$的比例尺，同时减小辉度，可以获得更高的仪器灵敏度，但是同时也会放大噪声的影响，提示我们不要过高追求仪器灵敏度。
+    \item 在幅频测量中，$f_0$的测量结果与相频测量结果存在有效数字的差异，这是因为幅频测量中，观测电流（电阻两端电压）极值，此时测量的灵敏度是最低的；而相频测量中，测量相位为0的状态对应相位关于频率偏导处于较大的位置，具有更高的测量灵敏度。
+\end{enumerate}
+\subsection{测量RLC串联的相频特性}
+\quad 用示波器双踪显示分别显示路端电压和$R$两端电压，读出功能测量两个通道相同点之间的时间差，通过$\varphi =f\cdot \Delta t \times 360 \text{°}$即得到电流和电压之间的相位差，测量RLC串联电路的相频特性数据如下
+
+\begin{minipage}{0.3\textwidth}
+\begin{table}[H]
+\centering
+\scalebox{0.8}{
+    \begin{tabular}{ccc}
+        \hline
+        f/kHz & ∆t/μs  & φ/°      \\ \hline
+        1     & -244   & -87.84   \\
+        1.5   & -157.5 & -85.05   \\
+        1.7   & -134   & -82.01  \\
+        1.9   & -112   & -76.61  \\
+        2     & -98    & -70.56   \\
+        2.1   & -75.5  & -57.08  \\
+        2.15  & -58    & -44.89  \\
+        2.2   & -29.8  & -23.60 \\
+        2.22  & -17    & -13.59 \\
+        2.23  & -9.6   & -7.71 \\
+        2.24  & -1.9   & -1.53 \\
+        2.25  & 4.7    & 3.81    \\
+        2.26  & 11.1   & 9.03  \\
+        2.27  & 18.4   & 15.04 \\
+        2.28  & 25     & 20.52    \\
+        2.3   & 36.1   & 29.89  \\
+        2.34  & 52.9   & 44.56 \\
+        2.4   & 66.5   & 57.46   \\
+        2.5   & 75.5   & 67.95    \\
+        2.7   & 78.4   & 76.20  \\
+        3     & 74.6   & 80.57   \\
+        3.5   & 65.8   & 82.91   \\
+        4.5   & 53     & 85.86    \\ \hline
+        \end{tabular}
+}
+\caption{\footnotesize{RLC串联电路的相频特性数据}}
+\end{table}
+\end{minipage}
+\begin{minipage}{0.7\textwidth}
+\begin{figure}[H]
+    \centering
+    \scalebox{1.2}{
+    \includegraphics[width=0.8\textwidth]{img/phase_frequency.pdf}
+    }
+    \caption{\footnotesize{RLC串联电路的相频特性曲线}}
+\end{figure}
+\end{minipage}
+\subsection{测量RLC串联电路的幅频特性}
+\quad 用数字万用电表测量路端电压和R两端电压的有效值，由于信号源输出串联电阻$r$，因此路端电压不是恒定的，为消除这一影响，取$U_{R}$与$U_{in}$的比值为电路的等效电流幅值。测量得到电路的幅频特性数据如下
+
+\begin{minipage}{0.3\textwidth}
+    \begin{table}[H]
+        \scalebox{0.7}{
+        \begin{tabular}{cccc}
+        \hline
+        f/kHz  & $U_{in}/V$ & $U_R/V$ & $i_{eff}$ \\ \hline
+        1.5    & 1.0546     & 0.0897  & 0.0851                       \\
+        1.7    & 1.048      & 0.1302  & 0.1242                       \\
+        1.9    & 1.0279     & 0.2099  & 0.2042                        \\
+        2      & 0.9995     & 0.2855  & 0.2856                       \\
+        2.1    & 0.93       & 0.4111  & 0.4420                       \\
+        2.125  & 0.9006     & 0.4521  & 0.5020                        \\
+        2.15   & 0.865      & 0.4948  & 0.5720                       \\
+        2.18   & 0.8179     & 0.5441  & 0.6652                       \\
+        2.2    & 0.7885     & 0.5715  & 0.7248                       \\
+        2.22   & 0.7663     & 0.5906  & 0.7707                       \\
+        2.23   & 0.7594     & 0.5962  & 0.7851                       \\
+        2.24   & 0.7561     & 0.5987  & 0.7918                       \\
+        2.2445 & 0.7562     & 0.5988  & 0.7919                       \\
+        2.25   & 0.7568     & 0.598   & 0.7902                       \\
+        2.26   & 0.7608     & 0.5946  & 0.7816                       \\
+        2.28   & 0.7779     & 0.5796  & 0.7451                       \\
+        2.3    & 0.8035     & 0.556   & 0.6920                       \\
+        2.32   & 0.8326     & 0.5272  & 0.6332                        \\
+        2.35   & 0.8749     & 0.4804  & 0.5491                       \\
+        2.375  & 0.9053     & 0.442   & 0.4882                       \\
+        2.4    & 0.9304     & 0.4064  & 0.4368                        \\
+        2.45   & 0.9673     & 0.3458  & 0.3575                       \\
+        2.5    & 0.9912     & 0.2985  & 0.3012                       \\
+        2.75   & 1.0358     & 0.1743  & 0.1683                       \\
+        3      & 1.0469     & 0.124   & 0.1184                       \\ \hline
+        \end{tabular}
+        }
+        \caption{RLC串联电路的幅频特性数据}
+    \end{table}
+\end{minipage}
+\begin{minipage}{0.7\textwidth}
+\begin{figure}[H]
+    \centering
+    \scalebox{1.2}{
+    \includegraphics[width=0.8\textwidth]{img/amplitude_frequency.pdf}
+    }
+    \caption{RLC串联电路的幅频特性曲线}
+\end{figure}
+\end{minipage}
+\textbf{讨论}
+\begin{enumerate}
+    \item 在测量时，为了避免电压表内阻变化对测量的影响，我维持万用表档位量程不变。并且在测量过程中，我发现万用表的并联电容会对电路谐振特性产生一定的影响，造成谐振频率李萨如图形不完全为直线，这个影响会增大实验误差。
+    \item 可以发现，在$f_0$附近，电路的幅频特性曲线存在一个尖峰，这个尖峰对应电路的谐振频率，在谐振峰附近存在一定的宽度$\Delta f$，这个宽度对应电路的通频带宽度，通频带越宽，电路的谐振特性越差。之后我们将用Q来描述电路的谐振品质。
+\end{enumerate}
+\subsection{测量RLC串联电路的品质因数}
+\quad 根据Q的三种定义，计算得到电路的品质因数为
+\begin{enumerate}
+    \item 储耗能特性：由于电感上的涡流、损耗电阻（铁损）、导线趋附效应（铜损）等等，电路的能量损耗不仅仅发生在电阻$R$上，但是损耗可以等效为$R_{tot}$。
+    在谐振时，有$IR=U_R$，$IR_{tot}=U_{in}$，因此
+    \[
+        R_{tot} = \frac {U_{in}}{U_R}R=\frac {0.7562\,V}{0.5988\,V}\times 100\Omega=126.3\Omega
+    \]
+    代入Q值的定义式
+    \[
+        Q = 2\pi \frac {E}{\Delta E}= 2\pi\frac {\frac {1}{2}LI_{0}^{2}}{R\,\overline{I^2}\times T}= \frac {\omega_0\,L}{R_{tot}}=\frac {2\pi\times 2.2445\times 10^3\,Hz\times 0.1\,H}{126.3\,\Omega}=11.17
+    \]
+    \item 电压分配特性：由于电感上损耗电阻存在，测量的$U_L$大于实际值，故选取$U_C$进行测量
+    \[
+        Q = \frac {U_C}{U_{in}}=\frac {8.387\,V}{0.757\,V}=11.08
+    \]
+    \item 选频特性，在幅频特性曲线上选取$i_{eff}=\frac {i_{max}}{\sqrt{2}}=\frac {0.5988}{\sqrt{2}}=0.4234$对应的频率位置，得到
+    \[
+            f_1=2.1459\,kHz \quad f_2=2.3459\,kHz \quad \Delta f=f_2-f_1=0.200\,kHz
+    \]
+    所以有
+    \[
+        Q=\frac {f_0}{\Delta f}=\frac {2.2445\,kHz}{0.2000\,kHz}=11.22
+    \]
+\end{enumerate}
+\textbf{讨论}
+\begin{enumerate}
+    \item 三种定义测量计算得到的Q大体上相等，说明三种表述的等价性，且表明Q是描述电路性能的一个重要参数。
+    \item 计算储耗能特性时注意系统总能量损耗的等效电阻不是$R$，而是$R_{tot}$；电压分配特性则需要排除电感上的损耗电阻。
+    \item 测量Q时我们考虑的是RLC串联的系统，这一系统不包含信号源内阻，因此选取参量时要注意，比如电压分配特性中$U_in$是路端电压而不是信号源电压。
+\end{enumerate}
+\section{拓展研究1-探究RLC串联振子的阻尼振动特性}
+\subsection{信号源输出对比}
+\quad 实验中有两个信号源，一个为函数发生器，另一个则为功率函数发生器，两者差别在于前者在后者基础上在输出端串联一个$r=50\,\Omega$的电阻，这导致在电路中存在电流时，路段电压相较于设定电压会下降。在信号源输出方波时，在方波高低点切换时会存在尖峰，这会导致电路中存在瞬时振荡的暂态响应电流，从而导致路端电压产生对应的振荡。对比图如下
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/signal_source_1.jpeg}
+        \caption{函数发生器}
+    \end{subfigure}
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/signal_source_2.jpeg}
+        \caption{功率函数发生器}
+    \end{subfigure}
+    \caption{信号源方波输出对比}
+\end{figure}
+\subsection{RLC暂态测量}
+\quad 调节信号源输出$50Hz$，$3V_{pp}$，直流偏置$1.5V$的方波（信号源放大2倍），能大致观察到一个完整的暂态过程，如图所示
+\begin{figure}[H]
+    \centering
+        \begin{subfigure}{0.4\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{img/rlc_transient.jpeg}
+            \caption{激励信号和暂态电流}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{img/rlc_transient_mag.jpeg}
+            \caption{放大后的暂态电流}
+        \end{subfigure}
+    \caption{RLC暂态过程}
+\end{figure}
+需要测量的特征物理量有：
+\begin{enumerate}
+    \item 暂态电流的波峰幅值$U_n$
+    \item 暂态电流的波峰时间$t_n$
+    \item 暂态电流的零点位置$t_{0n}$
+\end{enumerate}
+\quad 第一项表征RLC串联电路的包络衰减大小，而第2、3项都对应着暂态过程阻尼振荡的周期。从实验测量角度来说，\underline{零点处波形斜率较大}，故会对应\underline{更高的灵敏度}，因此选择零点位置作为时间测量点;而电压峰值处斜率较小，灵敏度较低，对于电压测量则更为准确。\\
+\par 
+零点位置的测量数据如下
+\\
+\begin{minipage}{0.4\textwidth}
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{cc}
+        \hline
+        n & $t/\mu s$ \\ \hline
+        1 & 221       \\
+        2 & 447       \\
+        3 & 666       \\
+        4 & 893       \\
+        5 & 1113      \\
+        6 & 1340      \\
+        7 & 1560      \\
+        8 & 1793      \\
+        9 & 2005      \\ \hline
+        \end{tabular}
+        \caption{零点位置测量数据}
+    \end{table}
+\end{minipage}
+\begin{minipage}{0.6\textwidth}
+    \begin{figure}[H]
+        \centering
+        \scalebox{0.8}{
+        \includegraphics[width=\textwidth]{img/t_n.pdf}
+        }
+        \caption{零点位置测量数据}
+    \end{figure}
+\end{minipage}
+\par 
+根据拟合结果，有
+\[
+    \Delta t = 223.48\,\mu s\quad \omega =\pi/\Delta t = 1.4057\times 10^4\,\text{rad/s}
+\]
+\quad 阻尼振荡峰值的幅值测量数据如下：\\
+
+\begin{minipage}{0.4\textwidth}
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{ccc}
+        \hline
+        n & $U_n/mV$ & $ln(U_n)$ \\ \hline
+        1 & 408      & 6.011     \\
+        2 & 304      & 5.717     \\
+        3 & 232      & 5.447     \\
+        4 & 176      & 5.170     \\
+        5 & 136      & 4.913     \\ \hline
+        \end{tabular}
+        \caption{阻尼振荡峰值幅值测量数据}
+    \end{table}
+\end{minipage}
+\begin{minipage}{0.6\textwidth}
+    \begin{figure}[H]
+        \centering
+        \scalebox{0.8}{
+        \includegraphics[width=\textwidth]{img/U_n.pdf}
+        }
+        \caption{阻尼振荡峰值幅值测量数据}
+    \end{figure}
+\end{minipage}
+\par
+\subsubsection{阻尼振荡特征参量计算}
+\quad RLC暂态过程的电流应该满足
+\[
+    I(t) = I_0e^{-t/\tau}\cos(\omega t+\phi)
+\]
+其中$\tau$为衰减系数，$\omega$为阻尼振荡频率，$\phi$为初相位。\\
+\par 
+反映在阻尼振荡峰值幅值上，有
+\[
+    U_n = U_0e^{-\frac {2\pi}{\omega\tau}}\cos(\omega t_n+\phi)
+\]
+\quad 取对数有
+\[
+    \ln(U_n) = \ln(U_0)-\frac {2\pi}{\omega\tau}t_n+\phi
+\]
+\quad 根据拟合结果，有
+\[
+    \frac {2\pi}{\omega\tau}=0.27438\quad \tau=1.6291\,ms
+\]
+\par 
+故RLC阻尼振荡的特征参量为
+\begin{equation}
+    \omega = 1.4057\times 10^4\,\text{rad/s}\quad \tau=1.6291\,ms
+\end{equation}
+\par
+在RLC串联谐振中计算得到的电路数据为$L=0.1\,H$，$C=0.0503\,\mu F$（由谐振频率计算得到），$R_{tot}=126.3\,\Omega$，计算得到
+\begin{equation*}
+\begin{aligned}
+    \omega_0 &= \frac {1}{\sqrt{LC}}\sqrt{1-\frac{R_{tot}^2C}{4L}}=1.4088\times 10^4\,\text{rad/s}\\
+    \tau_0 &= \frac {2L}{R_{tot}}=2\times 0.1\,H/(126.3\,\Omega)=1.5835\,ms
+\end{aligned}
+\end{equation*}
+\textbf{讨论}
+\begin{enumerate}
+    \item 从\underline{测量灵敏度}考虑，选取零点位置作为时间测量点，峰值点作为电压幅值测量点。
+    \item 由于数字示波器存在\underline{采样率限制}，在测量时，示波器采样率会限制测量精度，导致测量结果存在误差，在测量时我采用了\underline{内插法}测量时间的零点位置，能获得更好的测量结果。
+    \item 实测数据的$\omega$和$\tau$与串联谐振测量结果基本相同，证明电路的谐振和阻尼特性本质都为\underline{电路的固有特性}，与激励信号无关。
+\end{enumerate}
+\subsubsection{Q值的讨论}
+\quad 根据以上对于阻尼振荡特征参量的测量，也可以从中得到该电路的Q值。根据$\omega$，$\tau$和$Q$的计算式子，有
+\begin{equation*}
+\begin{aligned}
+    \omega &= \frac {1}{\sqrt{LC}}\sqrt{1-\frac{R_{tot}^2C}{4L}}\\
+    \tau &= \frac {2L}{R_{tot}}\\
+    Q &= \frac{1}{R_{tot}}\sqrt{\frac{L}{C}}
+\end{aligned}
+\end{equation*}
+\par
+改写即得
+\[
+    \omega \cdot \tau=\sqrt{4Q^2-1}
+\]
+\par
+计算得到\\
+\begin{equation}
+    Q=11.46
+\end{equation}
+\par
+事实上，$\omega\tau$即是从$ln(U_n)$的拟合结果中得到的，因此$Q$的值表征的是阻尼振荡包络衰减的程度，代表的是电路的阻尼特性大小和系统对于外界激励的响应速度，对应的暂态特性也会在后面改变电路参数测量有所体现
+\begin{enumerate}
+    \item Q=0.5对应电路处于临界阻尼状态，此时电路最快回到平衡位置
+    \item Q>0.5对应电路处于欠阻尼状态，能量损耗慢，振荡衰减时间长，振荡次数多
+    \item Q<0.5对应电路处于过阻尼状态，能量损耗快，振荡迅速停止，振幅快速衰减。
+\end{enumerate}
+\subsection{改变电路参数测量}
+调节电阻箱阻值，测量得到不同阻值下的阻尼振荡特征参量。（维持$L=0.1\,H$，$C=0.05\,\mu F$）
+\begin{enumerate}
+    \item 从$100\,\Omega$开始，增加电阻箱阻值，测量得到不同阻值下的阻尼振荡信号如下
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/100ohm.jpeg}
+        \caption{100Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/200ohm.jpeg}
+        \caption{200Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/500ohm.jpeg}
+        \caption{500Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/900ohm.jpeg}
+        \caption{900Ω}
+    \end{subfigure}
+    \caption{不同电阻值下的阻尼振荡波形-1}
+\end{figure}
+\par
+\quad 从图(a)到图(d)，可以观察到随着电阻值的增加，阻尼振荡的衰减速度逐渐加快，可见的波形振荡次数，即峰谷数目逐渐减少。并且前几个峰高（R增大的结果），谷深不断增加，但后续波形峰高、谷深则相对减小（衰减大）。此时系统处在欠阻尼状态，振荡次数较多。
+    \item 继续增加电阻箱阻值，电路逐渐接近临界阻尼状态，测量信号结果如下
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/1000ohm.jpeg}
+        \caption{1000Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/1500ohm.jpeg}
+        \caption{1500Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/2000ohm.jpeg}
+        \caption{2000Ω}
+    \end{subfigure}
+    \caption{不同电阻值下的阻尼振荡波形-2}
+    \end{figure}
+    \quad 在这个阻值范围内，波形基本只可见主峰，一个次峰和一个谷，过程中第一个峰高不断增高，次峰和谷深不断减小，最后趋于稳定。此时系统处在临界阻尼附近，振荡次数较少。
+    \item 继续小幅增加电阻箱阻值，以确定临界阻尼状态，测量结果如下\\
+    \begin{figure}[H]
+        \centering
+    \begin{subfigure}[b]{0.19\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/2100ohm.jpeg}
+        \caption{2100Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/2200ohm.jpeg}
+        \caption{2200Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/2300ohm.jpeg}
+        \caption{2300Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/2400ohm.jpeg}
+        \caption{2400Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/2500ohm.jpeg}
+        \caption{2500Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/2600ohm.jpeg}
+        \caption{2600Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/2700ohm.jpeg}
+        \caption{2700Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/2800ohm.jpeg}
+        \caption{2800Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/2900ohm.jpeg}
+        \caption{2900Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/3000ohm.jpeg}
+        \caption{3000Ω}
+    \end{subfigure}
+    \caption{不同电阻值下的阻尼振荡波形-3}
+\end{figure}
+\quad 可以发现，在$2100\,\Omega$到$2500\,\Omega$之间，波形延续之前的变换状态;在$2500\,\Omega$附近，波谷消失，仅仅保留一个主峰，此时系统处在临界阻尼状态，振荡次数最少且系统能最快达到平衡位置。在$2500\,\Omega$之后，波形基本保持不变，但是到达平衡位置的时间点则向右移动，这表明系统处于过阻尼状态，此时系统响应速度较慢，且没有明显的振荡。
+    \item 继续增加电阻箱阻值，此时系统始终处于过阻尼状态，测量得到不同阻值下的阻尼振荡信号如下
+
+    \begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/4000ohm.jpeg}
+        \caption{4000Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/6000ohm.jpeg}
+        \caption{6000Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/8000ohm.jpeg}
+        \caption{8000Ω}
+    \end{subfigure}
+    \caption{不同电阻值下的阻尼振荡波形-4}
+\end{figure}
+\quad 可以发现，延续先前的状态，系统没有明显的振荡，且到达平衡位置的时间点向右移动。
+\end{enumerate}
+\textbf{讨论}
+\begin{enumerate}
+    \item 从以上测量结果可以发现，随着电阻值的增加，系统从欠阻尼状态逐渐过渡到临界阻尼状态，最后进入过阻尼状态。
+    \item 在欠阻尼状态，系统存在明显的振荡，且振荡次数随着电阻值的增加而减少，系统在受到扰动后，能够以逐渐减小的振幅振荡，最终达到平衡位置，系统对于激励的响应较快。
+    \item 在临界阻尼和过阻尼状态，系统对激励响应较慢，系统没有明显的振荡，且随着电阻值的增加，到达平衡位置的时间点向右移动。
+    \item 电路总阻值$R_{tot}$是描述系统阻尼的核心参量，$R_{tot}$越大，系统阻尼越大，系统对于激励的响应越慢。
+    \item 当电阻箱阻值$R=0\,\Omega$时，系统并不能达到自由振动状态，这是由于系统中仍然有电感损耗电阻（铁损），包括导线接触电阻，还有对于方波切换点的瞬态非线性响应等等，这些因素都会导致系统存在阻尼，无法达到自由振动状态。
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{img/0ohm.jpeg}
+        \caption{$R=0\,Ω$时的系统响应}
+    \end{figure}
+\end{enumerate}
+\subsection{观察阻尼振动的李萨如图形}
+\quad 为了拍摄到完整的李萨如图形，将信号源调整到$100Hz$以匹配手机快门的扫描速度\\
+\begin{enumerate}
+    \item 从$100\,\Omega$开始，增加电阻箱阻值，X轴显示电容上电压，Y轴显示电阻上电压，测量得到不同阻值下的阻尼振荡的李萨如图形如下
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/100ohm-2.jpeg}
+        \caption{100Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/200ohm-2.jpeg}
+        \caption{200Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/500ohm-2.jpeg}
+        \caption{500Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/900ohm-2.jpeg}
+        \caption{900Ω}
+    \end{subfigure}
+    \caption{阻尼振荡的李萨如图形-1}
+\end{figure}
+\quad 可以发现，在欠阻尼状态，李萨如图形呈现出关于两个汇聚点（0和信号源电压$V_0$）的螺旋线，李萨如图形的两支分别对应方波高低位置的瞬态响应。随着电阻值的增加，椭圆由扁平变得圆润，这与之前测量得到的阻尼振荡电流峰值增加的结果相符；另一方面，螺旋线的旋转圈数降低，螺线间距增大，这表明系统振荡次数减少，和之前的波形观测相符。
+\item 继续增加电阻箱阻值，测量得到不同阻值下的阻尼振荡的李萨如图形如下
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/1000ohm-2.jpeg}
+        \caption{1000Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/1500ohm-2.jpeg}
+        \caption{1500Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/2000ohm-2.jpeg}
+        \caption{2000Ω}
+    \end{subfigure}
+    \caption{阻尼振荡的李萨如图形-2}
+\end{figure}
+\quad 此时系统仍处于欠阻尼状态，但李萨如图形已经基本稳定，且整体类似于一个椭圆，汇聚点附近存在螺旋，但是螺旋大小和次数都随着电阻值的增加而减小，表明系统振荡次数减少，和之前的波形观测相符。
+\item 继续增加电阻箱阻值，系统接近临界阻尼状态，测量得到不同阻值下的阻尼振荡的李萨如图形如下
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/2000ohm-2.jpeg}
+        \caption{2000Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/2200ohm-2.jpeg}
+        \caption{2200Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/2400ohm-2.jpeg}
+        \caption{2400Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/2500ohm-2.jpeg}
+        \caption{2500Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/2600ohm-2.jpeg}
+        \caption{2600Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/2800ohm-2.jpeg}
+        \caption{2800Ω}
+    \end{subfigure}
+    \caption{阻尼振荡的李萨如图形-3}
+\end{figure}
+\quad 可以发现，随着电阻值的增加，李萨如图形的螺旋部分越来越不可见，在$2500\,\Omega$附近，螺旋消失，意味着系统回复时没有超过平衡位置，此时系统处于临界阻尼状态。之后李萨如图形将维持类椭圆继续在垂直方向伸长。
+\item 继续增加电阻箱阻值，系统维持过阻尼状态，图像的变化同上（忘记缩放了），系统响应速度变慢，且没有明显的振荡。
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/3000ohm-2.jpeg}
+        \caption{3000Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/4000ohm-2.jpeg}
+        \caption{4000Ω}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/5000ohm-2.jpeg}
+        \caption{5000Ω}
+    \end{subfigure}
+    \caption{阻尼振荡的李萨如图形-4}
+\end{figure}
+\end{enumerate}
+\subsection{用脉冲信号激励电路测量电路的幅频特性曲线}
+\quad 在上述实验之后，我还使用信号源输出脉冲信号，在脉冲信号下，由于脉冲信号的傅里叶变换是均匀频谱，故电路的电流响应的傅里叶变换即表征电路的幅频特性。我们率先研究不同宽度的脉冲信号对系统的影响
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/pulse_1.jpeg}
+        \caption{$1\,\mu s$脉冲}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/pulse_2.jpeg}
+        \caption{$10\,\mu s$s脉冲}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/pulse_3.jpeg}
+        \caption{$50\,\mu s$脉冲}
+    \end{subfigure}
+    \caption{不同宽度的脉冲信号}
+\end{figure}
+\quad 可以发现，随着脉冲宽度的增大，脉冲的总激励能量增大，故电流响应更明显，有助于提升信噪比，但是脉冲宽度增大后则降低脉冲的品质。平衡两者，最后选择用$20\,\mu s$的脉冲信号。对信号进行快速傅里叶变换之后，可以得到如下的测量结果
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/pulse_fft.jpeg}
+        \caption{脉冲信号响应的幅频特性}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.48\textwidth}
+    \includegraphics[width=\textwidth]{img/pulse_fft_1.jpeg}
+    \caption{谐振峰位置测量}
+    \end{subfigure}
+\end{figure}
+从中可以发现谐振峰大致在$2200\,Hz$附近，这与之前的测量结果一致。
+\section{拓展研究2-选频滤波}
+\subsection{数字示波器FFT功能观察信号源输出}
+\begin{enumerate}
+    \item 使用数字示波器观察$3V_{pp}$，$1000\,Hz$的方波信号输出，使用示波器的快速傅里叶变换（FFT）功能可以得到如下的测量结果
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{img/scope_1.jpeg}
+        \caption{FFT观察方波输出}
+    \end{figure}
+    用示波器的cursor功能读出前三个频谱峰的频率分别为
+    \[
+        f_1=1.00\, kHz\quad f_2=3.00\,kHz\quad f_3=5.00\,kHz
+    \]
+    \item 继续调整信号源输出$3V_{pp}$，$1000\,Hz$的三角波信号，观察图像如下
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{img/scope_2.jpeg}
+        \caption{FFT观察三角波波输出}
+    \end{figure}
+    同样，使用示波器的cursor功能读出前三个频谱峰的频率分别为
+    \[
+        f_1=1.00\, kHz\quad f_2=3.00\,kHz\quad f_3=5.00\,kHz
+    \]
+    可以发现，频谱峰的频率与之前相同，这表明信号源输出的方波信号的频谱特性与之前相同。
+    \item 调整信号源输出$3V_{pp}$，$1000\,Hz$的正弦信号，观察图像如下
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{img/scope_3.jpeg}
+        \caption{FFT观察正弦信号输出}
+    \end{figure}
+    可以发现，正弦波的频谱信息只有一个单峰，即基频$f_0=1.00\,kHz$。
+    \item 除此之外，我还观测了$1000\,Hz$的周期脉冲信号的傅里叶频谱：
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{img/scope_4.jpeg}
+        \caption{FFT观察周期脉冲信号输出}
+    \end{figure}
+    可以发现，周期脉冲信号（Dirac梳）的频谱仍然维持Dirac梳的形式。  
+\end{enumerate}
+\textbf{讨论}
+\begin{enumerate}
+    \item 从上述实验可以发现，数字示波器的FFT功能可以很好地观测到信号的频谱特性，并且可以准确地读出频谱峰的频率。
+    \item 对于方波和三角波信号，除了基频$1000Hz$外，还存在倍频信号，这证明了傅里叶级数分解的正确性，即任何周期信号都可以分解为一系列倍频正弦波的叠加。
+    \item 对于方波和三角波信号，由于它们具有\underline{半波对称性}，即$f(t+T/2)=-f(t)$，故它们的频谱中只存在奇次谐波，即不存在偶次谐波，这是物理中对称性在频域中的体现。
+    \item 对于Dirac梳周期脉冲信号，在进行快速傅里叶变换时，在频谱域内的脉冲间距即$f_s=1000\,Hz$，这与信号源的输出频率一致。
+    \item 方波信号在频域主峰之间还存在次峰，这主要是因为有限的采样区间，加窗截断后的方波边界不连续，导致频谱泄露。
+\end{enumerate}
+\subsection{利用RLC串联电路滤波}
+\quad 根据之前的基础实验，我们知道了RLC串联谐振电路是一个带通的滤波器，其在谐振频率附近能对信号有较好的通过性，且通带宽度可以用$\Delta f=f_0/Q$来描述，其中$f_0$为谐振频率，$Q$为品质因数。
+故我们用其滤波需要满足两个要求：
+\begin{enumerate}
+    \item 谐振频率$f_0$需要与我们需要提取的信号频率$f_s$一致，即$f_0=f_s$。
+    \item 通带宽度$\Delta f$要尽可能小，这样才能获得更加理想的正弦输出信号，即电路的$Q$值要尽可能大。
+\end{enumerate}
+\quad 我发现，采样电阻R由于会参与谐振，阻值较大会延展谐振峰的宽度，造成滤波性能下降；阻值较小则会使通过的信号幅度减小，影响信噪比。故对于基频$f=1000\,Hz$，我选择$R=10\,\Omega$的电路进行滤波，实验发现此时已经能有比较理想的正弦波形。
+根据谐振频率
+\[
+    f_1=\frac{1}{2\pi\sqrt{LC_1}}=1000\,Hz \quad f_2=\frac{1}{2\pi\sqrt{LC_2}}=3000\,Hz
+\]
+得到
+\[
+    C_1=0.253\,\mu F\quad C_2=0.0281\mu F
+\]
+\quad 信号源输出$1\,kHz$，$1V_{pp}$的信号，调整电路参数，得到如下的滤波图像
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/filter_1.jpeg}
+    \caption{基频滤波图像}
+\end{figure}
+对于3kHz的倍频信号，我发现在$R=500\,\Omega$及以上时，电路的输出波形会有明显的包络（如下图左）。平衡信噪比和滤波性能，我选择故选择$R=5\,\Omega$的电路进行滤波，得到如下图右的滤波图像
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/filter_2.jpeg}
+        \caption{3kHz倍频滤波图像（不理想）}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/filter_3.jpeg}
+        \caption{3kHz倍频滤波图像}
+    \end{subfigure}
+\end{figure}
+可以发现，电路的输出波形已经非常接近正弦波形，且没有明显的包络。
+\subsubsection{测量基频和三倍频的成分比例}
+\quad 由于电路中的铁损，铜损都是对频率敏感的损耗电阻，所以电路的总损耗电阻不能简单代入先前的实验测得。但是由于\underline{电路对于信号的响应是线性的}，我们可以分开考虑不同成分对于电路阻值的影响，即电路对每个频率的\underline{响应函数是独立的}。在这样的理论基础上，我们选择加入理想的交流$1\,kHz$，和$3\,kHz$的信号，测量路端电压和电阻电压的比例，从而得到该频率响应下的损耗电阻。
+\par
+通过示波器上的读数，得到1kHz和3kHz的信号峰峰值分别为
+\[
+    U^{*}_{1k}=584\,mV\quad U^{*}_{3k}=27.2\,mV
+\]
+\begin{enumerate}
+    \item 测量基频的损耗电阻从而计算原信号中的$1\,kHz$的成分
+    \[
+        U_{in}=2.00\,V\quad U_{R1}=712\,mV
+    \]
+    故三角波信号中$1\,kHz$成分电压为
+    \[
+        U_{1k}=U^{*}_{1k}\frac{U_{in}}{U_{R1}}=1640.4\,mV
+    \]
+    \item 测量三倍频的损耗电阻从而计算原信号中的$3\,kHz$的成分
+    \[
+        U_{in}=2.00\,V\quad U_{R2}=304\,mV
+    \]
+    故三角波信号中$3\,kHz$成分电压为
+    \[
+        U_{3k}=U^{*}_{3k}\frac{U_{in}}{U_{R2}}=178.9\,mV
+    \]
+   \item 故原信号中$1\,kHz$和$3\,kHz$的成分比例为
+    \begin{equation}
+        \frac{U_{1k}}{U_{3k}}=\frac{1640.4}{27.2}\approx 9.17
+    \end{equation}
+\end{enumerate}
+\textbf{讨论}
+\par
+可以发现，测量结果和理论值$9$较为接近，说明测量是合理的，且我们的滤波性能符合预期。误差的主要来源是FFT采样的区间有限，还有数字示波器cursor读数的精度不够。
+\section{总结}
+\begin{enumerate}
+\item 通过本次实验，我学习了RLC串联电路的谐振特性，了解了电路的幅频特性曲线和相频特性曲线，掌握了电路的谐振频率、通频带宽度和品质因数的测量方法，并学习了如何利用RLC串联电路进行滤波。
+\item 在本次实验的测量中，我体会到了选取测量点时考虑测量灵敏度的重要性，灵敏性过低会导致测量结果的误差增大，灵敏性过高则会加大噪声信号的干扰。
+\item 在本次实验中，我学习了调整电路参数，优化电路性能的方法，比如通过调整电阻值来调整电路的通频带宽度，通过调整电容值来调整电路的谐振频率，调整采样电阻以获得更好的波形等等。
+\item 在本次实验中，我还学习了如何使用数字示波器进行FFT分析，并了解了各个参数的物理意义，比如采样率，采样点数，窗函数等，也对各种信号的频谱特性有了更深入的理解，学会从频谱方面思考物理本质。
+\end{enumerate}
+\end{document}

@@ -1,0 +1,662 @@
+\documentclass[12pt]{article}
+\usepackage{xeCJK}
+\usepackage{fontspec}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{circuitikz}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{cancel}
+\setCJKmainfont{Songti SC}
+\geometry{a4paper, margin=1in, top=1in}
+\setlength{\parindent}{12pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{10pt}
+%\fancyhead[L]{\raisebox{-0.5\height}{\includegraphics[width=0.15\textwidth]{pku_logo.png}}}
+\fancyhead[R]{\small 普通物理实验报告}
+\fancyhead[C]{\small 实验名称：应变片实验}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\title{\Large\textbf{应变片实验报告}}
+\author{普通物理实验\\
+        [REDACTED]\\
+         \\
+        姓名：\underline{\hspace{1cm}[REDACTED]\hspace{1cm}} \\
+        学号：\underline{\hspace{0.5cm}[REDACTED]\hspace{0.5cm}} \\
+        序号：\underline{\hspace{1.3cm}[REDACTED]\hspace{1.3cm}}}
+\date{\today}
+\begin{document}
+\maketitle
+\section{摘要}
+\quad 本实验主要通过全桥、半桥、1/4桥的非平衡电桥接法搭建电子秤，测量弯曲梁上的应变片电阻变化造成的非平衡电桥输出随质量负载变化的关系，并计算出搭建的电子秤的相关参数，包括灵敏度、线性度、分辨率等。之后则进一步测量了不同质量负载下，不同位置的应变片电阻变化。
+\section{实验原理}
+\quad 本次实验使用的平行梁结构如下图所示。四个应变电阻片分别位于梁的上下两侧，其中$R_{a1}$和$R_{a2}$位于梁的上侧，$R_{a3}$和$R_{a4}$位于梁的下侧。通过这种布置方式，当梁受到外力作用时，上下两侧的应变片会产生相反的电阻变化，从而可以更灵敏地检测梁的形变。
+\begin{figure}[H]
+    \centering
+\begin{tikzpicture}[scale=0.8, line join=round, line cap=round]
+
+    % 1. 画出主体外轮廓（一个长方形）
+    \draw[thick] (0,0) rectangle (8,4);
+    
+    % 2. 左侧短矩形块（支撑/固定区域示意）
+    \draw[thick, fill=gray!30] (0,-1) -- (0,0)
+                              -- (1,0) -- (1,-1) -- cycle;
+    
+    % 3. 在主体内部画出"狗骨"形状：两圆+中间连通区域。
+    %   这里为了简单，先画两圆，然后用一个小矩形连起来，
+    %   再用白色填充表示"挖空"效果。
+    \begin{scope}
+      % 将外部矩形作为clip范围，保证"挖空"只发生在矩形内
+      \clip (0,0) rectangle (8,4);
+    
+      % 两个圆
+      \draw[fill=gray!30, draw=white] (3,2) circle (1);
+      \draw[fill=gray!30, draw=white] (5,2) circle (1);
+    
+      % 中间矩形（衔接两圆）
+      \draw[fill=gray!30, draw=gray!30] (3,1.5) rectangle (5,2.5);
+    \end{scope}
+    
+    % 4. 在顶部画力F的箭头，并标注P
+    \draw[thick, -{Latex[length=3mm]}] (7,4.5) -- (7,4) 
+       node[midway, right] {$F$};
+    \node[above] at (7,4.5) {$P$};
+    
+    % 5. 标注四个应变片位置（或其他标记）
+    \node at (2,3.5) {$R_{a1}$};
+    \node at (6,3.5) {$R_{a2}$};
+    \node at (2,0.5) {$R_{a3}$};
+    \node at (6,0.5) {$R_{a4}$};
+    
+    % 6. 图名
+    \node at (4,-0.5) {图1 半行梁示意图};
+    \end{tikzpicture}
+    \label{fig:beam} % 确保在figure环境中使用\label，并在正文中使用\ref{fig:beam}引用
+\end{figure}
+当梁发生形变时，梁的上下两侧对应位置会发生拉伸或者收缩，导致应变片电阻发生变化，从而导致电桥的输出电压发生变化。
+\par
+应变片接入电桥的方式有三种：全桥、半桥、1/4桥。它们的示意图如下:
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.3\textwidth}
+\begin{tikzpicture}[american voltages, scale=0.8]
+  % 全桥示意图
+  \begin{scope}[shift={(0,0)}]
+    % 定义桥的四个节点
+    \node (A) at (0,0) {};
+    \node (B) at (2,1.5) {};
+    \node (C) at (4,0) {};
+    \node (D) at (2,-1.5) {};
+    % 绘制四臂均为应变片的全桥
+    \draw (A) to[R, l=应变片] (B);
+    \draw (B) to[R, l=应变片] (C);
+    \draw (C) to[R, l=应变片] (D);
+    \draw (D) to[R, l=应变片] (A);
+    % 在桥中连接电源
+    \draw (A) -- (-1,0);
+    \draw (C) -- (5,0);
+    % 检流部分：毫伏表连接B–D
+    \draw (B) -- (2,0);
+    \draw (D) -- (2,0);
+    \node[draw,circle,inner sep=3pt] at (2,0) {\footnotesize mV};
+    % 添加电源和电压表
+    \draw (-1,0) -- (-1,-2);
+    \draw (5,0) -- (5,-2);
+    \draw (-1,-2) to[battery2] (5,-2);
+    \node[draw,rectangle,inner sep=3pt] at (2,-2.5) {\footnotesize V};
+    \draw (1,-2) -- (1,-2.5) -- (3,-2.5) -- (3,-2);
+  \end{scope}
+\end{tikzpicture}
+\caption{全桥接法}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.3\textwidth}
+\centering
+\begin{tikzpicture}[american voltages, scale=0.8]
+  % 半桥示意图
+  \begin{scope}[shift={(0,0)}]
+    % 定义节点
+    \node (A) at (0,0) {};
+    \node (B) at (2,1.5) {};
+    \node (C) at (4,0) {};
+    \node (D) at (2,-1.5) {};
+    % 半桥：取其中两臂为应变片，另外两臂为固定电阻
+    \draw (A) to[R, l=应变片] (B);
+    \draw (B) to[R, l=应变片] (C);
+    \draw (C) to[R, l=固定] (D);
+    \draw (D) to[R, l=固定] (A);
+    % 电源连接
+    \draw (A) -- (-1,0);
+    \draw (C) -- (5,0);
+    % 毫伏表作检流计（B–D）
+    \draw (B) -- (2,0);
+    \draw (D) -- (2,0);
+    \node[draw,circle,inner sep=3pt] at (2,0) {\footnotesize mV};
+    % 添加电源和电压表
+    \draw (-1,0) -- (-1,-2);
+    \draw (5,0) -- (5,-2);
+    \draw (-1,-2) to[battery2] (5,-2);
+    \node[draw,rectangle,inner sep=3pt] at (2,-2.5) {\footnotesize V};
+    \draw (1,-2) -- (1,-2.5) -- (3,-2.5) -- (3,-2);
+  \end{scope}
+\end{tikzpicture}
+\caption{半桥接法}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.3\textwidth}
+\centering
+\begin{tikzpicture}[american voltages, scale=0.8]
+  % 1/4桥示意图
+  \begin{scope}[shift={(0,0)}]
+    % 定义节点
+    \node (A) at (0,0) {};
+    \node (B) at (2,1.5) {};
+    \node (C) at (4,0) {};
+    \node (D) at (2,-1.5) {};
+    % 1/4桥：只有一臂（例如上臂）采用应变片，其余均为固定电阻
+    \draw (A) to[R, l=固定] (B);
+    \draw (B) to[R, l=应变片] (C);
+    \draw (C) to[R, l=固定] (D);
+    \draw (D) to[R, l=固定] (A);
+    % 电源连接
+    \draw (A) -- (-1,0);
+    \draw (C) -- (5,0);
+    % 毫伏表检流（B–D）
+    \draw (B) -- (2,0);
+    \draw (D) -- (2,0);
+    \node[draw,circle,inner sep=3pt] at (2,0) {\footnotesize mV};
+    % 添加电源和电压表
+    \draw (-1,0) -- (-1,-2);
+    \draw (5,0) -- (5,-2);
+    \draw (-1,-2) to[battery2] (5,-2);
+    \node[draw,rectangle,inner sep=3pt] at (2,-2.5) {\footnotesize V};
+    \draw (1,-2) -- (1,-2.5) -- (3,-2.5) -- (3,-2);
+  \end{scope}
+\end{tikzpicture}
+\caption{1/4桥接法}
+\end{subfigure}
+\end{figure}
+\subsection{测量过程及数据}
+\subsubsection{测量应变片电阻变化情况}
+\quad 实验所用应变片两两串联，中间引出引线并串联电阻，形成三端的接线方式。在接入电路前先用万用电表大致观察应变片电阻值和变化情况：
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.4\textwidth}
+    \centering
+    \begin{tikzpicture}[american voltages, scale=0.6]
+      \draw (0,0) to[generic, l=$R_{s1}$] (4,0);
+      \draw (4,0) to[generic, l=$R_{s2}$] (8,0);
+      \draw (4,0) to[generic, l=$r_1$] (4,4);
+      \node[draw,circle,inner sep=1pt] at (-0.1,0) {};
+      \node (A) at (-1,0) {绿};
+      \node[draw,circle,inner sep=1pt] at (8.1,0) {};
+      \node (B) at (10,0) {蓝（黑头）};
+      \node[draw,circle,inner sep=1pt] at (4,4.1) {};
+      \node (C) at (4,5) {黑};
+    \end{tikzpicture}
+
+  \end{subfigure}
+  \hspace{40pt}
+  \begin{subfigure}[b]{0.4\textwidth}
+    \centering
+    \begin{tikzpicture}[american voltages, scale=0.6]
+      \draw (0,0) to[generic, l=$R_{s3}$] (4,0);
+      \draw (4,0) to[generic, l=$R_{s4}$] (8,0);
+      \draw (4,0) to[generic, l=$r_2$] (4,4);
+      \node[draw,circle,inner sep=1pt] at (-0.1,0) {};
+      \node (A) at (-2,0) {蓝（红头）};
+      \node[draw,circle,inner sep=1pt] at (8.1,0) {};
+      \node (B) at (9,0) {白};
+      \node[draw,circle,inner sep=1pt] at (4,4.1) {};
+      \node (C) at (4,5) {红};
+    \end{tikzpicture}
+  \end{subfigure}
+\end{figure}
+每次选取中间节点和两端节点之一进行测量阻值。用万用表观察可以发现，当平行梁受力时，应变片电阻会发生变化，其中，$R_{s1}$和$R_{s4}$受拉伸形变阻值变大，$R_{s2}$和$R_{s3}$受压缩形变阻值变小。
+\subsection{不同接法下电桥输出电压与质量负载的关系测量}
+\quad 电源（恒压源）输出大致10V，毫伏表量程为200mV作为输出电压，以不同接法将上梁应变片接入电路，在空载下调节$R_0$电阻箱使电桥尽可能接近平衡，之后在梁上放置砝码，记录砝码质量$m$和对应的毫伏表读数$U$，测量数据如下：
+\subsubsection{1/4桥接法}
+\quad 按如下图\ref{fig:1/4_bridge}所示接线，此时应变片支路上相当于同时接入了$R_{s1}$和$r_1$，比例臂固定电阻使用$100\,\Omega(A)$和$100\,\Omega(B)$。
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \draw (0,0) to[generic, l=$100\,\Omega(B)$] (4,0);
+    \draw (4,0) to[generic, l=$R_0$] (8,0);
+    \draw (5.5,-0.5) to (6.5,+0.5);
+    \draw (0,3) to[generic, l=$100\,\Omega(A)$] (4,3);
+    \draw (4,3) to[generic, l=$R_{s1}$] (7,3) to[generic, l=$r_1$, resistors/scale=0.4] (8,3);
+    \draw (4,0) to[short] (4,1);
+    \node[draw,circle,inner sep=4pt] at (4,1.5) {mV};
+    \draw (4,2) to[short] (4,3);
+    \draw[dashed] (4.2,2.5) rectangle (7.9,3.8);
+    \node at (3.8,3.5) {绿};
+    \node at (8.2,3.5) {黑};
+  \end{tikzpicture}
+  \caption{1/4桥接法示意图}
+  \label{fig:1/4_bridge}
+\end{figure}
+电桥基本平衡时，测得:
+\[
+  R_0=370.6\Omega
+\]
+\quad 之后在梁上放置砝码，记录砝码质量$m$和对应的毫伏表读数$U$，测量数据如下：
+\begin{table}[h]
+  \centering
+      \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+      \hline
+      m/g  & 0      & 50     & 100    & 150    & 200    & 250    & 300    & 350    & 400    & 450    & 500    \\ \hline
+      U/mV & 0.49   & 0.59   & 0.69   & 0.79   & 0.88   & 0.98   & 1.08   & 1.18   & 1.28   & 1.38   & 1.47   \\ \hline
+      \hline
+      m/g  & 550    & 600    & 650    & 700    & 750    & 800    & 850    & 900    & 950    & 1000   &        \\ \hline
+      U/mV & 1.56   & 1.66   & 1.76   & 1.85   & 1.95   & 2.04   & 2.13   & 2.23   & 2.32   & 2.41   &        \\ \hline
+  \end{tabular}
+  \caption{1/4桥接法测量数据}
+  \label{tab:1/4_bridge}
+\end{table}
+\par
+作图得到1/4桥接法下的非平衡电桥电子秤的输出-输入曲线，并进行线性拟合定标，得到线性拟合方程：
+\[
+  U=Km+b\quad K=0.00192\,mV/g \quad b=0.501\,mV \quad r=0.99993
+\]
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{img/1-4bridge.pdf}
+  \caption{1/4桥接法输出-输入曲线}
+  \label{fig:1/4_bridge}
+\end{figure}
+
+可以得到，该1/4桥输出有以下特性：
+\begin{itemize}
+  \item 线性度较好，线性拟合度$r=0.99993$
+  \item 灵敏度为$K=0.00192\,mV/g$
+  \item 分辨率：电压表最小分度值为$0.01\,mV$，则分辨率为$\frac{0.01\,mV}{0.00192\,mV/g}\approx 5\,g$，只能满足较低精度的测量。
+\end{itemize}
+
+\subsubsection{半桥接法}
+\quad 同上，按如下图\ref{fig:1/4_bridge}所示接线，此时电桥上方支路相当于同时接入了$R_{s1}$和$R_{s2}$，比例臂固定电阻使用$100\,\Omega(B)$同上。
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \draw (0,0) to[generic, l=$100\,\Omega(B)$] (4,0);
+    \draw (4,0) to[generic, l=$R_0$] (8,0);
+    \draw (5.5,-0.5) to (6.5,+0.5);
+    \draw (0,3) to[generic, l=$R_{s1}$] (4,3);
+    \draw (4,3) to[generic, l=$R_{s2}$] (8,3);
+    \draw (4,0) to[short] (4,0.5);
+    \node[draw,circle,inner sep=4pt] at (4,1) {mV};
+    \draw (4,1.5) to[generic,l=$r_1$, resistors/scale=0.4] (4,3);
+    \draw[dashed] (0.2,1.8) rectangle (7.9,3.8);
+    \node at (-0.2,3.5) {绿};
+    \node at (9,3.5) {蓝（黑头）};
+    \node at (5,1.5) {黑};
+  \end{tikzpicture}
+  \caption{半桥接法示意图}
+  \label{fig:1/2_bridge}
+\end{figure}
+电桥基本平衡时，测得:
+\[
+  R_0=99.9\Omega
+\]
+\quad 同上，测量数据如下：
+\begin{table}[h]
+  \centering
+      \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+      \hline
+      m/g  & 0    & 50   & 100  & 150  & 200  & 250  & 300  & 350  & 400  & 450  & 500  \\ \hline
+      U/mV & 0.18 & 0.48 & 0.77 & 1.06 & 1.35 & 1.64 & 1.93 & 2.22 & 2.52 & 2.83 & 3.1  \\ \hline
+      \hline
+      m/g  & 550  & 600  & 650  & 700  & 750  & 800  & 850  & 900  & 950  & 1000 &      \\ \hline
+      U/mV & 3.4  & 3.69 & 3.98 & 4.27 & 4.56 & 4.85 & 5.14 & 5.43 & 5.73 & 6.02 &      \\ \hline
+  \end{tabular}
+  \caption{半桥接法测量数据}
+  \label{tab:1/2_bridge}
+\end{table}
+\par
+作图得到1/2桥接法下的非平衡电桥电子秤的输出-输入曲线，并进行线性拟合定标，得到线性拟合方程：
+\[
+  U=Km+b\quad K=0.00583\,mV/g \quad b=0.185\,mV \quad r=0.99999
+\]
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{img/1-2bridge.pdf}
+  \caption{1/2桥接法输出-输入曲线}
+  \label{fig:1/2_bridge}
+\end{figure}
+
+可以得到，该1/2桥输出有以下特性：
+\begin{itemize}
+  \item 线性度相较于1/4桥接更加好，线性拟合度$r=0.99999$
+  \item 灵敏度为$K=0.00583\,mV/g$
+  \item 分辨率：电压表最小分度值为$0.01\,mV$，则分辨率为$\frac{0.01\,mV}{0.00583\,mV/g}\approx 1.7\,g$，能够满足中等精度的测量，相较于1/4桥接法有一定提升。
+\end{itemize}
+
+\subsubsection{全桥接法}
+\quad 同上，按如下图\ref{fig:full_bridge}所示接线，此时电桥同时接入了$R_{s1}$、$R_{s2}$、$R_{s3}$、$R_{s4}$。
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \draw (0,-1) to[generic, l=$R_{s3})$] (4,-1);
+    \draw (4,-1) to[generic, l=$R_{s4}$] (8,-1);
+    \draw (0,3) to[generic, l=$R_{s1}$] (4,3);
+    \draw (4,3) to[generic, l=$R_{s2}$] (8,3);
+    \draw (4,0) to[short] (4,0.5);
+    \node[draw,circle,inner sep=4pt] at (4,1) {mV};
+    \draw (4,1.5) to[generic,l=$r_1$, resistors/scale=0.4] (4,3);
+    \draw[dashed] (0.2,1.8) rectangle (7.9,3.8);
+    \draw (4,-1) to[generic,l=$r_2$, resistors/scale=0.4] (4,0.5);
+    \node at (-0.2,3.5) {绿};
+    \node at (9,3.5) {蓝（黑头）};
+    \node at (5,1.5) {黑};
+    \node at (-1,-1.5) {蓝（红头）};
+    \node at (8.2,-1.5) {白};
+    \draw[dashed] (0.2,-1.8) rectangle (7.9,0.2);
+    \node at (5,0.5) {红};
+  \end{tikzpicture}
+  \caption{全桥接法示意图}
+  \label{fig:full_bridge}
+\end{figure}
+\par
+全桥测量数据如下：
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+  \hline
+  m/g  & 0    & 50   & 100  & 150  & 200  & 250  & 300  & 350  & 400  & 450  & 500  \\ \hline
+  U/mV & 2.63 & 3.21 & 3.80  & 4.38 & 4.96 & 5.54 & 6.13 & 6.71 & 7.29 & 7.88 & 8.46 \\ \hline
+  \hline
+  m/g  & 550  & 600  & 650  & 700  & 750  & 800  & 850  & 900  & 950  & 1000 &      \\ \hline
+  U/mV & 9.05 & 9.64 & 10.22 & 10.81 & 11.39 & 11.97 & 12.56 & 13.15 & 13.73 & 14.32 &      \\ \hline
+  \end{tabular}
+  \caption{全桥接法测量数据}
+  \label{tab:full_bridge}
+\end{table}
+\par
+作图得到全桥接法下的非平衡电桥电子秤的输出-输入曲线，并进行线性拟合定标，得到线性拟合方程：
+\[
+  U=Km+b\quad K=0.01169\,mV/g \quad b=2.623\,mV \quad r=0.999999
+\]
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{img/fullbridge.pdf}
+  \caption{全桥接法输出-输入曲线}
+  \label{fig:full_bridge}
+\end{figure}
+
+可以得到，该全桥输出有以下特性：
+\begin{itemize}
+  \item 线性度非常好，线性拟合度$r=0.999999$
+  \item 灵敏度为$K=0.01169\,mV/g$
+  \item 分辨率：电压表最小分度值为$0.01\,mV$，则分辨率为$\frac{0.01\,mV}{0.01169\,mV/g}\approx 0.86\,g$，能够满足较高精度的测量。
+\end{itemize}
+
+\subsection{手机质量的测量和不确定度分析}
+\quad 根据上面对于不同接法的分析，可以发现全桥接法灵敏度最高，线性度最好，也就意味着更小的测量误差，因此选择全桥接法进行手机质量的测量。
+为了得到输入-输出的特性，我们对上面的测量数据进行反向拟合，即对$m=f(U)$进行线性拟合定标，得到拟合方程：
+\[
+  m=k'U+b'\quad k'=85.54\,g/mV \quad b'=-224.4\,g \quad r=0.999999
+\]
+\quad 将手机（去掉手机壳）放在非平衡电桥电子秤的梁上，测量得到电压为$4.32\,mV$，则手机质量为：
+\[
+  m=k'U+b'=(85.54209\times4.32-224.37857)\,g=145.2\,g
+\]
+\quad 下面将进行不确定度分析，首先计算灵敏度$K'$的不确定度，其包含两部分：
+\begin{itemize}
+  \item 线性拟合产生的不确定度
+  \[
+    \sigma_{k',fit}=\sqrt{\frac{\frac{1}{r^2}-1}{n-2}}=0.027\,g/mV
+  \]
+  \item 另一部分时砝码质量m的允差传递给斜率的不确定度，在此用最大的不确定度进行估算：(砝码精度为$0.005\%$)
+  \[
+    e_{m,max}=0.005\%\times1000\,g=0.05\,g
+  \]
+  由于使用简单最小二乘法进行线性拟合，因此斜率$k'$的不确定度为：
+  \[
+    \sigma_{k',m}=\frac{e_{m,max}}{\sqrt{\sum_{i=1}^{n}(U_i-\bar{U})^2}}\approx 0.003\,g/mV
+  \]
+  可以发现，$k',fit$的不确定度远大于$k',m$的不确定度（差一个数量级），因此可以忽略$k',m$的不确定度。（事实上，如果需要严格计算不确定度，应该使用加权的最小二乘法进行拟合，但由于质量传递的不确定度很小且我们的需求仅仅是估算不确定度，在此不做讨论）
+\end{itemize}
+\quad 因此，灵敏度$K'$的不确定度为：
+\[
+  \sigma_{k'}=\sqrt{\sigma_{k',fit}^2+\sigma_{k',m}^2}\approx 0.027\,g/mV
+\]
+\quad 当测量值为$U_{测量}=4.32\,mV$时，手机质量的不确定度为：
+\[
+  \sigma_m=\sigma_{k'}\times \sqrt{\sum_{i=1}^{n}(U_i-{U_{\text{测量}}})^2}=0.02668\times 37.3180\approx 1\,g
+\]
+\quad 因此，手机质量为：
+\[
+  m=(145\pm1)\,g
+\]
+\quad 手机质量的官方数据为：$144g$,考虑到贴纸质量和上面计算的全桥电子秤分度值$0.86\,g$，可以认为测量结果比较精确，可见我们搭建的电子秤具有较高的准确度。
+\subsection{测量不同负载下应变片阻值的变化情况}
+\quad 采用1/4桥接法，即普通非平衡电桥接法，利用上一个实验报告中对于非平衡电桥输出和桥臂电阻变化量的关系，可以得到：
+\[
+\begin{aligned}
+  U &= E\cdot\frac{R_2\,R_x-R_1\,R_p}{(R_1+R_x)\,(R_2+R_p)} \\
+  K'&=\frac{d\,U}{dR_x} = E \cdot \frac{R_1}{(R_1+R_{x0})^2} \\
+  R_x &\approx R_{x0}+\frac {U}{K'} 
+\end{aligned}
+\]
+\quad 对于每一个测量条件，只需要记录电源电压和输出电压，即可计算得到不同条件下应变片阻值。
+\subsubsection{$R_{s1}$的测量}
+\quad 测量条件：$E=9.981V$，$R_1=R_2=100\,\Omega$，$R_0=R_{x0}=370.6\,\Omega$。测量电路图如下：(由于封装原因，实际测得$R_{s1}$和$r_1$的和阻值)
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \draw (0,0) to[generic, l=$100\,\Omega(B)$] (4,0);
+    \draw (4,0) to[generic, l=$R_0$] (8,0);
+    \draw (5.5,-0.5) to (6.5,+0.5);
+    \draw (0,3) to[generic, l=$100\,\Omega(A)$] (4,3);
+    \draw (4,3) to[generic, l=$R_{s1}$] (7,3) to[generic, l=$r_1$, resistors/scale=0.4] (8,3);
+    \draw (4,0) to[short] (4,1);
+    \node[draw,circle,inner sep=4pt] at (4,1.5) {mV};
+    \draw (4,2) to[short] (4,3);
+    \draw[dashed] (4.2,2.5) rectangle (7.9,3.8);
+    \node at (3.8,3.5) {绿};
+    \node at (8.2,3.5) {黑};
+    \node at (6,2) {$R_x$};
+  \end{tikzpicture}
+  \caption{$R_{s1}$测量电路图}
+  \label{fig:rs1}
+\end{figure}
+\par 
+利用测量公式，可以得到：
+\[
+\begin{aligned}
+  K'&= E \cdot \frac{R_1}{(R_1+R_{x0})^2}=9.981\cdot\frac{100}{(100+370.6)^2}=4.507\times10^{-3}\,\text{V/Ω}\\
+  R &\approx (370.6+\frac {U}{4.507})\,\Omega
+\end{aligned}
+\]
+\quad 数据处理后列表作图如下：
+\begin{table}[H]
+\centering
+\scalebox{0.8}{
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    m/g  & 0      & 50     & 100    & 150    & 200    & 250    & 300    & 350    & 400    & 450    & 500    \\ \hline
+    U/mV & 0.49   & 0.59   & 0.69   & 0.79   & 0.88   & 0.98   & 1.08   & 1.18   & 1.28   & 1.38   & 1.47   \\ \hline
+    R/Ω  & 370.71 & 370.73 & 370.75 & 370.78 & 370.80 & 370.82 & 370.84 & 370.86 & 370.88 & 370.91 & 370.93 \\ \hline
+    \hline
+    m/g  & 550    & 600    & 650    & 700    & 750    & 800    & 850    & 900    & 950    & 1000   &        \\ \hline
+    U/mV & 1.56   & 1.66   & 1.76   & 1.85   & 1.95   & 2.04   & 2.13   & 2.23   & 2.32   & 2.41   &        \\ \hline
+    R/Ω  & 370.95 & 370.97 & 370.99 & 371.01 & 371.03 & 371.05 & 371.07 & 371.09 & 371.11 & 371.13 &        \\ \hline
+\end{tabular}
+}
+\caption{应变片$R_{s1}$电阻随质量变化的测量数据}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{img/r_s1.pdf}
+\vspace{1cm}
+\caption{应变片$R_{s1}$电阻随质量变化的关系图}
+\end{figure}
+\subsubsection{$R_{s2}$的测量}
+\quad 测量条件：$E=9.983V$，$R_1=R_2=100\,\Omega$，$R_0=R_{x0}=371.6\,\Omega$。测量电路图如下：(由于封装原因，实际测得$R_{s2}$和$r_1$的和阻值)
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \draw (0,0) to[generic, l=$100\,\Omega(B)$] (4,0);
+    \draw (4,0) to[generic, l=$R_0$] (8,0);
+    \draw (5.5,-0.5) to (6.5,+0.5);
+    \draw (0,3) to[generic, l=$100\,\Omega(A)$] (4,3);
+    \draw (4,3) to[generic, l=$r_1$, resistors/scale=0.4] (5,3) to[generic, l=$R_{s2}$] (8,3);
+    \draw (4,0) to[short] (4,1);
+    \node[draw,circle,inner sep=4pt] at (4,1.5) {mV};
+    \draw (4,2) to[short] (4,3);
+    \draw[dashed] (4.2,2.5) rectangle (7.9,3.8);
+    \node at (3.8,3.5) {黑};
+    \node at (8.2,3.5) {蓝（黑头）};
+    \node at (6,2) {$R_x$};
+  \end{tikzpicture}
+  \caption{$R_{s2}$测量电路图}
+  \label{fig:rs2}
+\end{figure}
+\par 
+利用测量公式，可以得到：
+\[
+\begin{aligned}
+  K'&= E \cdot \frac{R_1}{(R_1+R_{x0})^2}=9.983\cdot\frac{100}{(100+371.6)^2}=4.488\times10^{-3}\,\text{V/Ω}\\
+  R &\approx (371.6+\frac {U}{4.488})\,\Omega
+\end{aligned}
+\]
+数据处理后列表作图如下：
+\begin{table}[h]
+\scalebox{0.8}{
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    m/g  & 0      & 50     & 100    & 150    & 200    & 250    & 300    & 350    & 400    & 450    & 500    \\ \hline
+    U/mV & 0.35   & 0.27   & 0.18   & 0.09   & 0      & -0.08  & -0.17  & -0.26  & -0.35  & -0.44  & -0.53  \\ \hline
+    R/Ω  & 371.68 & 371.66 & 371.64 & 371.62 & 371.60 & 371.58 & 371.56 & 371.54 & 371.52 & 371.50 & 371.48 \\ \hline
+    \hline
+    m/g  & 550    & 600    & 650    & 700    & 750    & 800    & 850    & 900    & 950    & 1000   &        \\ \hline
+    U/mV & -0.63  & -0.73  & -0.83  & -0.92  & -1.02  & -1.11  & -1.21  & -1.3   & -1.39  & -1.49  &        \\ \hline
+    R/Ω  & 371.46 & 371.44 & 371.42 & 371.39 & 371.37 & 371.35 & 371.33 & 371.31 & 371.29 & 371.27 &        \\ \hline
+    \end{tabular}
+}
+\caption{应变片$R_{s2}$电阻随质量变化的测量数据}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{img/r_s2.pdf}
+\caption{应变片$R_{s2}$电阻随质量变化的关系图}
+\end{figure}
+
+\subsubsection{$R_{s3}$的测量}
+\quad 测量条件：$E=9.985V$，$R_1=R_2=100\,\Omega$，$R_0=R_{x0}=371.7\,\Omega$。测量电路图如下：(由于封装原因，实际测得$R_{s3}$和$r_2$的和阻值)
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \draw (0,0) to[generic, l=$100\,\Omega(B)$] (4,0);
+    \draw (4,0) to[generic, l=$R_0$] (8,0);
+    \draw (5.5,-0.5) to (6.5,+0.5);
+    \draw (0,3) to[generic, l=$100\,\Omega(A)$] (4,3);
+    \draw (4,3) to[generic, l=$R_{s3}$] (7,3) to[generic, l=$r_2$, resistors/scale=0.4] (8,3);
+    \draw (4,0) to[short] (4,1);
+    \node[draw,circle,inner sep=4pt] at (4,1.5) {mV};
+    \draw (4,2) to[short] (4,3);
+    \draw[dashed] (4.2,2.5) rectangle (7.9,3.8);
+    \node at (3.8,4.2) {蓝（红头）};
+    \node at (8.2,3.5) {红};
+    \node at (6,2) {$R_x$};
+  \end{tikzpicture}
+  \caption{$R_{s3}$测量电路图}
+  \label{fig:rs1}
+\end{figure}
+\par 
+利用测量公式，可以得到：
+\[
+\begin{aligned}
+  K'&= E \cdot \frac{R_1}{(R_1+R_{x0})^2}=9.985\cdot\frac{100}{(100+371.7)^2}=4.489\times10^{-3}\,\text{V/Ω}\\
+  R &\approx (371.7+\frac {U}{4.489})\,\Omega
+\end{aligned}
+\]
+数据处理后列表作图如下：
+\begin{table}[h]
+  \centering
+  \scalebox{0.8}{
+      \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+      \hline
+      m/g  & 0      & 50     & 100    & 150    & 200    & 250    & 300    & 350    & 400    & 450    & 500    \\ \hline
+      U/mV & 0.05   & -0.03  & -0.11  & -0.19  & -0.28  & -0.37  & -0.46  & -0.55  & -0.65  & -0.75  & -0.84  \\ \hline
+      R/Ω  & 371.71 & 371.69 & 371.68 & 371.66 & 371.64 & 371.62 & 371.60 & 371.58 & 371.56 & 371.53 & 371.51 \\ \hline
+      \hline
+      m/g  & 550    & 600    & 650    & 700    & 750    & 800    & 850    & 900    & 950    & 1000   &        \\ \hline
+      U/mV & -0.93  & -1.01  & -1.1   & -1.19  & -1.28  & -1.37  & -1.47  & -1.57  & -1.66  & -1.75  &        \\ \hline
+      R/Ω  & 371.49 & 371.47 & 371.45 & 371.43 & 371.41 & 371.39 & 371.37 & 371.35 & 371.33 & 371.31 &        \\ \hline
+      \end{tabular}
+  }
+  \caption{应变片$R_{s3}$电阻随质量变化的测量数据}
+  \end{table}
+
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/r_s3.pdf}
+    \caption{应变片$R_{s3}$电阻随质量变化的关系图}
+    \end{figure}
+
+\subsubsection{$R_{s4}$的测量}
+\quad 测量条件：$E=9.985V$，$R_1=R_2=100\,\Omega$，$R_0=R_{x0}=371.9\,\Omega$。测量电路图如下：(由于封装原因，实际测得$R_{s4}$和$r_2$的和阻值)
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \draw (0,0) to[generic, l=$100\,\Omega(B)$] (4,0);
+    \draw (4,0) to[generic, l=$R_0$] (8,0);
+    \draw (5.5,-0.5) to (6.5,+0.5);
+    \draw (0,3) to[generic, l=$100\,\Omega(A)$] (4,3);
+    \draw (4,3) to[generic, l=$r_2$, resistors/scale=0.4] (5,3) to[generic, l=$R_{s4}$] (8,3);
+    \draw (4,0) to[short] (4,1);
+    \node[draw,circle,inner sep=4pt] at (4,1.5) {mV};
+    \draw (4,2) to[short] (4,3);
+    \draw[dashed] (4.2,2.5) rectangle (7.9,3.8);
+    \node at (3.8,3.5) {红};
+    \node at (8.2,3.5) {白};
+    \node at (6,2) {$R_x$};
+  \end{tikzpicture}
+  \caption{$R_{s4}$测量电路图}
+  \label{fig:rs2}
+\end{figure}
+\par 
+利用测量公式，可以得到：
+\[
+\begin{aligned}
+  K'&= E \cdot \frac{R_1}{(R_1+R_{x0})^2}=9.985\cdot\frac{100}{(100+371.9)^2}=4.484\times10^{-3}\,\text{V/Ω}\\
+  R &\approx (371.6+\frac {U}{4.484})\,\Omega
+\end{aligned}
+\]
+\begin{table}[h]
+  \centering
+  \scalebox{0.8}{
+      \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+      \hline
+      m/g  & 0      & 50     & 100    & 150    & 200    & 250    & 300    & 350    & 400    & 450    & 500    \\ \hline
+      U/mV & 0.07   & 0.17   & 0.26   & 0.35   & 0.44   & 0.53   & 0.62   & 0.72   & 0.82   & 0.91   & 1      \\ \hline
+      R/Ω  & 371.92 & 371.94 & 371.96 & 371.98 & 372.00 & 372.02 & 372.04 & 372.06 & 372.08 & 372.10 & 372.12 \\ \hline
+      \hline
+      m/g  & 550    & 600    & 650    & 700    & 750    & 800    & 850    & 900    & 950    & 1000   &        \\ \hline
+      U/mV & 1.1    & 1.2    & 1.3    & 1.39   & 1.48   & 1.57   & 1.66   & 1.75   & 1.84   & 1.93   &        \\ \hline
+      R/Ω  & 372.15 & 372.17 & 372.19 & 372.21 & 372.23 & 372.25 & 372.27 & 372.29 & 372.31 & 372.33 &        \\ \hline
+      \end{tabular}
+  }
+  \caption{应变片$R_{s4}$电阻随质量变化的测量数据}
+  \end{table}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{img/r_s4.pdf}
+\caption{应变片$R_{s4}$电阻随质量变化的关系图}
+\end{figure}
+\section{实验总结和讨论}
+\begin{itemize}
+\item 本次实验中，我们通过使用应变片测量平行梁的应变，采用三种方式搭建非平衡电桥电子秤。可以发现，从1/4到半桥到全桥，灵敏度逐渐增大，线性度也越来越好。这一方面是由于接入的电阻片越多，\underline{应变片阻值的变化得到了放大}，另一方面也是由于\underline{电路的对称性随之增大}，能抵消更多的非线性效应，这样提高测量系统对称性的实验方法在实验中经常使用。
+\item 在测量过程中，我发现应变片的预热是很有必要的，因为应变片电阻可能会产生自热效应，温度上升就会影响阻值，所以要等预热后示数稳定在进行测量。
+\item 从四个应变片的阻值变化情况（$R_{s1}$和$R_{s4}$增大，$R_{s2}$和$R_{s3}$减小）可以看出，在平行梁一端受力时，梁的整体曲率会大致对称的由正转负，这有助于我们理解弹性体弯曲的物理图像。
+\item 在操作过程中，放置砝码尽量不要施加过大压力，可能超出承载压力后会产生一定的非线性效应，影响测量结果。同时注意线性增长负载质量，砝码位置尽量统一。
+\end{itemize}
+\end{document}

@@ -1,0 +1,929 @@
+\documentclass[12pt]{article}
+\usepackage{xeCJK}
+\usepackage{fontspec}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{circuitikz}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{lastpage}
+\usepackage{tikz}
+\captionsetup[figure]{
+    font=footnotesize,
+    name=图
+}
+\captionsetup[table]{
+    font=footnotesize,
+    name=表
+}
+\setCJKmainfont{Songti SC}
+\geometry{a4paper, margin=1in, top=1in}
+\setlength{\parindent}{12pt}
+\setlength{\headheight}{13.6pt}
+% 页眉页脚设置
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\small 普通物理实验报告}
+\fancyhead[C]{\small 实验名称：光信息处理}
+\fancyfoot[C]{\small 第 \thepage\ 页/共 \pageref{LastPage} 页}
+\fancypagestyle{plain}{%
+    \fancyhf{}
+    \fancyfoot[C]{\small 第 \thepage\ 页/共 \pageref{LastPage} 页}
+    \renewcommand{\headrulewidth}{0pt}  % 移除页眉分割线
+}
+
+\title{\Large\textbf {光信息处理实验报告}}
+\author{普通物理实验2\\
+        姓名：\underline{\hspace{1cm}[REDACTED]\hspace{1cm}} \\
+        学号：\underline{\hspace{0.5cm}[REDACTED]\hspace{0.5cm}} \\
+        序号：\underline{\hspace{1.3cm}[REDACTED]\hspace{1.3cm}}}
+\date{\today}
+
+
+\begin{document}
+
+\maketitle
+\section{实验数据与分析}
+
+\subsection{观察衍射屏不同结构图像与频谱}
+
+\subsubsection{单孔（矩孔与圆孔）的图像与频谱}
+\begin{figure}[H] 
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/成像/矩孔.jpg}
+        \caption{矩孔成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/频谱/矩形孔.jpg}
+        \caption{矩孔频谱}
+    \end{subfigure}
+\end{figure}
+\begin{figure}[H] 
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/成像/圆孔.jpg}
+        \caption{圆孔成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/频谱/单圆孔.jpg}
+        \caption{圆孔频谱}
+    \end{subfigure}
+\end{figure}
+
+\textbf{数学解释：}
+\par
+单孔在频谱面上的衍射图样是其透射率函数的傅里叶变换，蕴含着物面的频谱信息。
+\begin{itemize}
+    \item \textbf{矩孔：}
+    边长为 \(a, b\) 的矩孔，其透射率函数为 \(t(x,y) = \text{rect}(\frac{x}{a})\text{rect}(\frac{y}{b})\)（两个方向的矩形窗函数）。其频谱（复振幅）是傅里叶变换：
+    \[ U(f_x, f_y) = \mathcal{F}\{t(x,y)\} \propto \text{sinc}(a f_x) \text{sinc}(b f_y) \]
+    两个方向sinc函数相乘决定亮度分布呈十字星芒状，中心亮斑最强，沿两个垂直方向扩展。
+    
+    \item \textbf{圆孔：}
+    半径为 \(R\) 的圆孔，其孔径函数在极坐标下为 \(t(r) = \text{circ}(\frac{r}{R})\)（圆形窗函数），它二维傅里叶变换的结果：
+    \[ U(\rho) = \mathcal{F}\{t(r)\} \propto \frac{J_1(2\pi R \rho)}{R \rho} \]
+    其中 \(J_1\) 是一阶贝塞尔函数，\(\rho\) 是径向空间频率。这就解释了形成中心明亮的艾里斑和一系列同心衍射环。
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}[b]{0.4\textwidth}
+            \includegraphics[width=\textwidth]{img/illustrations/Square2.png}
+            \caption{矩孔和其频谱}
+        \end{subfigure}
+        \hspace{2em}
+        \begin{subfigure}[b]{0.4\textwidth}
+            \includegraphics[width=\textwidth]{img/illustrations/Bessel.png}
+            \caption{圆孔和其频谱}
+        \end{subfigure}
+    \end{figure}
+\end{itemize}
+\vspace{1em}
+\par
+\begin{center}
+    \fbox{图1:实验中单孔的成像与频谱照片}
+    \end{center}
+
+\subsubsection{方阵和密排结构的图像与频谱}
+在实验中，我们使用了不同小孔阵列的图像，包括方孔方阵、方孔密排、圆孔方阵和圆孔密排。以下是实验中所拍摄的成像和频谱照片：
+
+\vspace{2em}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/成像/方孔方阵.jpg}
+        \caption{方孔方阵成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/频谱/方孔方阵.jpg}
+        \caption{方孔方阵频谱}
+    \end{subfigure}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/成像/圆孔方阵.jpg}
+        \caption{圆孔方阵成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/频谱/圆孔方阵.jpg}
+        \caption{圆孔方阵频谱}
+    \end{subfigure}
+\end{figure}
+\par
+可以看到，方孔和圆孔阵列的频谱面具有基本相同的二维规则\ \underline{点阵结构}，这就代表这一衍射频谱特征由它们的\ \underline{共性结构}所确定——方阵。
+\par
+而方孔和圆孔的差异则体现在频谱点阵的\ \underline{亮度分布}上：可以看到圆孔对应着各向同性的亮度分布，而方孔则在水平和竖直两个方向上的点阵有较大亮度，四角则不太可见。
+\par
+\vspace{1em}
+\textbf{数学解释：}
+\par
+衍射屏的透光函数可以看作是单个衍射单元（例如方孔或圆孔）的透光函数 \(g(x,y)\) 与一个表示阵列排布的点函数（这里是狄拉克梳状函数）\(f(x,y)\) 的卷积，原因是Dirac梳状函数与其它函数卷积相当于将原本的函数平移复制。根据傅里叶变换的卷积定理，两个函数卷积的傅里叶变换等于它们各自傅里叶变换的乘积：
+\[ \mathcal{F}\{g(x,y) * f(x,y)\} = \mathcal{F}\{g(x,y)\} \cdot \mathcal{F}\{f(x,y)\} \]
+\par 
+因此，我们在频谱面上观察到的衍射图样（频谱信息），是单个衍射单元的衍射图样和阵列的干涉条纹的乘积。
+\par
+其中，单孔的衍射图样（对于方孔是sinc函数，对于圆孔是贝塞尔函数）作为包络，调制了阵列结构产生的干涉点阵的强度。这就解释了为何不同形状的单元在相同的阵列下，其频谱具有相同的点阵结构，但点阵的亮度分布却不同。
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Left nodes
+        \node[draw, minimum width=3.2cm, minimum height=2.5cm, align=center] (unit) at (0, 2) {\includegraphics[width=5.6cm]{img/illustrations/Dirac Comb.jpg} \\ 阵列透射率和频谱 \\ (包络) \\二维的狄拉克梳状函数};
+        \node[draw, minimum width=3.2cm, minimum height=2.5cm, align=center] (array) at (0, -2) {\includegraphics[width=2.8cm]{img/illustrations/Square2.png} \includegraphics[width=2.8cm]{img/illustrations/Bessel.png} \\ 单元透射率函数和频谱 \\ (点阵) \\ };
+
+        % Right node
+        \node[draw, minimum width=3.2cm, minimum height=3cm, align=center] (total) at (10, 0) {\includegraphics[width=5.6cm]{img/illustrations/total.png} \\整体衍射频谱};
+
+
+        % Arrows
+        \draw[-, thick] (unit.east) -- (4,0);
+        \draw[-, thick] (array.east) -- (4,0);
+        \draw[-, thick] (4,0) -- (total.west);
+
+        \node at (5,1) {空域卷积};
+        \node at (5,-1) {频域乘积};
+
+    \end{tikzpicture}
+    \caption{衍射图样构成示意图}
+    \label{fig:diffraction_composition}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/成像/方孔密排.jpg}
+        \caption{方孔密排成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/频谱/方孔密排.jpg}
+        \caption{方孔密排频谱}
+    \end{subfigure}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/成像/圆孔密排.jpg}
+        \caption{圆孔密排成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/频谱/圆孔密排.jpg}
+        \caption{圆孔密排频谱}
+    \end{subfigure}
+\end{figure}
+
+\begin{center}
+\fbox{图2:实验中不同小孔阵列的成像与频谱照片}
+\end{center}
+
+\vspace{1em}
+\par
+同理，方孔和圆孔的密排阵列也是由单元透射函数与表征密排的函数在空域上卷积，频域上乘积所表征的，故表现为具有Sinc和Bessel函数亮度分布的六方点阵图样。
+\vspace{1em}
+\par
+密排的阵列特点是 \underline{每行与邻近行交错排列} ，形成一个 \underline{蜂窝状}的晶格.
+我们可以用 \underline{基矢和倒格矢}来表征密排的阵列。
+\par
+对于六方密排阵列，我们可以选取一组基矢 \(\vec{a}_1\) 和 \(\vec{a}_2\) 来描述其周期性结构，其中 \(a\) 是相邻格点间的距离：
+\[
+\vec{a}_1 = a(1, 0) \qquad \vec{a}_2 = a(\frac{1}{2}, \frac{\sqrt{3}}{2})
+\]
+任意一个格点的位置可以表示为 \(\vec{R} = n_1 \vec{a}_1 + n_2 \vec{a}_2\)，其中 \(n_1, n_2\) 为整数。
+\par
+其对应的倒格矢 \(\vec{b}_1\) 和 \(\vec{b}_2\) 满足 \(\vec{a}_i \cdot \vec{b}_j = 2\pi \delta_{ij}\)，计算可得：
+\[
+\vec{b}_1 = \frac{2\pi}{a}(1, -\frac{1}{\sqrt{3}}) \qquad \vec{b}_2 = \frac{2\pi}{a}(0, \frac{2}{\sqrt{3}})
+\]
+倒格矢构成的晶格也是一个六方晶格，但相对于原空间中的晶格旋转了30度。
+\par
+阵列的排列函数 \(f(\vec{r})\) 可以用一系列 \(\delta\) 函数之和表示，每个 \(\delta\) 函数代表一个格点的位置：
+\[
+f(\vec{r}) = \sum_{n_1, n_2} \delta(\vec{r} - (n_1 \vec{a}_1 + n_2 \vec{a}_2))
+\]
+\par
+该排列函数的傅里叶变换 \(F(\vec{k})\) 也是一个由 \(\delta\) 函数构成的点阵，其位置由倒格矢确定：
+\[
+F(\vec{k}) = \mathcal{F}\{f(\vec{r})\} \propto \sum_{m_1, m_2} \delta(\vec{k} - (m_1 \vec{b}_1 + m_2 \vec{b}_2))
+\]
+其中 \(\vec{k}\) 是频域中的坐标。这表明，六方密排阵列的干涉条纹（频谱）是一个六方点阵，这与我们的实验观察完全一致。
+
+\subsubsection{双孔（双方孔与双圆孔）的图像与频谱}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/成像/双方孔.jpg}
+        \caption{双方孔成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/频谱/双方孔.jpg}
+        \caption{双方孔频谱}
+    \end{subfigure}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/成像/双圆孔.jpg}
+        \caption{双圆孔成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/频谱/双圆孔.jpg}
+        \caption{双圆孔频谱}
+    \end{subfigure}
+\end{figure}
+\begin{center}
+\fbox{图4:实验中双孔结构的成像与频谱照片}
+\end{center}
+
+\textbf{数学解释：}
+\par
+双孔结构的衍射图样可以利用卷积定理进行解释。其透射率函数可以看作是 \underline{单孔函数} \(g(\vec{r})\) 与一个 \underline{双点函数} \([\delta(\vec{r}-\vec{d}/2) + \delta(\vec{r}+\vec{d}/2)]\) 的 \underline{卷积}。
+\[ t(\vec{r}) = g(\vec{r}) * [\delta(\vec{r}-\vec{d}/2) + \delta(\vec{r}+\vec{d}/2)] \]
+根据卷积定理，其频谱是这两个函数各自傅里叶变换的\underline{乘积}：
+\[ \mathcal{F}\{t(\vec{r})\} = \mathcal{F}\{g(\vec{r})\} \cdot \mathcal{F}\{[\delta(\vec{r}-\vec{d}/2) + \delta(\vec{r}+\vec{d}/2)]\} \propto \mathcal{F}\{g(\vec{r})\} \cdot \cos(\pi \vec{d} \cdot \vec{k}) \]
+这表明，最终的衍射图样是单孔的衍射图样决定亮度分布，与由双点结构产生的 \underline{杨氏干涉条纹}所决定。
+\begin{itemize}
+    \item \textbf{双方孔：} 频谱是单个矩孔的sinc函数衍射分布，被一组垂直于两孔连线方向的干涉直条纹所乘。
+    \item \textbf{双圆孔：} 频谱是单个圆孔的Bessel函数衍射分布，被同样一组干涉直条纹所乘。
+\end{itemize}
+
+\subsubsection{丝、缝的图像与频谱}
+\begin{figure}[H] 
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/成像/单丝.jpg}
+        \caption{单丝成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/频谱/单丝.jpg}
+        \caption{单丝频谱}
+    \end{subfigure}
+\end{figure}
+\begin{figure}[H] 
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/成像/单缝.jpg}
+        \caption{单缝成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/频谱/单缝.jpg}
+        \caption{单缝频谱}
+    \end{subfigure}
+\end{figure}
+
+\begin{figure}[H] 
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/成像/双丝.jpg}
+        \caption{双丝成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/频谱/双丝.jpg}
+        \caption{双丝频谱}
+    \end{subfigure}
+\end{figure}
+
+\begin{figure}[H] 
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/成像/双缝.jpg}
+        \caption{双缝成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/频谱/双缝‘.jpg}
+        \caption{双缝频谱}
+    \end{subfigure}
+\end{figure}
+
+\begin{figure}[H] 
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/成像/三丝.jpg}
+        \caption{三丝成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/频谱/三丝.jpg}
+        \caption{三丝频谱}
+    \end{subfigure}
+\end{figure}
+
+\begin{figure}[H] 
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/成像/三缝.jpg}
+        \caption{三缝成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/频谱/三缝.jpg}
+        \caption{三缝频谱}
+    \end{subfigure}
+\end{figure}
+\begin{figure}[H] 
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/成像/四丝.jpg}
+        \caption{四丝成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/频谱/四丝.jpg}
+        \caption{四丝频谱}
+    \end{subfigure}
+\end{figure}
+
+\begin{figure}[H] 
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/成像/四缝.jpg}
+        \caption{四缝成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/频谱/四缝.jpg}
+        \caption{四缝频谱}
+    \end{subfigure}
+\end{figure}
+
+\begin{figure}[H] 
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/成像/五丝.jpg}
+        \caption{五丝成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/频谱/五丝.jpg}
+        \caption{五丝频谱}
+    \end{subfigure}
+\end{figure}
+
+\begin{figure}[H] 
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/成像/五缝.jpg}
+        \caption{五缝成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/频谱/五缝.jpg}
+        \caption{五缝频谱}
+    \end{subfigure}
+\end{figure}
+
+\begin{center}
+\fbox{图3:实验中丝缝结构的成像与频谱照片}
+\end{center}
+
+\vspace{1em}
+\par
+\textbf{数学解释：}
+对于单缝和单丝，它们的衍射图样即傅立叶变换的频谱信息，可以用光学中的互补原理（巴比涅原理）来解释。
+\begin{itemize}
+    \item \textbf{单缝与单丝：} 单缝的透光函数是一个矩形函数，其傅里叶变换是一个sinc函数，这就表现为频谱面上垂直于缝方向的一系列亮暗条纹，其中中心条纹最亮最宽。
+    \par
+    单丝是不透明的。根据 \underline{巴比涅原理}，单缝的互补屏（单丝）在除中心点外的衍射图样完全相同。因此，单丝的衍射图样与单缝的几乎一样，都呈现sinc函数的形状。
+    
+    \item \textbf{多缝与多丝：} 对于双缝、三缝等N缝结构，其透过率可以看作是单缝函数与一个 \underline{N点阵排列函数}的卷积。根据卷积定理，其频谱是单缝的衍射图样（sinc函数包络）与N点阵的干涉条纹$\frac{sin(N\theta)}{sin(\theta)}$的乘积。
+    \begin{itemize}
+        \item 干涉条纹是由N个缝的光波叠加产生的，缝的数量越多，干涉主极大就越亮且窄，同时主极大之间会出现N-2个次极小。
+        \item 衍射包络则决定了这些干涉条纹的整体亮度分布，同时会导致 \underline{缺级现象}。
+    \end{itemize}
+    \par
+    同样根据巴比涅原理，N丝的衍射图样与N缝的衍射图样基本相同，也表现为干涉条纹被衍射包络亮度调制的现象。
+\end{itemize}
+
+\subsubsection{其它孔屏的图像与频谱}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/成像/单方孔.jpg}
+        \caption{方孔成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/频谱/单方孔.jpg}
+        \caption{方孔频谱}
+    \end{subfigure}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/成像/等边三角孔.jpg}
+        \caption{等边三角形孔成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/频谱/等边三角形孔.jpg}
+        \caption{等边三角形孔频谱}
+    \end{subfigure}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/成像/等腰三角孔.jpg}
+        \caption{等腰三角形孔成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/频谱/等腰三角形孔.jpg}
+        \caption{等腰三角形孔频谱}
+    \end{subfigure}
+\end{figure}
+
+\begin{center}
+\fbox{图5:实验中方孔和三角孔的成像与频谱照片}
+\end{center}
+
+\textbf{物理学解释：}
+\par
+对于多边形孔径，其衍射图样可以从一个更物理的角度来理解： 光在在孔的边缘发生衍射。每一条直边都会产生垂直的衍射条纹，整个孔的频谱就是由其所有边的衍射条纹叠加而成。
+\par
+\vspace{1em}
+\textbf{方孔：} 方孔的衍射图样可以看作是二维矩形函数的傅里叶变换，其频谱为二维sinc函数的分布。由于方孔有两组互相垂直的直边，频谱呈现出十字星芒状。 \\
+\textbf{三角形孔：} 由于有三条直边，其频谱由三个方向的衍射条纹叠加，形成一个 \underline{六角星芒状}的图案。孔径的对称性决定了频谱的对称性：
+\begin{itemize}
+        \item \textbf{等边三角形}具有高度的三重旋转对称性，因此其频谱是一个非常规整的六角星芒放射。
+        \item \textbf{等腰三角形}只有轴对称性，导致其频谱的星芒在不同方向上的强度和间距也不同，呈现一个更扁平的六角星芒。
+\end{itemize}
+
+\par
+以下这几个屏和孔的频谱很难在4F系统中用CCD采集到，于是采用激光不加衰减直接照射屏和孔所在区域并在远处的屏上接收，看到了如下的图像和频谱。
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[height=5cm]{img/成像/单方屏.jpg}
+        \caption{方屏成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[height=5cm]{img/频谱/方屏.jpg}
+        \caption{方屏频谱}
+    \end{subfigure}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[height=5cm]{img/成像/单圆屏.jpg}
+        \caption{圆屏成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[height=5cm]{img/频谱/圆屏.jpg}
+        \caption{圆屏频谱（泊松亮斑）}
+    \end{subfigure}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[height=5cm]{img/成像/五角星孔.jpg}
+        \caption{五角星孔成像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[height=5cm]{img/频谱/五角星屏.jpg}
+        \caption{五角星孔频谱}
+    \end{subfigure}
+\end{figure}
+
+\begin{center}
+\fbox{图6:实验中其它屏和孔的成像与频谱照片}
+\end{center}
+
+\par
+\vspace{1em}
+对于其它屏和孔：
+\begin{itemize}
+    \item 方屏和圆屏：根据巴比涅原理，图样不透明的衍射图样与其互补的屏（方孔和圆孔）的图样的频谱在中心点以外的区域是相同的。与孔不同的是，屏的衍射图样中心会出现一个非常亮的点。对于圆屏，这个亮点就是泊松亮斑。
+    \item 五角星孔：五角星孔由十条直边构成。它的衍射图样可以看作是这十条边各自产生的、并与之垂直的衍射条纹的叠加。孔本身具有五重旋转对称性，故其频谱呈现出一个十重对称的、复杂的星芒状图案。
+\end{itemize}
+
+\subsection{结论与推广}
+\par
+关于本实验中的方、三角、五角星屏等屏和孔的衍射频谱的对称性，我对此做了进一步理解和探究。
+\par
+\vspace{1em}
+可以观察到：
+\begin{itemize}
+    \item 对于正方形等具有偶数n重旋转对称的，它们的频谱呈现n重旋转对称的星芒状图案。
+    \item 对于三角形、五角星这样具有奇数n重旋转对称性的，它们的频谱呈现2n重旋转对称的星芒状图案。
+\end{itemize}
+我们可以从以下角度探究原因：
+\begin{itemize}
+    \item 首先，频谱强度一定是\underline{中心对称的}：原因是傅立叶变换的频谱具有\underline{厄米对称性}，因为$\vec{k}$取反，$U(\vec{k})$取共轭，故模长不变，亮度分布不变。
+    \item 对于奇数n重旋转对称的，中心对称为每一个旋转对称性增加了一重旋转对称性。例如五角星$72^{\circ},144^{\circ},216^{\circ},288^{\circ},360^{\circ}$）,\\
+    加上中心对称就成了$36^{\circ},72^{\circ},108^{\circ},144^{\circ},180^{\circ},216^{\circ},252^{\circ},288^{\circ},324^{\circ},360^{\circ}$。
+    \item 对于偶数n重旋转对称的，中心对称引入的对称性与之原本重复，故旋转对称性没有增加。
+\end{itemize}
+
+\section{空间滤波实验}
+\subsection{一维光栅的空间滤波}
+\par
+我们观察了一维光栅的频谱和像分布，并在频谱面上放置了可调窄缝及其它附加光阁进行空间滤波。
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/一维光栅（像）.jpg}
+        \caption{一维光栅未滤波像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/一维光栅（频谱）.jpg}
+        \caption{一维光栅未滤波频谱}
+    \end{subfigure}
+    \caption*{一维光栅未滤波像与频谱}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/一维光栅（像）.jpg}
+        \caption{一维光栅未滤波像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/一维光栅+-2/像.jpg}
+        \caption{一维光栅保留到2级滤波像}
+    \end{subfigure}
+    \caption*{一维光栅保留到2级像对比}
+\end{figure}
+\textbf{解释}
+\par
+保留到2级，既有0级提供主要的亮度，由有$\pm1$级提供条纹，还有2级提供更精细的条纹，保证条纹的锐利。可以看到，这种情况下的条纹和未滤波基本相同，差异仅仅在边缘的锐利度上不如原本清晰，表现为亮条纹的宽度相比有所下降，亮度也有所下降·。
+
+\vspace{8pt}\noindent\rule{\textwidth}{0.4pt}\vspace{8pt}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/一维光栅（像）.jpg}
+        \caption{一维光栅未滤波像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/一维光栅+-1/像.jpg}
+        \caption{一维光栅保留到1级滤波像}
+    \end{subfigure}
+    \caption*{一维光栅保留到1级像对比}
+\end{figure}
+\textbf{解释}
+同样，0级谱提供了均匀的背景光，$\pm1$级谱提供了条纹。整体图样与滤波前和保留2级基本相同，亮条纹边缘进一步模糊减弱，亮度进一步下降。
+
+\vspace{8pt}\noindent\rule{\textwidth}{0.4pt}\vspace{8pt}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/一维光栅（像）.jpg}
+        \caption{一维光栅未滤波像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/一维光栅挡+-1级.jpg}
+        \caption{一维光栅挡$\pm$1级滤波像}
+    \end{subfigure}
+    \caption*{一维光栅挡$\pm$1级像对比}
+\end{figure}
+\textbf{解释}
+\par
+此时保留均匀分量和高次谐波，但滤掉了最重要的基频。这样，主要的条纹就由最低频率成分——二次谐波产生，因此会有这增大一倍的空间频率，对应着$d=\frac{1}{f}$缩小一半的条纹周期（间距）。
+
+\vspace{8pt}\noindent\rule{\textwidth}{0.4pt}\vspace{8pt}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/一维光栅（像）.jpg}
+        \caption{一维光栅未滤波像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/一维光栅挡0级.jpg}
+        \caption{一维光栅挡0级滤波像}
+    \end{subfigure}
+    \caption*{一维光栅挡0级像对比}
+\end{figure}
+\textbf{解释}
+\par
+此时均匀的0级背景照明光被滤去，但是决定条纹样式的成分没有变化，此时只让代表光栅结构的光通过并成像。故在图像上表现为亮度显著降低，同时条纹边缘是亮的，原本的亮条纹中心却是按的，这就是泽尼克的 \underline{相衬法}。
+
+\vspace{8pt}\noindent\rule{\textwidth}{0.4pt}\vspace{8pt}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/一维光栅（像）.jpg}
+        \caption{一维光栅未滤波像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/一维光栅仅+-1/像.jpg}
+        \caption{一维光栅仅$\pm$1级滤波像}
+    \end{subfigure}
+    \caption*{一维光栅仅$\pm$1级像对比}
+\end{figure}
+\textbf{解释}
+\par
+此时透过的仅基频分量。这是一种典型的暗场成像。由于没有了0级背景光，只有±1级衍射光在像平面上干涉。根据干涉理论，由±1级谱干涉形成的条纹会是正弦的分布，对应空间频率是原始光栅的两倍，条纹间距为原来的一半。可以理解为，原本是0级和±1级干涉，现在是+1级和-1级干涉，它们的夹角更大，空间频率更高。
+\begin{equation*}
+    d_0 = \frac{2\pi}{k} \\
+    d' = \frac{2\pi}{k-(-k)} = \frac{d_0}{2}
+\end{equation*}
+
+\vspace{8pt}\noindent\rule{\textwidth}{0.4pt}\vspace{8pt}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/一维光栅（像）.jpg}
+        \caption{一维光栅未滤波像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/一维光栅0/像.jpg}
+        \caption{一维光栅仅0级滤波像}
+    \end{subfigure}
+    \caption*{一维光栅仅0级像对比}
+\end{figure}
+\textbf{解释}
+\par
+仅透过0级，对应的就是代表平均亮度的0级光，所有携带周期性结构信息的衍射级次都被滤掉了，透过透镜后变为均匀的照明光，频谱面上亮度均匀。
+
+\subsection{二维光栅的空间滤波}
+\par
+我们观察了二维光栅的空间频谱和像分布，并在频谱面上利用小孔及不同取向的狭缝光阑进行空间滤波。
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/二维光栅（原）/二维光栅（原）.jpg}
+        \caption{二维光栅未滤波像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/二维光栅（原）/频谱.jpg}
+        \caption{二维光栅未滤波频谱}
+    \end{subfigure}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/二维光栅（原）/二维光栅（原）.jpg}
+        \caption{二维光栅未滤波像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/二维光栅（水平）/像.jpg}
+        \caption{二维光栅水平狭缝滤波像}
+    \end{subfigure}
+    \caption*{二维光栅水平狭缝像对比}
+\end{figure}
+
+\textbf{解释}\par
+水平狭缝只允许竖直方向的频谱分量通过。因此，滤波后的像只保留了水平方向的条纹，竖直方向的条纹信息被滤除。滤波后保留的基频为 \(k_y=2\pi/d\)，因此条纹间距 \(d'\) 与原光栅周期 \(d\) 相同。
+
+\vspace{8pt}\noindent\rule{\textwidth}{0.4pt}\vspace{8pt}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/二维光栅（原）/二维光栅（原）.jpg}
+        \caption{二维光栅未滤波像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/二维光栅（垂直）/像.jpg}
+        \caption{二维光栅垂直狭缝滤波像}
+    \end{subfigure}
+    \caption*{二维光栅垂直狭缝像对比}
+\end{figure}
+
+\textbf{解释}\par
+垂直狭缝只允许水平方向的频谱分量通过。因此，滤波后的像只保留了竖直方向的条纹，水平方向的条纹信息被滤除。滤波后保留的基频为 \(k_x=2\pi/d\)，因此条纹间距 \(d'\) 与原光栅周期 \(d\) 相同。
+
+\vspace{8pt}\noindent\rule{\textwidth}{0.4pt}\vspace{8pt}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/二维光栅（原）/二维光栅（原）.jpg}
+        \caption{二维光栅未滤波像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/二维光栅（45）/像.jpg}
+        \caption{二维光栅45度狭缝滤波像}
+    \end{subfigure}
+    \caption*{二维光栅45度狭缝像对比}
+\end{figure}
+
+\textbf{解释}\par
+45度狭缝只允许与之垂直方向（135度方向）的频谱分量通过。因此，滤波后的像只保留了135度方向的条纹。其频谱分量对应基矢 \(\vec{k}_{45^\circ} = \vec{k}_x + \vec{k}_y = (2\pi/d, 2\pi/d)\)。滤波后保留的基频大小为 \(k' = \sqrt{(2\pi/d)^2 + (2\pi/d)^2} = \sqrt{2} \frac{2\pi}{d}\)。因此条纹间距为 \(d' = 2\pi/k' = d/\sqrt{2}\)。
+
+
+\subsection{"光"字样品的空间滤波}
+\par
+我们观察了"光"字样品的频谱面和像分布，并利用不同直径的圆孔光阑进行滤波。
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/光字（原）.jpg}
+        \caption{"光"字未滤波像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/光字（光阑滤波）.jpg}
+        \caption{"光"字1mm圆孔光阑滤波像}
+    \end{subfigure}
+    \caption*{"光"字1mm圆孔光阑像对比}
+\end{figure}
+\textbf{解释}\par
+根据卷积定理，我们知道衍射图样单个"光"字透射率函数的傅里叶变换和内部网格的傅里叶变换的乘积。故每一个频谱面上的极大值都包含着一个"光"字的频谱信息，但是我们只允许中心级次通过，故只保留了一个"光"字的频谱信息，而消失了边缘信息以及内部网格的信息。故滤波后的光字呈现的是一个"光"字的模糊的像，并且看不到内部的网格。
+
+\vspace{8pt}\noindent\rule{\textwidth}{0.4pt}\vspace{8pt}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/光字（原）.jpg}
+        \caption{"光"字未滤波像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/光字0.3/像.jpg}
+        \caption{"光"字0.3mm圆孔光阑滤波像}
+    \end{subfigure}
+    \caption*{"光"字0.3mm圆孔光阑像对比}
+\end{figure}
+\textbf{解释}\par
+同理，0.3mm圆孔光阑只允许中心级次通过，故滤波后的光字呈现的是一个"光"字的模糊的像。孔径进一步减小，意味着高频的信息进一步缺失，光字更加模糊，边缘难以辨认。
+
+\vspace{8pt}\noindent\rule{\textwidth}{0.4pt}\vspace{8pt}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/光字（原）.jpg}
+        \caption{"光"字未滤波像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/光字左1/像.jpg}
+        \caption{"光"字圆孔非中心级次透过光阑滤波像}
+    \end{subfigure}
+    \caption*{"光"字非中心级次透过圆孔光阑像对比}
+\end{figure}
+\begin{center}
+    \fbox{图9:"光"字样品的空间滤波实验}
+\end{center}
+\par
+\vspace{1em}
+\textbf{解释}\par
+选取左边的非中心级次透过光阑，就相当于滤掉了图像的均匀照明分量。由于没有了0级谱的干涉，背景变为黑色，而物体的轮廓、边缘等细节信息由于包含了较多高频成分，会在暗背景下被凸显出来。这里的频谱图像既结合了相衬法的部分原理，又包含了卷积变换的性质。所以可以看到现在的光字反而边缘变得清晰了，凸显出来了。但是由于选择了非中心级次透过光阑，亮度有所下降。同样，只选择了一个透射点位，所以看不到内部的网格。
+
+
+\subsection{"十"字孔的空间滤波}
+\par
+我们将衍射物换成"十"字孔，并在频谱面上放一圆屏光阑滤去频谱中心部分。
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/十字（原）/像.jpg}
+        \caption{"十"字孔未滤波像}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/十字（圆屏光阑滤波）/像.jpg}
+        \caption{"十"字孔圆屏光阑滤波像}
+    \end{subfigure}
+    \caption*{"十"字孔圆屏光阑像对比}
+\end{figure}
+\begin{center}
+\textbf{解释}\par
+\fbox{图10:"十"字孔的空间滤波实验}
+\end{center}
+选取圆屏光阑，就相当于滤掉了图像的均匀照明分量。均匀照明分量决定平均亮度，高频信息觉得图像样式。这里跟一维光栅滤去0级一样，都是相衬法的应用。由于没有了0级谱的干涉，背景和十字内点变为黑色，而物体的轮廓、边缘则因包含了较多高频成分，会在暗背景下被凸显出来。所以可以看到现在的"十"字边缘凸显。
+
+
+\subsection{正交光栅的空间滤波}
+\par
+我们用激光束分别照射 40 条/mm 和 10 条/mm 的两个正交光栅，并观察各自的频谱分布。
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/双光栅叠加/40mm频谱.jpg}
+        \caption{40 条/mm 光栅频谱}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/双光栅叠加/200mm频谱.jpg}
+        \caption{10 条/mm 光栅频谱}
+    \end{subfigure}
+    \caption*{不同空间频率光栅的频谱}
+\end{figure}
+
+\par\vspace{1em}
+我们将两片一维光栅叠放，观察产生的效果。
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{img/922/双光栅叠加/平行交叠频谱.jpg}
+        \caption{平行叠加}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{img/922/双光栅叠加/正交叠频谱.jpg}
+        \caption{正交叠加}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{img/922/双光栅叠加/45交叠频谱.jpg}
+        \caption{45度角叠加}
+    \end{subfigure}
+    \caption*{两片光栅不同角度叠加后的频谱}
+\end{figure}
+
+\textbf{解释}\par
+两片光栅叠加，其透射率函数相乘。根据傅里叶变换的卷积定理，其在频谱面上的分布是各自频谱的卷积。相当于原本的一维光栅点阵会在另一个一维光栅衍射点分布的方向进行空间平移，这样就形成了一个二维的点阵（不平行的条件下）
+\begin{itemize}
+    \item \textbf{平行叠加}：因为40条/mm相比10条/mm是一个整倍数，平移后点阵的点与原点阵点重合，所以40条/mm产生的平移效果被掩盖了，频谱和10条/mm的频谱存在是基本一样。
+    \item \textbf{正交叠加}：两组相互垂直的点列频谱进行卷积，在垂直方向上复制延伸，形成一个二维点阵。
+    \item \textbf{45度角叠加}：两组点列频谱以45度角卷积，在45度方向上复制延伸，形成一个旋转了的二维点阵。
+\end{itemize}
+
+\subsection{观察$\theta$调制现象}
+\par
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/922/theta1.jpg}
+    \caption{$\theta$调制现象}
+    \end{subfigure}
+    \hspace{2em}
+    \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{img/922/theta2.jpg}
+    \caption{频谱面上的滤波方案}
+    \end{subfigure}
+\end{figure}
+\textbf{解释}\par
+$\theta$调制通过将物体的不同部分采用不同朝向的光栅组成，在频谱面上形成在不同指向的白光衍射条纹，由于色散，不同颜色的条纹处于不同位置。通过对每组衍射条纹选择性的透过，可以控制透过的光的颜色，即起到着色的作用，产生如图的彩色像。
+\section{收获和感想}
+\par
+\hspace{1em}在本次实验中我对于光路的调节和衍射滤波原理都有了更深层次的理解。
+\vspace{1em}
+\par
+首先是光路的调节，我学会了从整体到细节的调节办法，首先是搭建整体的光路走向，仅仅保留激光器和决定走向的反射镜，之后再在光路中添加元件，这样能使得调节更加方便且高效，而且也能更好地控制光路的水平，不容易出现光路过高或过低器件无法很好匹配的情况。
+\vspace{1em}
+ \par
+其次是我充分认识到了光路调节对于最终结果的关键性，好的光路调节能对接受的像的品质起到决定性的作用。实验中不仅光路要准确，更要注意杂散光的影响。
+\vspace{1em}
+\par
+最后通过实验能对傅立叶变换，尤其是卷积定理加深认识。学会看和理解条纹能让我们对于波动光学成像能有更本质的认识，低频和高频信号的区分，对称性的观察，什么决定了物体的信息，这些问题我都有了更明确的解答。
+\end{document}

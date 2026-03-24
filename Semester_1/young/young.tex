@@ -1,0 +1,583 @@
+\documentclass[12pt]{article}
+\usepackage{xeCJK}
+\usepackage{fontspec}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{circuitikz}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{lastpage}
+\captionsetup[figure]{
+    font=footnotesize,
+    name=图
+}
+\captionsetup[table]{
+    font=footnotesize,
+    name=表
+}
+\setCJKmainfont{Songti SC}
+\geometry{a4paper, margin=1in, top=1in}
+\setlength{\parindent}{12pt}
+% 页眉页脚设置
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{10pt}
+%\fancyhead[L]{\raisebox{-0.5\height}{\includegraphics[width=0.15\textwidth]{pku_logo.png}}}
+\fancyhead[R]{\small 普通物理实验报告}
+\fancyhead[C]{\small 实验名称：测量杨氏模量}
+\fancyfoot[C]{\small 第 \thepage\ 页/共 \pageref{LastPage} 页}
+\fancypagestyle{plain}{%
+    \fancyhf{}
+    \fancyfoot[C]{\small 第 \thepage\ 页/共 \pageref{LastPage} 页}
+    \renewcommand{\headrulewidth}{0pt}  % 移除页眉分割线
+}
+
+\title{\Large\textbf{杨氏模量实验报告}}
+\author{普通物理实验\\
+        [REDACTED]\\
+         \\
+        姓名：\underline{\hspace{1cm}[REDACTED]\hspace{1cm}} \\
+        学号：\underline{\hspace{0.5cm}[REDACTED]\hspace{0.5cm}} \\
+        序号：\underline{\hspace{1.3cm}[REDACTED]\hspace{1.3cm}}}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\section{摘要}
+\quad 本次实验主要包含借助CCD法、光杠杆法，弯曲梁法测量杨氏模量的实验。课后对实验结果进行误差分析，对光杠杆法进行不确定度分析，并探究微观半导体材料/纳米材料的杨氏模量测量方法。
+\section{CCD法}
+\subsection{数据处理}
+\quad 实验中先加入约$500g$的本底砝码以保证线性，通过增减砝码两次测量出钢丝的伸长量，砝码不完全精确，为了满足最小二乘法的适用条件，精确测量砝码质量如下
+\begin{table}[H]
+    \centering
+    \begin{tabular}{ccccccc}
+    序号$i$   & 1      & 2      & 3      & 4      & 5      & 6      \\ \hline
+    质量$m_i/g$ & 199.82 & 199.54 & 199.83 & 200.01 & 199.89 & 200.24
+    \end{tabular}
+    \caption{CCD法-砝码质量测量数据}
+\end{table}
+此外，还需要测量金属丝的直径$d$和原长度$L$，其中直径d用螺旋测微器测量，选取不同位置多次测量减小系统误差，原长度$L$选取钢丝两端点之间的距离单次测量，测量数据如下
+\begin{table}[H]
+    \centering
+    \begin{tabular}{ccccccccccc}
+    序号$i$   & 1      & 2      & 3      & 4      & 5      & 6     & 7     & 8     & 9     & 10    \\ \hline
+    直径$d/mm$ & 0.330 & 0.330 & 0.329 & 0.329 & 0.328 & 0.328 & 0.328 & 0.326 & 0.326 & 0.327 \\
+    \end{tabular}
+    \caption{CCD法-金属丝直径测量数据}
+\end{table}
+得到测量结果（米尺精度不够，在此$L$不保留估读位）
+\begin{equation*}
+    \begin{cases}
+        d = 0.328\,\text{mm} \\
+        L = 80.7\,\text{cm}
+    \end{cases}
+\end{equation*}
+
+利用CCD成像观察显微镜中小圆柱刻线的位置，读出在不同负载下钢丝的伸长量，由此计算出杨氏模量，发现增减砝码时钢丝伸长量较为一致，因此可以对两个读数取平均值作为最终结果进行计算，测量数据如下。(平均后的结果在表中多保留了一位有效数字)\\
+\begin{table}[H]
+    \centering
+    \begin{tabular}{ccccc}
+    \hline
+    \text{序号}\,i & $m/g$   & $r_i/mm$ & $r_i'/mm$ & $\overline{r_i}/mm$ \\ \hline
+    1                           & 000.00       & 3.91      & 3.90      & 3.905             \\
+    2                           & 199.82  & 3.79      & 3.77      & 3.780             \\
+    3                           & 399.36  & 3.66      & 3.65      & 3.655             \\
+    4                           & 599.19  & 3.54      & 3.53      & 3.535             \\
+    5                           & 799.20   & 3.42      & 3.41      & 3.415             \\
+    6                           & 999.09  & 3.29      & 3.29      & 3.290             \\
+    7                           & 1199.33 & 3.17      & 3.17      & 3.170             \\ \hline
+    \end{tabular}
+    \caption{CCD法-金属丝伸长量测量数据}
+\end{table}
+\vspace{2em}
+\par 
+可以发现，在减砝码后，金属丝基本回到原来位置，因此可以认为金属丝的形变是弹性的，利用origin作图,最小二乘法线性拟合可以得到
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/ccd.pdf}
+    \caption{CCD法-金属丝伸长量测量数据和拟合直线}
+\end{figure}
+\begin{equation*}
+    r_i=k_0m+b_0
+\end{equation*}
+\quad 其中：
+\begin{equation*}
+    \begin{cases}
+        k_0 = -0.6120\,\text{mm/kg} \\
+        b_0 = 3.903\,\text{mm} \\
+        r_0 = -0.99997
+    \end{cases}
+\end{equation*}
+根据杨氏模量的测量公式
+\begin{equation*}
+    E = \frac{4mgL}{\pi d^2\,\delta L}=-\frac {4gL}{\pi d^2\,k_0}
+\end{equation*}
+取$g=9.801\,\text{m/s}^2$，可以得到杨氏模量
+\begin{equation}
+    E = - \frac {4\times 9.801\times 80.7\times 10^{-2}}{\pi\times (0.328\times 10^{-3})^2\times (-0.6120\times 10^{-3})} Pa= 1.53\times 10^{11}\,\text{Pa}
+\end{equation}
+\subsection{误差分析}
+\textbf{系统误差：}
+\begin{enumerate}
+    \item \textbf{金属丝直径不均匀:} 实验观察到金属丝直径存在明显的上细下粗的情况，这可能是由于上部长期承载更大拉力导致的。由于杨氏模量 $E \propto 1/d^2$，直径的不均匀性或测量偏差都将对结果产生显著影响。采用多点测量平均值可以减小误差，但无法完全消除因截面积沿长度变化引入的系统偏差。
+    \item \textbf{有效长度 L 的测量与定义:} 使用米尺测量长度 $L$ 可能引入视差误差、米尺弯曲或刻度不准等系统误差。此外，金属丝的有效作用长度（实际发生均匀伸长的部分）可能与测量的两卡点间距存在差异，尤其是在靠近夹具处，这会引入系统误差。
+    \item \textbf{光学系统准直误差:} CCD 成像系统与显微镜的光轴若未能精确调整（例如仅靠肉眼判断），可能导致读数时产生视差或因刻线偏离视场中心导致放大倍率变化，引入系统性的读数偏差。
+    \item \textbf{系统中的摩擦:} 实验装置中可能存在的摩擦力（如小圆柱和限位螺丝之间）会阻碍金属丝的自由伸长和恢复，可能导致加减砝码的数据不重合，影响 $k_0$ 的准确性。
+    \item \textbf{重力加速度 g 取值:} 使用标准重力加速度 $g=9.801\,\text{m/s}^2$ 而非当地精确值会引入系统误差。
+\end{enumerate}
+\textbf{随机误差：}
+\begin{enumerate}
+    \item \textbf{CCD读数误差:} 由于 CCD 分辨率限制、人眼估读误差、环境振动（气流、桌面振动等）干扰导致刻线振动、以及 CCD 成像噪声等因素，导致每次读取的刻线位置 $r_i$ 存在随机波动。这是影响拟合直线斜率 $k_0$ 精度的主要随机误差来源之一。
+    \item \textbf{几何尺寸与质量的测量误差:} 使用螺旋测微器测量直径 $d$、米尺测量长度 $L$ 以及天平测量砝码质量 $m_i$ 时，均存在读数随机误差和仪器精度限制带来的随机误差。这些误差会通过误差传递公式影响最终结果 $E$ 的不确定度。
+\end{enumerate}
+
+\textbf{结果评估与讨论 :}
+\begin{enumerate}
+    \item \textbf{结果分析:} 本次实验测得线性度较好，说明测量操作和原理较为合理。实验钢丝的杨氏模量为 $E = 1.53 \times 10^{11}\,\text{Pa}$，整体量级正确，相较后续光杠杆测量结果偏小。
+    \item \textbf{误差来源分析:}
+        \begin{itemize}
+            \item 根据公式 $E = -\frac {4gL}{\pi d^2\,k_0}$，结果 $E$ 对直径 $d$ 的测量值最为敏感（$E \propto 1/d^2$）。实验中观察到的金属丝直径不均匀很可能是造成结果偏低的主要原因。
+            \item 长度 $L$ 的测量误差和有效长度定义不清也可能引入较大误差 ($E \propto L$)。米尺测量精度有限（约1mm），且夹具附近的应力状态复杂，可能导致有效 $L$ 小于测量值，进而导致测量值偏小。
+            \item 线性拟合的相关系数 $r_0 = -0.99997$ 非常接近 -1，表明 $r_i$ 与 $m$ 之间线性关系良好，随机读数误差对拟合结果的影响相对较小，这进一步提示系统误差可能是导致结果偏差的主要原因。
+        \end{itemize}
+    \item \textbf{综合评估:} 结合测量结果与参考值的较大偏差以及误差公式的敏感性分析，推测金属丝直径 $d$ 的测量不准确不均匀和有效长度 $L$ 的测量不准确（系统性偏小）是导致杨氏模量测量值偏低的主要原因。其他系统误差（如摩擦、光学准直）和随机误差也对总不确定度有贡献。
+\end{enumerate}
+
+\textbf{改进方案:}
+\begin{enumerate}
+            \item 在金属丝全长及不同方位进行多点测量，增加测量次数（例如，每隔一定距离测3个不同直径数据，取平均）进一步减小d误差，仔细评估其均匀性，或建立模型修正这一影响。
+            \item 使用钢卷尺等更精确的方法测量长度 $L$，并明确定义 $L$ 真正的测量位置。
+            \item 改进光路准直方法，例如使用激光辅助准直。
+            \item 检查并尽量减小装置中的摩擦，调整限位方式。
+            \item 适当增加砝码数量和测量范围（确保在弹性限度内），以获得更多数据点，提高拟合斜率 $k_0$ 的精度。
+            \item 仔细检查加减砝码时数据是否存在显著滞后。
+            \item 使用精确的重力加速度值 $g$ 进行计算。
+\end{enumerate}
+\section{弯曲梁法}
+\quad 同上，测量砝码质量数据如下：\\
+\begin{table}[H]
+    \centering
+    \begin{tabular}{cccccccc}
+    序号$i$   & 1      & 2      & 3      & 4      & 5      & 6      & 7      \\ \hline
+    质量$m_i/g$ & 199.95 & 200.03 & 199.95 & 200.00 & 199.79 & 199.91 & 199.81
+    \end{tabular}
+    \caption{弯曲梁法-砝码质量测量数据}
+\end{table}
+\par
+此外，还需要测量梁的厚度$b$、宽度$a$和支点间的梁长度$l$。
+\begin{table}[H]
+    \centering
+    \begin{tabular}{ccc}
+    \hline
+    序号$i$ & $h_i/mm$ & $a_i/cm$ \\ \hline
+    1   & 1.551  & 1.506  \\
+    2   & 1.550  & 1.496  \\
+    3   & 1.548  & 1.494  \\ \hline
+    \end{tabular}
+    \caption{弯曲梁法-梁的厚度、宽度测量数据}
+\end{table}
+得到测量结果（l为单次测量）\\
+\[
+    \begin{cases}
+        h = 1.550\,\text{mm} \\
+        a = 1.499\,\text{cm} \\
+        l\, = 20.00\,\text{cm}
+    \end{cases}
+\]
+\par 
+加入砝码后，测量梁的挠度对应的读数显微镜位置读数$\lambda$，测量数据如下：
+\begin{table}[H]
+    \centering
+    \begin{tabular}{ccccc}
+    \hline
+    序号$i$ & $m/g$   & $\lambda_i$ & $\lambda_i'$ & $\overline{\lambda_i}$ \\ \hline
+    1     & 000.00       & 47.563      & 47.563       & 47.563                                                \\
+    2     & 199.95  & 47.187      & 47.177       & 47.182                                                \\
+    3     & 399.98  & 46.832      & 46.813       & 46.823                                               \\
+    4     & 599.93  & 46.480      & 46.455       & 46.468                                               \\
+    5     & 799.93  & 46.110       & 46.090       & 46.100                                                  \\
+    6     & 999.72  & 45.749      & 45.730        & 45.740                                               \\
+    7     & 1199.63 & 45.376      & 45.369       & 45.373                                               \\
+    8     & 1399.44 & 45.008      & 45.008       & 45.008                                                \\ \hline
+    \end{tabular}
+    \caption{弯曲梁法-梁的挠度测量数据}
+\end{table}
+增减砝码过程中，梁的挠度位置基本一致，故可以对两者取平均后的值进行拟合。利用origin作图，最小二乘法线性拟合可以得到
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/bridge.pdf}
+    \caption{弯曲梁法-梁的挠度测量数据和拟合直线}
+\end{figure}
+\begin{equation*}
+    \lambda = km+b
+\end{equation*}
+\quad 其中：
+\begin{equation*}
+    \begin{cases}
+        k = -1.819\,\text{mm/kg} \\
+        b = 47.555\,\text{mm} \\
+        r = -0.99998
+    \end{cases}
+\end{equation*}
+根据杨氏模量的测量公式
+\begin{equation*}
+    E = \frac{mgl^3}{4a\,h^3\,\delta \lambda}=-\frac{gl^3}{4a\,h^3\,k}
+\end{equation*}
+代入测量结果计算得到
+\begin{equation}
+    E = -\frac{9.801\times 0.2^3}{4\times 1.499\times 10^{-2}\times (1.550\times 10^{-3})^3\times (-1.819\times 10^{-3})} Pa= 1.932\times 10^{11}\,\text{Pa}
+\end{equation}
+\subsection{误差分析}
+\textbf{系统误差:}
+\begin{enumerate}
+    \item \textbf{梁的几何形状不均匀:} 测量过程中发现，梁不同区域的厚度 $h$ 和宽度 $a$ 存在差异（实际发现边缘比中间薄）。这导致梁不同位置弯曲程度不同，与理论模型 ($E = \frac{mgl^3}{4a\,h^3\,\delta \lambda}$) 的假设不符。实验中虽选取中间部分并多次测量取平均，但无法完全消除此误差。
+    \item \textbf{读数显微镜空程差:} 读数显微镜的丝杆传动机构存在空程差，在改变手轮转动方向（增重与减重转换时）会导致读数产生系统性偏差，实验中观察到这一效应显著。
+    \item \textbf{支点（刀口）设置误差:}
+    \begin{itemize}
+        \item 肉眼无法判断，两刀口不完全平行或不水平，导致实际支撑距离 $l$ 与测量值有偏差，且可能使梁受力不均匀产生扭转。
+        \item 测量 $l$ 时，由于视差和难以精确对准刀口有效支撑线，会引入系统偏差。
+    \end{itemize}
+    \item \textbf{加载点偏差:} 砝码及其托盘的重力中心可能未精确作用于梁的跨中（$l/2$处），导致理论模型与实际情况不符。
+    \item \textbf{理论模型近似:} 杨氏模量公式 $E = \frac{mgl^3}{4a\,h^3\,\delta \lambda}$ 是基于小挠度假设（梁的弯曲变形远小于其长度）和纯弯曲假设推导的，当挠度相对较大或支点/加载点附近存在应力集中时，该理论的近似性会引入误差。梁自身的重力影响也未在公式中考虑。
+\end{enumerate}
+\textbf{随机误差：}
+\begin{enumerate}
+    \item \textbf{挠度读数误差：}
+    \begin{itemize}
+        \item 读数显微镜对准标记点和估读读数时存在随机误差。
+        \item 环境振动可能引起梁的微小振动，干扰挠度测量的稳定性。
+    \end{itemize}
+    \item \textbf{几何尺寸测量误差:} 多次测量梁的宽度 $a$、厚度 $h$ 和长度 $l$ 时，仪器精度和估读会引入随机误差。
+    \item \textbf{砝码放置/取下扰动:} 每次放置或取下砝码时可能对装置产生微小扰动，或桌面振动引起梁位置振动，存在微小随机偏差。
+\end{enumerate}
+\textbf{评估 :}
+\begin{enumerate}
+    \item \textbf{结果比较与分析:} 本实验测得杨氏模量 $E = 1.932 \times 10^{11}\,\text{Pa}$。钢的杨氏模量参考值约为 $E_{ref} = (2.0 \sim 2.1) \times 10^{11}\,\text{Pa}$，相对误差约为 $\frac{|1.932 - 2.05|}{2.05} \times 100\% \approx 5.8\%$。该误差在允许范围内，但仍有改进空间。
+    \item \textbf{主要误差来源推断:}
+        \begin{itemize}
+            \item 从公式 $E \propto \frac{l^3}{a h^3 k}$ 可见，测量结果对厚度 $h$ 的三次方最为敏感，其次是长度 $l$ 的三次方。因此，梁厚度 $h$ 的测量误差（包括系统误差和随机误差）以及其本身的不均匀性很可能是误差的主要来源。厚度 $h$ 的不均匀性会直接导致理论均匀厚度模型不适用，引入系统误差。
+            \item 支点距离 $l$ 的测量准确性也至关重要。刀口不平行、不锋利以及测量 $l$ 时的困难都可能引入显著的系统误差。
+            \item 线性拟合的 $r$ 值接近-1，表明挠度 $\lambda$ 与质量 $m$ 的线性关系良好，随机误差对斜率 $k$ 的影响相对较小。但读数显微镜的空程差等系统误差仍可能影响 $k$ 的准确性。
+            \item 综合来看，由梁的几何尺寸（尤其是厚度 $h$）测量和其不均匀性引入的系统误差，以及支点距离 $l$ 的测量误差可能是导致测量值偏离参考值的主要原因。
+        \end{itemize}
+    \item \textbf{改进方案:}
+        \begin{itemize}
+            \item 选用尺寸更均匀的梁或者梁的均匀部分。
+            \item 在梁的不同位置增加测量次数，测量 $a, h$ 取平均值，以更准确地反映其平均尺寸并评估不均匀性。
+            \item 仔细调整刀口，（实验中\underline{我利用了钢尺刻度来调整刀口}，使刀口与钢尺刻度平行）确保其平行、水平且边缘锋利，并精确测量刀口间的距离 $l$，可以用带卡口的尺子测量。
+            \item 操作读数显微镜时，注意沿同一方向旋转手轮进行读数，以减小空程差的影响。
+            \item 实验过程中尽量减少环境振动干扰。
+            \item 考虑梁自身重力的影响，或通过对称加载等方式消除部分系统误差，并用标记的方式更准确的保证梁中点和加载点重合。
+        \end{itemize}
+\end{enumerate}
+\section{光杠杆法}
+\quad 同上，测量砝码质量数据如下：\\
+\begin{table}[H]
+    \centering
+    \begin{tabular}{cccccccc}
+    序号$i$   & 1      & 2      & 3      & 4      & 5      & 6      & 7      \\ \hline
+    质量$m_i/g$ & 199.60 & 199.89 & 199.72 & 199.88 & 200.11 & 199.96 & 199.72
+    \end{tabular}
+    \caption{光杠杆法-砝码质量测量数据}
+\end{table}
+同时，需要测量金属丝长度$L$，光杠杆的放大倍率（即$R,D$）和金属丝直径$d$，$d$的测量数据如下：\\
+\begin{table}[H]
+    \centering
+    \begin{tabular}{ccccccccccc}
+    序号$i$   & 1      & 2      & 3      & 4      & 5      & 6     & 7     & 8     & 9     & 10    \\ \hline
+    直径$d/mm$ & 0.328 & 0.328 & 0.328 & 0.327 & 0.328 & 0.327 & 0.327 & 0.328 & 0.326 & 0.327 \\
+    \end{tabular}
+    \caption{光杠杆法-金属丝直径测量数据}
+\end{table}
+其余物理量$R,D,L$都是单次测量，测量结果如下:（测量$R$时对于反射镜误差判断有较大误差，少保留一位，$L$同理）\\
+\begin{equation*}
+\begin{cases}
+    L=72.4\,cm \\
+    R=144.0\,cm \\
+    D=9.30\,cm  \\
+    d=0.327\,mm \\
+\end{cases}
+\end{equation*}
+\quad 初始时金属丝搭载约$400g$本底法码确保金属丝伸直，增减砝码，测得同一负载下两个不同的金属丝伸长量对应竖尺刻度$r_i$,$r_i'$，数据如下：\\
+\par 
+\begin{table}[H]
+    \centering
+    \begin{tabular}{cccc}
+    \hline
+    序号$i$ & $m/g$   & $r_i/cm$ & $r_i'/cm$ \\ \hline
+    1     & 000.00       & 5.07     & 5.11      \\
+    2     & 199.60   & 5.38     & 5.42      \\
+    3     & 399.49  & 5.69     & 5.73      \\
+    4     & 599.37  & 6.00      & 6.03      \\
+    5     & 799.25  & 6.32     & 6.34      \\
+    6     & 999.36  & 6.64     & 6.65      \\
+    7     & 1199.32 & 6.96     & 6.97      \\
+    8     & 1399.04 & 7.28     & 7.28      \\ \hline
+    \end{tabular}
+    \caption{光杠杆法-金属丝伸长量对应竖尺刻度测量数据}
+\end{table}
+可以发现，加砝码和减砝码两组数据线性很好，但是金属丝的伸长量存在一定差异，因此选择分别对加减砝码的两组数据进行拟合，计算得到对应的杨氏模量，再通过误差加权平均得到最终结果。作图拟合如下（为直观对比两者差异，将两组数据绘制在同一图中）：
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.32\textwidth}
+    \includegraphics[width=\textwidth]{img/leverage.pdf}
+    \subcaption{$ri$和$ri'$对比图像}
+    \end{subfigure}
+    \begin{subfigure}{0.32\textwidth}
+    \includegraphics[width=\textwidth]{img/leverage1.pdf}
+    \subcaption{增砝码时的竖尺刻度$ri$}
+    \end{subfigure}
+    \begin{subfigure}{0.32\textwidth}
+    \includegraphics[width=\textwidth]{img/leverage2.pdf}
+    \subcaption{减砝码时的竖尺刻度$ri'$}
+    \end{subfigure}
+    \caption{光杠杆法-金属丝伸长量对应竖尺刻度测量数据和拟合直线}
+\end{figure}
+分别得到增砝码和减砝码的最小二乘法拟合直线斜率$k_1,k_2$，计算得到杨氏模量$E_1,E_2$。\\
+\begin{minipage}{0.5\textwidth}
+\[
+    r=k_1m+b_1
+\]
+\begin{equation*}
+\begin{cases}
+    k_1=1.581\, cm/kg \\
+    b_1=5.06\,cm \\
+    r_1=0.99997
+\end{cases}
+\end{equation*}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+\[
+    r'=k_2m+b_2
+\]
+\begin{equation*}
+\begin{cases}
+    k_2=1.549\, cm/kg \\
+    b_2=5.11\,cm \\
+    r_2=0.99998
+\end{cases}
+\end{equation*}
+\end{minipage}
+\vspace{1em}
+\par
+根据杨氏模量的计算公式\\
+\[
+E_{1,2}=\frac{8LRmg}{\pi d^2D\delta l}=\frac {8LRg}{\pi d^2D k_{1,2}}
+\]
+\par
+代入$g=9.801\,m/s^2$计算得到杨氏模量$E_1,E_2$。\\
+\[
+E_1=1.65\times 10^{11}\,Pa \quad E_2=1.69\times 10^{11}\,Pa
+\]
+
+\subsection{$E$测量值的进一步比较分析}
+\quad 为了得到加权后的结果，需要计算$E_1,E_2$的不确定度。E的不确定度主要由以下几项构成：\\
+\par 
+\textbf{E1,E2共有的不确定度误差}
+\begin{itemize}
+    \item 金属丝直径$d$的测量误差（A、B类）$\sigma_A(d),\sigma_B(d)$
+    \item 光杠杆的臂长$D$的测量误差(单次测量，评估其不确定度)\;$\sigma(D)$
+    \item 支点距离$R$的测量误差（单次测量，评估其不确定度）$\sigma(R)$
+    \item 金属丝原长$L$的测量误差（单次测量，评估其不确定度）$\sigma(L)$
+    \item 由于竖尺允差造成拟合斜率$k_1,k_2$的误差（B类）$\sigma_{r}(k_1,k_2)$
+\end{itemize}
+\quad 由于$E_1,E_2$的计算公式中，共用了$d,D,R,L$的测量数据，这部分误差不应该在加权平均时得到减小，且对于$E_1,E_2$来说，以上误差基本相同，故可以将它们归类为新的$B$类不确定度$\sigma_B(E_1,E_2)$。\\
+\par 
+\textbf{E1,E2的A类不确定度}
+\begin{itemize}
+    \item $r^{\ }_{i}$,$r^{'}_{i}$关于$m$的线性拟合的斜率$k_1,k_2$的拟合误差$\sigma_{}(k_1,k_2)$
+\end{itemize}
+\quad 这部分误差对于$E_1,E_2$来说是不同的，取决于增减砝码时的具体数据，且可以在$E_1,E_2$的加权平均中得到减小，故可以将它们归类为新的$A$类不确定度$\sigma_A(E_1,E_2)$。\\
+
+\hspace{-2em}
+\textbf{具体计算如下：}\\
+\par
+\textbf{新B类不确定度}\\
+\begin{itemize}
+    \item $d$的A类标准偏差和B类标准不确定度（取$e_d=0.004mm$，认为误差均匀分布）
+\[
+\begin{array}{ll}
+    \sigma_A(d)&=\sqrt{\frac{\Sigma_{i=1}^{10}(d_i-\overline{d})^2}{10(10-1)}}=0.00022\,mm \\[6pt]
+    \sigma_B(d)&=\frac{e_d}{\sqrt{3}}=0.0023\,mm \\
+    \sigma(d)&=\sqrt{\sigma_A(d)^2+\sigma_B(d)^2}=0.0023\,mm
+\end{array}
+\]
+\item $R,D,L$单次测量的不确定度估计，由于米尺精度不高而且测量时无法直接贴着表面测量，对于距离判断存在误差，故取米尺最小分度作为不确定度作为大概估计
+\[
+\sigma(R)=\sigma(D)=\sigma(L)=0.1\,cm
+\]
+\item 竖尺允差造成拟合斜率$k_1,k_2$的误差（B类）$\sigma_{r}(k_1,k_2)$(取$e_r=0.1\,cm$)
+\[
+\begin{aligned}
+    \sigma(r) &= \frac{e_r}{\sqrt{3}} = 0.06\,\text{cm}\\
+    \sigma_{r}(k_{1,2}) &= \frac{\sigma_r}{\sqrt{\sum\limits_{i=1}^{8}(m_i-\overline{m})^2}} = 0.05\,\text{cm/kg}
+\end{aligned}
+\]
+\end{itemize}
+根据不确定度的传递公式，$E_{1,2}$的新B类不确定度为：（按上面定义）
+\[
+\frac{\sigma_B(E_{1,2})}{E_{1,2}}=\sqrt{(\frac{2\sigma(d)}{d})^2+(\frac{\sigma(D)}{D})^2+(\frac{\sigma(R)}{R})^2+(\frac{\sigma(L)}{L})^2+(\frac{\sigma_{r}(k_{1,2})}{k_{1,2}})^2}=0.034
+\]
+所以$E_{1,2}$的B类不确定度为：（两者几乎相同）\\
+\[
+\sigma_B(E_{1,2})=0.06\times 10^{11}\,Pa
+\]
+\par
+\vspace{1em} 
+\textbf{新A类不确定度}
+拟合造成的斜率不确定度（可由origin直接给出或者用$r$值计算）
+\[
+\begin{aligned}
+    \sigma_{fit}(k_1)&=k_1\sqrt{\frac{\frac{1}{r^2}-1}{n-2}}&=0.005\,\text{cm/kg}\\
+    \sigma_{fit}(k_2)&=k_2\sqrt{\frac{\frac{1}{r'^2}-1}{n-2}}&=0.004\,\text{cm/kg}\\
+\end{aligned}
+\]
+传递给$E_1,E_2$的不确定度分别为：
+\[
+\begin{aligned}
+    \sigma_A(E_1)&=E_1\frac{\sigma_{fit}(k_1)}{k_1}=0.005\times 10^{11}\,Pa\\
+    \sigma_A(E_2)&=E_2\frac{\sigma_{fit}(k_2)}{k_2}=0.004\times 10^{11}\,Pa
+\end{aligned}
+\]
+
+可以发现，$E_1,E_2$的A类不确定度远小于B类不确定度，因此$E_1,E_2$的B类不确定度是主要误差来源。合成得到$E_1,E_2$的最终不确定度：
+\[
+\begin{aligned}
+    \sigma(E_1)&=\sqrt{\sigma_A(E_1)^2+\sigma_B(E_1)^2}=0.06\times 10^{11}\,Pa\\
+    \sigma(E_2)&=\sqrt{\sigma_A(E_2)^2+\sigma_B(E_2)^2}=0.06\times 10^{11}\,Pa\\
+\end{aligned}
+\]
+故$E_1$，$E_2$的最终测量结果如下：
+\begin{equation}
+\begin{aligned}
+    E_1&=(1.65\pm 0.06)\times 10^{11}\,Pa\\
+    E_2&=(1.69\pm 0.06)\times 10^{11}\,Pa
+\end{aligned}
+\end{equation}
+进一步根据误差加权平均得到最终E的测量结果
+\[
+    E=\frac{\sigma(E_2)}{\sigma(E_1)+\sigma(E_2)}E_1+\frac{\sigma(E_1)}{\sigma(E_1)+\sigma(E_2)}E_2=1.67\times 10^{11}\,Pa
+\]
+E的新B类不确定度同$E_1,E_2$的B类不确定度保持不变
+\[
+    \sigma_B(E)=0.06\times 10^{11}\,Pa
+\]
+新A类不确定度为（偏导法则传递）
+\[
+    \sigma_A(E)=\sqrt{(\frac{\sigma(E_2)}{\sigma(E_1)+\sigma(E_2)}\sigma_A(E_1))^2+(\frac{\sigma(E_1)}{\sigma(E_1)+\sigma(E_2)}\sigma_A(E_2))^2}=0.003\times 10^{11}\,Pa
+\]
+E的总不确定度为（不难发现主要贡献仍然是B类不确定度）
+\[
+    \sigma(E)=\sqrt{\sigma_A(E)^2+\sigma_B(E)^2}=0.06\times 10^{11}\,Pa
+\]
+故E的最终测量结果为
+\begin{equation}
+    E=(1.67\pm 0.06)\times 10^{11}\,Pa
+\end{equation}
+
+\subsection{误差分析}
+\textbf{系统误差:}
+\begin{enumerate}
+    \item \textbf{金属丝直径 $d$ 的不均匀性:} 与 CCD 法类似，$E \propto 1/d^2$，直径测量的准确性至关重要。金属丝直径不均匀会引入系统误差。
+    \item \textbf{光杠杆臂长 $D$ 的测量误差较大:} $D$ 是光杠杆镜足到金属丝的距离，测量时需精确对准。使用米尺测量可能存在视差，且镜足的位置仅凭肉眼判断，难以精确定位，引入较大的测量误差。$E \propto 1/D$，对结果影响显著，米尺的测量精度度在面对如此小的距离时，误差较大。
+    \item \textbf{反射镜到竖尺距离 $R$ 的测量:} 使用米尺测量 $R$ 时，需保证米尺与光路垂直且与镜面平行。若米尺倾斜或未能精确测量镜面到尺面的垂直距离，会引入系统误差。$E \propto R$，同样影响显著。
+    \item \textbf{金属丝有效长度 $L$ 的测量:} 与 CCD 法类似，金属丝的有效作用长度可能与两卡口间距（测量值）有差异。$E \propto L$。
+    \item \textbf{光路准直与读数误差:}
+        \begin{itemize}
+            \item 反射镜可能未完全竖直，望远镜（或激光）光轴可能未完全水平，导致在离轴较远的区域偏离线性。
+            \item 竖尺可能未完全竖直，引入读数误差。
+        \end{itemize}
+    \item \textbf{范性形变:} 实验数据显示加卸载过程读数存在差异（$k_1 \neq k_2$），表明存在微小的范性形变或者摩擦。虽然通过分别拟合再加权平均处理，但这本身反映了系统的不理想性，会影响 $k$ 值测定的准确性。
+    \item \textbf{重力加速度 $g$ 取值:} 使用标准值而非当地精确值会引入系统误差。
+\end{enumerate}
+\textbf{随机误差：}
+\begin{enumerate}
+    \item \textbf{竖尺读数 $r_i, r_i'$ 的随机波动:}
+        \begin{itemize}
+            \item 环境振动（气流、桌面振动）导致刻度上下浮动。
+            \item 望远镜读数时人眼对于竖尺的估读误差。
+            \item 加卸载过程中对装置的轻微扰动导致刻度上下浮动。
+            \item 实验时发现望远镜目镜刻线倾斜且无法调整，对读数造成困难，这也会增大读数的随机误差。
+        \end{itemize}
+    \item \textbf{几何尺寸（$d, L, R, D$）与质量测量的随机误差:} 使用螺旋测微器、米尺、天平测量时存在的读数随机误差和仪器精度限制。
+\end{enumerate}
+
+\textbf{结果评估与讨论 :}
+\begin{enumerate}
+    \item \textbf{结果分析:} 本次实验测得钢丝杨氏模量为 $E=(1.67\pm 0.06)\times 10^{11}\text{Pa}$。和CCD法测得的结果$E_{CCD}=1.53\times 10^{11}\text{Pa}$相比，有一定的误差。
+    \item \textbf{误差来源分析:}
+        \begin{itemize}
+            \item 不确定度分析表明，B 类不确定度（主要来自 $d, R, D, L$ 的测量以及竖尺允差）远大于 A 类不确定度（来自拟合误差）。这说明仪器精度限制和单次测量的系统性偏差是影响结果精度的主要因素。
+            \item 其中，我认为光杠杆臂长$D$的测量误差是主要误差来源，因为$D$的距离判断存在误差，且米尺精度不高，对结果影响显著，考虑允差影响，大约有$1/100$的误差量级，实际误差可能更大。
+            \item 其次，金属丝直径 $d$ 的测量误差和不均匀性仍是可能的关键误差源。由于E与$d^2$成反比，直径的微小误差会被放大，对结果影响显著。
+            \item 加减砝码数据不重合 ($k_1 \neq k_2$) 表明可能存在范性形变或装置摩擦，影响了斜率 $k$ 的准确测定。尽管进行了加权平均，但问题本身未消除。
+        \end{itemize}
+\end{enumerate}
+
+\textbf{改进方案:}
+\begin{enumerate}
+    \item \textbf{提高几何尺寸测量精度:}
+        \begin{itemize}
+            \item 使用更高精度的仪器测量 $d$，并在多处、多方向测量取平均，评估均匀性。
+            \item 改进 $L, R, D$ 的测量方法，例如使用激光测距仪或更精密的准直方法，减小视差和对准误差。精确标定光杠杆镜足间距 $D$。
+        \end{itemize}
+    \item \textbf{优化光路准直步骤与读数精度:}
+        \begin{itemize}
+            \item 仔细调整反射镜、望远镜/激光器和竖尺，确保相互平行或垂直，消除视差。
+            \item 使用更高分辨率的竖尺或数字传感器代替人眼读数。（可以结合CCD和光杠杆法的各自优势）
+            \item 减小环境振动，如使用减振平台。
+        \end{itemize}
+    \item \textbf{减小滞后效应影响:}
+        \begin{itemize}
+            \item 预加载足够大的初始砝码，并在弹性限度内进行测量。
+            \item 检查并减小装置摩擦。
+        \end{itemize}
+\end{enumerate}
+
+\section{分析与讨论问题1}
+\quad 在用CCD法和光杠杆法测定金属丝杨氏模量实验中，开始加第一、二个砝码时，观察到的伸长量（或读数变化量 $r$）可能小于后续砝码引起的正常变化量。这主要是因为：
+\begin{enumerate}
+    \item \textbf{克服静摩擦力:} 实验装置可能存在摩擦力，比如小圆柱和限位螺丝之间的静摩擦。刚开始加的法码作用力可能有一部分被静摩擦力抵消，之后的砝码此现象则不显著，因为此时对应的是变化量，摩擦力已经被前序砝码抵消。
+    \item \textbf{消除初始松弯曲:} 刚开始金属丝可能不是完全绷直的，有些微小的弯曲，甚至这种弯曲现象可能是金属丝的固有性质，这意味着改变其形态反而需要更多的张力，刚开始加的砝码大部分的重力都被这个过程卸掉了，这也使得让金属丝伸长的有效砝码质量较低，造成伸长量偏小。
+\end{enumerate}
+\section{{微纳材料杨氏模量测量}}
+
+\quad 对于特别小的材料，比如纳米半导体或者纳米薄膜，没法像拉钢丝那样直接测量杨氏模量。一种常用的方法是利用原子力显微镜 (AFM) 来进行"纳米压痕"实验。
+
+简单来说，就是用 AFM 上一个非常非常尖的针尖（比如金刚石做的）去戳材料表面。我们精确地控制戳下去的力气 $P$ (Load)，同时测量针尖戳进去了多深 $h$ (Depth)。
+
+记录下加载（往下戳）和卸载（往回提）过程中的\underline{$P-h$ 曲线}（测量量）。特别是在卸载刚开始那一段，曲线的斜率（称为接触刚度 $S$）包含了材料弹性性质的信息。结合这个斜率 $S$ 和估算的针尖与样品接触的面积 $A_c$ （这个面积通常是根据针尖的形状和压入深度算出来的，不是直接测的），再套用一些接触力学的公式（最常用的是 Oliver-Pharr 方法），就能反推出材料的杨氏模量 $E$。当然，这个计算还需要知道针尖材料自身的杨氏模量和泊松比，以及样品的泊松比。
+
+
+需要的仪器和精度：主要就是一台带纳米压痕功能的 AFM。对力的测量要很灵敏，达到纳牛顿 (nN) 级别；对深度的测量也要非常准，达到亚纳米 (sub-nm) 级别。针尖得特别硬、特别尖（一般用金刚石），形状也要预先精确标定好。整个装置必须放在很好的防震平台上。\\
+\par
+实验难点和注意：
+\begin{itemize}
+    \item 针尖形状标定和模型建立比较困难，而且针尖容易磨损，得经常检查。
+    \item 很难精确判断针尖刚好接触到表面的那个点，表面脏或者有吸附层都会干扰。
+    \item 如果测的是薄膜，戳得太深（比如超过薄膜厚度的十分之一），测到的结果就不只是薄膜本身的性质了，会受到下面基底的影响。
+    \item 戳的时候，材料可能会在针尖周围"鼓起来"或者"陷下去"，这会让计算的接触面积不准。
+    \item 样品表面得够平整、干净。
+    \item 环境的振动、温度漂移会产生干扰，需要尽量避免。
+\end{itemize}
+
+优点与缺点：
+\begin{itemize}
+    \item \textbf{优点：} 能测特别小的地方的力学性质，样品用量少，还能顺便测硬度。
+    \item \textbf{缺点：} 对样品表面平整度要求高，仪器和针尖标定复杂，计算结果依赖理论模型，薄膜易受基底影响，仪器造价高，材料可能发生沉积影响压入深度等等。
+\end{itemize}
+
+（主要参考了 Oliver 和 Pharr 等人的工作\cite{ref1}，他们改进了用压痕测量硬度和模量的方法。）
+
+\renewcommand{\refname}{参考文献}
+\begin{thebibliography}{99}  
+
+    \bibitem{ref1}Oliver W C, Pharr G M. An improved technique for determining hardness and elastic modulus using load and displacement sensing indentation experiments[J]. Journal of Materials Research, 1992, 7(6): 1564-1583.
+    
+\end{thebibliography}
+\end{document}

@@ -1,0 +1,820 @@
+\documentclass[10pt, twocolumn]{article}
+
+% --- 基础宏包 ---
+\usepackage{xeCJK} % 中文支持核心
+\usepackage{fontspec} % 字体选择
+\usepackage{amsmath} % 数学公式
+\usepackage{graphicx} % 插入图片
+\usepackage{geometry} % 页面布局
+\usepackage{siunitx} % SI 单位排版
+\usepackage{float} % 控制图表浮动 (建议使用 [H] 选项谨慎)
+\usepackage{fancyhdr} % 自定义页眉页脚
+\usepackage{caption} % 图表标题自定义
+\usepackage{subcaption} % 并排子图
+\usepackage{lastpage} % 获取总页数
+\usepackage{hyperref} % 超链接 (可选，推荐)
+\usepackage{indentfirst} % 首段缩进 (符合中文习惯)
+\usepackage{titlesec} % 用于自定义章节标题样式
+% \usepackage{setspace} % 如果需要调整行距，取消注释并使用 \onehalfspacing 或 \doublespacing
+
+% --- 中文字体设置 ---
+% 请确保您的系统安装了这些字体，或者替换为您可用的字体
+\setCJKmainfont[ItalicFont=Kaiti SC]{Songti SC} % 主字体 (宋体)，指定楷体为斜体
+\setCJKsansfont{Heiti SC} % 无衬线字体 (黑体)
+\setCJKmonofont{STFangsong} % 等宽字体 (仿宋)
+% 如果需要，可以单独设置数学环境中的字体
+% \setmathfont{Latin Modern Math} % 例如
+
+% --- 页面布局设置 ---
+\geometry{
+    a4paper,
+    left=1.5cm,
+    right=1.5cm,
+    top=2.0cm,
+    bottom=2.0cm,
+    headheight=14pt, % 为页眉预留足够空间
+    columnsep=0.8cm % 两栏之间的距离
+}
+\setlength{\parindent}{2em} % 设置段落首行缩进为2个中文字符宽度
+%\setlength{\parskip}{-1pt} % 可选：在段落间增加少量垂直间距
+
+
+% --- 页眉页脚设置 ---
+\pagestyle{fancy} % 应用 fancy 样式
+\fancyhf{} % 清空默认的页眉页脚
+\fancyhead[C]{\small 实验名称：测定空气中的声速} % 页眉居中，small 字号
+
+\fancyfoot[C]{\small 第 \thepage\ 页 / 共 \pageref{LastPage} 页} % 页脚居中，small 字号
+\renewcommand{\headrulewidth}{0.4pt} % 页眉分割线宽度
+\renewcommand{\footrulewidth}{0pt} % 不显示页脚分割线
+
+% 定义 \maketitle 页面的样式 (通常是 plain 样式)
+\fancypagestyle{plain}{%
+    \fancyhf{} % 清空页眉页脚
+    \fancyfoot[C]{\small 第 \thepage\ 页 / 共 \pageref{LastPage} 页} % 首页页脚
+    \renewcommand{\headrulewidth}{0pt} % 首页无页眉分割线
+}
+
+% --- 图表标题设置 ---
+\captionsetup{
+    font=footnotesize, % 标题使用 footnotesize (比 small 更小)
+    labelsep=quad, % 标签 (如图/表 N) 和标题文字之间的间距
+    justification=centering, % 标题文本两端对齐 (或 center)
+    singlelinecheck=false % 即使只有一行也应用对齐方式
+}
+\captionsetup[figure]{name=图} % 图标题前缀为 "图"
+\captionsetup[table]{name=表} % 表标题前缀为 "表"
+
+% --- 调整章节标题样式 ---
+\titleformat{\section}{\normalfont\large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalfont\small\bfseries}{\thesubsubsection}{1em}{}
+% 可选：调整标题间距
+% \titlespacing*{\section}{0pt}{*3}{*2} % {左右缩进}{段前距}{段后距}
+% \titlespacing*{\subsection}{0pt}{*2}{*1}
+% \titlespacing*{\subsubsection}{0pt}{*1.5}{*0.5}
+
+% --- 中文环境名称定义 ---
+\renewcommand{\abstractname}{摘要}
+\renewcommand{\refname}{参考文献}
+% 对于章节标题，article 类默认不带 "第 N 章" 前缀，直接用中文即可
+% 如果使用 book 或 report 类，可能需要设置 \chaptername 等
+
+% --- 标题和作者信息 ---
+\title{\Large\bfseries 测定空气中的声速实验报告} % 标题：大号、加粗
+\author{%
+    \normalsize % 作者信息用 normalsize
+    普通物理实验 \quad [REDACTED] \\[0.5em] % 换行并增加少量垂直间距
+    \normalsize 姓名：\underline{\hspace{0.6cm}[REDACTED]\hspace{0.5cm}} % 留出下划线填空
+    \quad % 间隔
+    \normalsize 学号：\underline{\hspace{0.1cm}[REDACTED]\hspace{0.1cm}} % 留出下划线填空
+    \quad % 间隔
+    \normalsize 序号：\underline{\hspace{0.9cm}[REDACTED]\hspace{0.9cm}} % 留出下划线填空
+}
+\date{\small\today} % 日期，使用 small 字号
+
+% --- 文档开始 ---
+\begin{document}
+
+\maketitle % 显示标题、作者、日期
+
+% --- 摘要 ---
+\begin{abstract}
+\noindent % 取消摘要首行缩进
+\small % 摘要内容使用 small 字号
+\emph{本实验使用极值法、相位法、多普勒法、气体状态参量法测量计算空气中的声速。并探究实验中发现的次极大现象。}
+\end{abstract}
+
+% --- 正文内容 ---
+\section{最佳工作频率调节和测量}
+\label{sec:f_0}
+调节信号发生器频率，直到声波达到共振，换能器达到谐振状态，此时频率为最佳工作频率
+\[
+    f_0 = \SI{36.981} \, kHz
+\]
+在工作频率附近小幅改变信号源频率，直到能够分辨示波器波形变化，变化的幅度为
+\[
+    \Delta f = \SI{0.008} \, kHz
+\]
+该范围则对应实验上评估的最佳工作频率极限误差$e_{f_0}=\Delta f$，取误差均匀分布，得到其标准不确定度
+\[
+    \sigma_{f_0} = \frac{e_{f_0}}{\sqrt{3}} = \SI{0.005} \, kHz
+\]
+故最佳工作频率的实验测定结果为
+\begin{equation}
+    f_0 \pm \sigma_{f_0} = (36.981 \pm 0.005) \, kHz
+\end{equation}
+
+\section{极值法}
+\label{sec:max}
+测量数据如下，$x_i$是从近端移动丝杆到远端的极大值点位置，$x_i'$则是从远端移动丝杆到近端的极大值点位置。
+\begin{table}[H]
+    \centering
+    \caption{极值法测量数据(单位：mm)}
+    \label{tab:max_method_data}
+    \scalebox{0.9}{
+    \begin{tabular}{ccc}
+    \hline
+    序号 & $x_i$ & $x_i'$ \\ \hline
+    1 & 127.192 & 127.069 \\
+    2 & 122.519 & 122.413 \\
+    3 & 117.846 & 117.739 \\
+    4 & 113.158 & 113.002 \\
+    5 & 108.431 & 108.314 \\
+    6 & 103.715 & 103.616 \\
+    7 & 99.050 & 98.920 \\ \hline
+    \end{tabular}
+    \hspace{0.3cm}
+    \begin{tabular}{ccc}
+    \hline
+    序号 & $x_i$ & $x_i'$ \\ \hline
+    8 & 94.410 & 94.231 \\
+    9 & 89.638 & 89.550 \\
+    10 & 84.939 & 84.863 \\
+    11 & 80.266 & 80.170 \\
+    12 & 75.581 & 75.460 \\
+    13 & 70.890 & 70.743 \\
+    14 & 66.149 & 66.036 \\ \hline
+    \end{tabular}
+    }
+\end{table}
+\par 
+\begin{figure}[H]
+    \centering
+    \caption{极值法测量数据和线性拟合}
+    \begin{subfigure}[b]{0.22\textwidth}
+        \includegraphics[width=\textwidth]{img/max_ascend.pdf}
+        \caption{近端到远端}
+        \label{fig:max_ascending}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.22\textwidth}
+        \includegraphics[width=\textwidth]{img/max_descend.pdf}
+        \caption{远端到近端}
+        \label{fig:max_descending}
+    \end{subfigure}
+\end{figure}
+\par
+使用最小二乘法进行线性拟合并绘制图像，拟合结果为\\
+\begin{minipage}{0.23\textwidth}
+    \begin{equation*}
+        x_i=k_1i+b_1
+    \end{equation*}
+    \begin{equation*}
+    \begin{cases}
+        k_1 = -4.695\,\text{mm} \\
+        b_1 = 131.91\,\text{mm} \\
+        r_1 = -0.99999920
+    \end{cases}
+    \end{equation*}
+\end{minipage}
+\begin{minipage}{0.23\textwidth}
+    \begin{equation*}
+        x_i'=k_1'i+b_1'
+    \end{equation*}
+    \begin{equation*}
+    \begin{cases}
+        k_1' = -4.695\,\text{mm} \\
+        b_1' = 131.79\,\text{mm} \\
+        r_1' = -0.99999958
+    \end{cases}
+    \end{equation*}
+\end{minipage}
+\par 
+拟合产生的误差为（A类不确定度）\\
+\begin{minipage}{0.23\textwidth}
+\begin{equation*}
+    \begin{aligned}
+        \frac{\sigma_{k_1,fit}}{k_1} &= \sqrt{\frac{\frac{1}{r^2}-1}{n-2}} \\
+        \sigma_{k_1,fit} &= 0.0017\,\text{mm}
+    \end{aligned}
+\end{equation*}
+\end{minipage}
+\begin{minipage}{0.23\textwidth}
+\begin{equation*}
+    \begin{aligned}
+        \frac{\sigma_{k_1',fit}}{k_1'} &= \sqrt{\frac{\frac{1}{r'^2}-1}{n-2}} \\
+        \sigma_{k_1',fit} &= 0.0012\,\text{mm}
+    \end{aligned}
+\end{equation*}
+\end{minipage}
+\par 
+由位置测量仪器允差造成的B类不确定度为（取$e_x=0.005mm$，半分度值）\\
+\begin{minipage}{0.23\textwidth}
+\begin{equation*}
+    \begin{aligned}
+        \sigma_{k_1,x} &= \frac{e_x/\sqrt{3}}{\sqrt{\Sigma(i-\overline{i})^2}} \\
+        &= 0.00019\,\text{mm}
+    \end{aligned}
+\end{equation*}
+\end{minipage}
+\begin{minipage}{0.23\textwidth}
+\begin{equation*}
+    \begin{aligned}
+        \sigma_{k_1',x} &= \frac{e_x/\sqrt{3}}{\sqrt{\Sigma(i-\overline{i})^2}} \\
+        &= 0.00019\,\text{mm}
+    \end{aligned}
+\end{equation*}
+\end{minipage}
+\par
+故斜率的总的不确定度为（主要贡献来自拟合误差）\\
+\begin{minipage}{0.23\textwidth}
+\begin{equation*}
+    \begin{aligned}
+        \sigma_{k_1} &= \sqrt{\sigma_{k_1,fit}^2+\sigma_{k_1,x}^2} \\
+        &= 0.0017\,\text{mm}
+    \end{aligned}
+\end{equation*}
+\end{minipage}
+\begin{minipage}{0.23\textwidth}
+\begin{equation*}
+    \begin{aligned}
+        \sigma_{k_1'} &= \sqrt{\sigma_{k_1',fit}^2+\sigma_{k_1',x}^2} \\
+        &= 0.0013\,\text{mm}
+    \end{aligned}
+\end{equation*}
+\end{minipage}
+\par 
+$k_1$，$k_1'$表征了相邻两个极值点之间的距离，它应该等于$\lambda/2$，则\\
+\[
+\begin{aligned} 
+    v=f\lambda=-2fk_1 \\
+    \sigma_v=\sqrt{(\frac{\sigma_{k_1}}{k_1})^2+(\frac{\sigma_{f_0}}{f_0})^2}
+\end{aligned}
+\]
+\par
+分别计算得到\\
+\begin{minipage}{0.23\textwidth}
+    \begin{equation*}
+        \begin{aligned}
+            v_1&=347.29\,\text{m/s}\\
+            \frac{\sigma_{v_1}}{v_1}&=\sqrt{(3.6)^2+(1.4)^2}\\
+            &\;\;\;\times 10^{-4} \\
+            \sigma_{v_1}&=0.14\,\text{m/s}
+        \end{aligned}
+    \end{equation*}
+    \end{minipage}
+    \begin{minipage}{0.23\textwidth}
+    \begin{equation*}
+        \begin{aligned}
+            v_1'&=347.26\,\text{m/s}\\
+            \frac{\sigma_{v_1'}}{v_1'}&=\sqrt{(2.6)^2+(1.4)^2}\\
+                        &\;\;\;\times 10^{-4} \\
+            \sigma_{v_1'}&=0.10\,\text{m/s}
+        \end{aligned}
+    \end{equation*}
+\end{minipage}
+\emph{不确定度首位为1、2多保留一位（后同）}
+\par
+不难发现，$v_1$和$v_1'$的真值区间是重合的，因此我们的测量结果是可靠的。不妨将两个值平均作为v1的最终结果$\overline{v_1}=\frac{v_1+v_1'}{2}$。新的不确定度由于$v_1,v_1'$不是独立测量量，故不可以利用偏导法则计算，因此我们直接取两个不确定度的大值$\sigma_{\overline{v_1}}=\max(\sigma_{v_1},\sigma_{v_1'})=0.14\,\text{m/s}$。
+\begin{equation}
+    \overline{v_1} \pm \sigma_{\overline{v_1}} = (347.28 \pm 0.14) \, \text{m/s}   
+\end{equation}
+\section{相位法}
+\label{sec:phase}
+测量数据如下，$x_i$是从近端移动丝杆到远端的同反相点位置，$x_i'$则是从远端移动丝杆到近端的同反相点位置。
+\begin{table}[H]
+    \centering
+    \caption{相位法测量数据 (单位: mm)}
+    \label{tab:phase_method_data}
+    \scalebox{0.9}{
+    \begin{tabular}{ccc}
+    \hline
+    序号 & $x_i$ & $x_i'$ \\ \hline
+    1   & 126.735 & 126.730  \\
+    2   & 122.028 & 122.079 \\
+    3   & 117.403 & 117.358 \\
+    4   & 112.691 & 112.644 \\
+    5   & 107.953 & 107.976 \\
+    6   & 103.271 & 103.220  \\
+    7   & 98.659  & 98.609  \\ \hline
+    \end{tabular}
+    \hspace{0.3cm}
+    \begin{tabular}{ccc}
+    \hline
+    序号 & $x_i$ & $x_i'$ \\ \hline
+    8   & 93.981  & 93.980   \\
+    9   & 89.291  & 89.291  \\
+    10  & 84.650   & 84.621  \\
+    11  & 79.987  & 79.932  \\
+    12  & 75.344  & 75.289  \\
+    13  & 70.650   & 70.590   \\
+    14  & 65.955  & 65.895  \\ \hline
+    \end{tabular}
+    }
+\end{table}
+\par 
+\begin{figure}[H]
+    \centering
+    \caption{相位法测量数据和线性拟合}
+    \begin{subfigure}[b]{0.22\textwidth}
+        \includegraphics[width=\textwidth]{img/phase_ascend.pdf}
+        \caption{近端到远端}
+        \label{fig:phase_ascending}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.22\textwidth}
+        \includegraphics[width=\textwidth]{img/phase_descend.pdf}
+        \caption{远端到近端}
+        \label{fig:phase_descending}
+    \end{subfigure}
+\end{figure}
+\par
+使用最小二乘法进行线性拟合并绘制图像，拟合结果为\\
+\begin{minipage}{0.23\textwidth}
+    \begin{equation*}
+        x_i=k_2i+b_2
+    \end{equation*}
+    \begin{equation*}
+    \begin{cases}
+        k_2 = -4.672\,\text{mm} \\
+        b_2 = 131.37\,\text{mm} \\
+        r_2 = -0.9999985
+    \end{cases}
+    \end{equation*}
+\end{minipage}
+\begin{minipage}{0.23\textwidth}
+    \begin{equation*}
+        x_i'=k'i+b'
+    \end{equation*}
+    \begin{equation*}
+    \begin{cases}
+        k_2' = -4.677\,\text{mm} \\
+        b_2' = 131.38\,\text{mm} \\
+        r_2' = -0.9999982
+    \end{cases}
+    \end{equation*}
+\end{minipage}
+
+\par 
+拟合产生的误差为（A类不确定度）\\
+\begin{minipage}{0.23\textwidth}
+\begin{equation*}
+    \begin{aligned}
+        \frac{\sigma_{k_2,fit}}{k_2} &= \sqrt{\frac{\frac{1}{r^2}-1}{n-2}} \\
+        \sigma_{k_2,fit} &= 0.0023\,\text{mm}
+    \end{aligned}
+\end{equation*}
+\end{minipage}
+\begin{minipage}{0.23\textwidth}
+\begin{equation*}
+    \begin{aligned}
+        \frac{\sigma_{k_2',fit}}{k_2'} &= \sqrt{\frac{\frac{1}{r'^2}-1}{n-2}} \\
+        \sigma_{k_2',fit} &= 0.0025\,\text{mm}
+    \end{aligned}
+\end{equation*}
+\end{minipage}
+\par 
+由位置测量仪器允差造成的B类不确定度为（取$e_x=0.005mm$，半分度值）\\
+\begin{minipage}{0.23\textwidth}
+\begin{equation*}
+    \begin{aligned}
+        \sigma_{k_2,x} &= \frac{e_x/\sqrt{3}}{\sqrt{\Sigma(i-\overline{i})^2}} \\
+        &= 0.00019\,\text{mm}
+    \end{aligned}
+\end{equation*}
+\end{minipage}
+\begin{minipage}{0.23\textwidth}
+\begin{equation*}
+    \begin{aligned}
+        \sigma_{k_2',x} &= \frac{e_x/\sqrt{3}}{\sqrt{\Sigma(i-\overline{i})^2}} \\
+        &= 0.00019\,\text{mm}
+    \end{aligned}
+\end{equation*}
+\end{minipage}
+\par
+故斜率的总的不确定度为（主要贡献来自拟合误差）\\
+\begin{minipage}{0.23\textwidth}
+\begin{equation*}
+    \begin{aligned}
+        \sigma_{k_2} &= \sqrt{\sigma_{k_2,fit}^2+\sigma_{k_2,x}^2} \\
+        &= 0.0023\,\text{mm}
+    \end{aligned}
+\end{equation*}
+\end{minipage}
+\begin{minipage}{0.23\textwidth}
+\begin{equation*}
+    \begin{aligned}
+        \sigma_{k_2'} &= \sqrt{\sigma_{k_2',fit}^2+\sigma_{k_2',x}^2} \\
+        &= 0.0025\,\text{mm}
+    \end{aligned}
+\end{equation*}
+\end{minipage}
+\par 
+同上，$k_2$，$k_2'$表征了相邻同相点和反相点之间的距离，它应该等于$\lambda/2$，则\\
+\[
+\begin{aligned} 
+    v_2=f\lambda=-2fk_2 \\
+    \sigma_{v_2}=\sqrt{(\frac{\sigma_{k_2}}{k_2})^2+(\frac{\sigma_{f_0}}{f_0})^2}
+\end{aligned}
+\]
+\par
+分别计算得到\\
+\begin{minipage}{0.23\textwidth}
+    \begin{equation*}
+        \begin{aligned}
+            v_2&=345.57\,\text{m/s}\\
+            \frac{\sigma_{v_2}}{v_2}&=\sqrt{(4.9)^2+(1.4)^2}\\
+            &\;\;\;\times 10^{-4} \\
+            \sigma_{v_2}&=0.18\,\text{m/s}
+        \end{aligned}
+    \end{equation*}
+    \end{minipage}
+    \begin{minipage}{0.23\textwidth}
+    \begin{equation*}
+        \begin{aligned}
+            v_2'&=345.92\,\text{m/s}\\
+            \frac{\sigma_{v_2'}}{v_2'}&=\sqrt{(5.3)^2+(1.4)^2}\\
+                        &\;\;\;\times 10^{-4} \\
+            \sigma_{v_2'}&=0.19\,\text{m/s}
+        \end{aligned}
+    \end{equation*}
+\end{minipage}
+\par
+按照上面相同的处理办法，得到\\
+\begin{equation}
+    \overline{v_2} \pm \sigma_{\overline{v_2}} = (345.75 \pm 0.19) \, \text{m/s}   
+\end{equation}
+\section{多普勒法}
+\par
+固定发射换能器工作频率$f=\SI{37.000}{kHz}$，测得接收器以不同速度$v_x$移动时的接收信号频率$f_x$，测量数据如下。\\
+\begin{table}[H]
+    \centering
+    \caption{多普勒法测量数据}
+    \label{tab:doppler_data}
+    \scalebox{0.9}{
+    \begin{tabular}{ccc}
+    \hline
+    序号i & $v_x$ (\si{m/s}) & $f_x$ (\si{kHz}) \\ \hline
+    1 & 0.059    & 37.006 \\
+    2 & 0.106    & 37.011 \\
+    3 & 0.150     & 37.016 \\
+    4 & 0.202    & 37.021 \\
+    5 & 0.250     & 37.026 \\
+    6 & 0.296    & 37.031 \\
+    7 & 0.347    & 37.037 \\
+    8 & 0.397    & 37.041 \\
+    9 & 0.448    & 37.047 \\ \hline
+    \end{tabular}
+    \hspace{0.3cm}
+    \begin{tabular}{ccc}
+    \hline
+    序号i & $v_x$ (\si{m/s}) & $f_x$ (\si{kHz}) \\ \hline
+    1 & -0.059   & 36.993 \\
+    2 & -0.106   & 36.988 \\
+    3 & -0.150    & 36.983 \\
+    4 & -0.202   & 36.978 \\
+    5 & -0.250    & 36.973 \\
+    6 & -0.296   & 36.968 \\
+    7 & -0.347   & 36.962 \\
+    8 & -0.397   & 36.957 \\
+    9 & -0.448   & 36.952 \\ \hline
+    \end{tabular}
+    }
+\end{table}
+\par 线性拟合并作图结果如下
+\begin{figure}[H]
+    \centering
+    \caption{多普勒法测量数据和线性拟合}
+    \label{fig:doppler}
+    \includegraphics[width=0.45\textwidth]{img/doppler.pdf}
+\end{figure}
+\begin{equation*}
+    f_x=k_3v_x+b_3
+\end{equation*}
+\begin{equation*}
+    \begin{cases}
+        k_3=0.1066\,kHz/(m \cdot s^{-1}) \\
+        b_3=36.999\,\text{kHz} \\
+        r_3=0.999936
+    \end{cases}
+\end{equation*}
+\par
+根据拟合结果得到$k_3$的不确定度为
+\[
+    \frac{\sigma_{k_3}}{k_3}=\sqrt{\frac{\frac{1}{r_3^2}-1}{n-2}}=0.0028
+\]
+\par
+由多普勒公式（其中$f$为发射频率，$v_3$为声速）
+\[
+    f_x=f(1+\frac{v_x}{v_3})=f+\frac{f}{v_3}v_x
+\]
+\par
+可以得到
+\[
+    v_3=\frac{f}{k_3}=347.1\,\text{m/s}
+\]
+\par
+传递得到不确定度（可以认为$f$的不确定度为$\frac{0.001\,\text{kHz}}{\sqrt{3}}$,取最小分度估算）
+\[
+\begin{aligned}
+    \frac{\sigma_{v_3}}{v_3}&=\sqrt{(\frac{\sigma_f}{f})^2+(\frac{\sigma_{k_3}}{k_3})^2} \\
+                    &=\sqrt{0.0028^2+(1.6\times10^{-5})^2} \\
+                    &=0.0028\\
+    \sigma_{v_3}&=1.0\,\text{m/s}
+\end{aligned}
+\]
+\par
+最终得到多普勒法声速测量结果
+\begin{equation}
+    v_3\pm \sigma_{v_3}=(347.1\pm1.0)\,\text{m/s}
+\end{equation}
+
+\section{气体状态参量法}
+实验中记录的温度和湿度数据如下
+\[
+\begin{array}{l}
+    \text{温度}：\theta=20.7^\circ C\\
+    \text{湿度}：H=45\% \\
+    \text{气压(老师给出)}：p=1001\,\text{hPa}
+\end{array}
+\]
+\par 在参考表（教材表1[REDACTED]）中查询并内插得到该状态下的饱和水蒸气压
+\[
+    p_s=2337.8\,Pa+0.7\times(2486.6\,Pa-2337.8\,Pa)=2442\,\text{Pa}
+\]
+\par
+根据实验数据，计算得到声速为
+\begin{equation}
+    \begin{aligned}
+    v_4&=331.45\sqrt{1+\frac{\theta}{273.15^{\circ} C}}\sqrt{1+\frac{0.3192p_sH}{p}} \\
+     &=345.2\,\text{m/s}
+    \end{aligned}
+\end{equation}
+\section{次极大的探究}
+实验过程中，在两个相距$\frac{1}{2}\lambda$的换能器信号主极大点之间，移动换能器时观察到了次极大现象。为了探究次极大的产生机理，我做了如下实验和仿真模拟以研究其中决定性的因素。
+\subsection{真实换能器的声场特性}
+根据实验中的观察现象，\emph{在两个换能器间距比较小的时候，次极大的现象较为明显，在间距较大的时候，次极大现象几乎观察不到}。这让我想到声学（光学）上的近场极限，由于发射器不是无穷大且声波具有衍射效应，换能器辐射的声波具有空间分布，只有在远场（$z>>z_{limit}$）时，声波才近似为平面波。因此我将测量了换能器的尺寸并将换能器近似为点声源的组合，总的发射场即这些点源发出球面波的叠加，并进行了换能器声场分布的可视化操作。\\
+\[
+    \text{换能器直径：} d=3.82\,\text{cm}
+\]
+\par
+改变半径上离散采样的点密度，得到声场的空间分布图像如下（以$dB$表征声压幅值）
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{img/single_transducer_field_N50.pdf}
+        \caption{单换能器声场分布图(采样点密度N=50)}
+        \label{fig:single_N50}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.15\textwidth}
+        \includegraphics[width=\textwidth]{img/single_transducer_field_N100.pdf}
+        \caption{单换能器声场分布图(采样点密度N=100)}
+        \label{fig:single_N100}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.15\textwidth}
+        \includegraphics[width=\textwidth]{img/single_transducer_field_N200.pdf}
+        \caption{单换能器声场分布图(采样点密度N=200)}
+        \label{fig:single_N200}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.15\textwidth}
+        \includegraphics[width=\textwidth]{img/single_transducer_field_N500.pdf}
+        \caption{单换能器声场分布图(采样点密度N=500)}
+        \label{fig:single_N500}
+    \end{subfigure}
+    \caption{单换能器声场特性}
+    \label{fig:single_transducer}
+\end{figure}
+\par
+\emph{可以发现，$N=50$的离散采样点密度已经足以表征声场特性。}
+进一步，我绘制出了轴线上声压幅值随距离的变化曲线，如下
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{img/single_transducer_on_axis_spl_comparison.pdf}
+    \caption{单换能器轴线上声压幅值随距离的变化}
+    \label{fig:single_on_axis_sp}
+\end{figure}
+可以发现，在距离换能器较远的区域，声压振幅才可以近似不变，此时声场可以近似为平面波，这与我们的分析相符。在近处，声压振幅呈现不规则变化，并且存在极值点，这必然会干扰我们对于理想驻波振幅极值点的判断。接下来我们将顺着这个思路，探究存在反射时的空间声场分布。
+\subsection{存在反射时的声场特性}
+同上面的原理，我绘制出了不同间距下的两换能器之间的声场分布图，如下
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.15\textwidth}
+        \includegraphics[width=\textwidth]{img/fixed_l_field_l9.7.pdf}
+        \caption{间距 $l = 9.7$ mm 时的声场分布}
+        \label{fig:fixed_field_9.7mm}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.15\textwidth}
+        \includegraphics[width=\textwidth]{img/fixed_l_field_l19.5.pdf}
+        \caption{间距 $l = 19.5$ mm 时的声场分布}
+        \label{fig:fixed_field_19.5mm}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.15\textwidth}
+        \includegraphics[width=\textwidth]{img/fixed_l_field_l39.0.pdf}
+        \caption{间距 $l = 39.0$ mm 时的声场分布}
+        \label{fig:fixed_field_39mm}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{0.15\textwidth}
+        \includegraphics[width=\textwidth]{img/fixed_l_field_l58.5.pdf}
+        \caption{间距 $l = 58.5$ mm 时的声场分布}
+        \label{fig:fixed_field_58.5mm}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.15\textwidth}
+        \includegraphics[width=\textwidth]{img/fixed_l_field_l78.0.pdf}
+        \caption{间距 $l = 78.0$ mm 时的声场分布}
+        \label{fig:fixed_field_78mm}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.15\textwidth}
+        \includegraphics[width=\textwidth]{img/fixed_l_field_l117.0.pdf}
+        \caption{间距 $l = 117.0$ mm 时的声场分布}
+        \label{fig:fixed_field_117mm}
+    \end{subfigure}
+    \caption{不同间距下的两换能器之间的声场分布图}
+    \label{fig:fixed_field_comparison}
+\end{figure}
+\par
+可以发现，在换能器间距$l$较大时，在远离发射源的区域，声场分布才类似于驻波，而在近处，声场分布较为复杂，存在多个极大值点，这会干扰我们对于理想驻波振幅极值点的判断。
+\subsection{反射衰减}
+进一步，考虑声波在反射面上的非刚性反射造成衰减，我们绘制出了在不同反射系数$R$下和不同反射附加相位$\phi_R$下的接收换能器声压振幅和声压级随距离的变化曲线，如下
+\begin{figure}[H]
+    \caption{不同反射系数下的接收声压振幅特性}
+    \label{fig:reflection}
+    \centering
+    \includegraphics[width=0.45\textwidth]{img/R_comparison_plot.pdf}
+\end{figure}
+\begin{figure}[H]
+    \caption{不同反射附加相位下的接收声压振幅特性}
+    \label{fig:reflection}
+    \centering
+    \includegraphics[width=0.45\textwidth]{img/phi_comparison_plot.pdf}
+\end{figure}
+可以看到，在近场区域$0-20mm$内，声压振幅出现了次级大的行为，而在远场，声波则较为规律地呈现周期性的主峰，这与我们之前的实验定性观测相符。我们可以大致推测，\underline{声源的非理想平面波发射}是导致近场次极大现象的主要原因。
+\par
+另外，可以发现，反射系数$R$主要影响峰在垂直方向上的防缩，而$\phi_R$则主要影响峰在水平方向上的偏移。（这会造成极值点偏移引入系统误差，见第\ref{sec:conclusion}部分分析）
+\subsection{定量的次极大分析}
+    但是，以上的分析仅仅定性地描述了次极大的现象，为了定量地探究次极大的产生机理，我在实验上测量了观测到的次极大位置$x$和信号振幅度$U$，并绘制出了次极大位置和信号振幅度的散点关系图，如下（换能器重合对应间距$x_0=14.411mm$，已减去对齐）
+    \begin{table}[H]
+        \centering
+        \caption{次极大测量数据}
+        \label{tab:submax_data}
+        \scalebox{0.9}{
+        \begin{tabular}{ccc}
+        \hline
+        序号 & $x(mm)$ & $U(\si{mV})$ \\ \hline
+        1 & 4.455  & 4640 \\
+        2 & 4.698  & 1700 \\
+        3 & 4.849  & 452  \\
+        4 & 5.901  & 456  \\
+        5 & 8.191  & 3540 \\
+        6 & 8.520  & 1020 \\
+        7 & 8.953  & 1000 \\
+        8 & 12.909 & 3260 \\
+        9 & 13.301 & 644  \\ \hline
+        \end{tabular}
+        \hspace{0.3cm} % Adjust spacing between columns if needed
+        \begin{tabular}{ccc}
+        \hline
+        序号 & $x(mm)$& $U(\si{mV})$ \\ \hline
+        10 & 13.969 & 580  \\
+        11 & 18.589 & 3200 \\
+        12 & 19.009 & 452  \\
+        13 & 22.367 & 2800 \\
+        14 & 24.139 & 348  \\
+        15 & 27.082 & 2460 \\
+        16 & 29.101 & 304  \\
+        17 & 31.864 & 2240 \\
+        18 & 34.131 & 284  \\ \hline
+        \end{tabular}
+        }
+    \end{table}
+\begin{figure}[H]
+    \caption{次极大位置和信号振幅度的散点关系图}
+    \label{fig:submax_scatter}
+    \centering
+    \includegraphics[width=0.45\textwidth]{img/measured_sound_pressure_maxima_distribution.pdf}
+\end{figure}
+可以发现，\emph{在距离较远处的次极大位置大致处于两个主极大的正中间位置}，这可能会与换能器发射的\textbf{高次谐波（尤其是二次谐波）}有关，这需要我们进一步的探究。于是，我在刚才非理想平面波的反射叠加场中，加入了二次谐波的模拟，得到了如下结果
+\begin{figure}[H]
+    \centering
+    \caption{非理想平面波的反射叠加场中加入高次谐波的模拟结果}
+    \label{fig:R_comparison_plot_harmonics}
+    \includegraphics[width=0.45\textwidth]{img/R_comparison_plot_harmonics2.pdf}
+\end{figure}
+\quad
+可以看到，修正后的模拟结果已经能很好匹配较远处的次极大位置，两个主极大之间的次极大位置大致处于两个主极大正中间的位置，同时近场的次极大也能匹配实验上观测到的\emph{主极大之间出现多个次极大的现象}。这表明\underline{换能器发射的二次谐波}是中远端次极大现象的主要原因，近场次极大的产生是声源非理想平面波发射和高次谐波发射的共同结果。
+\subsection{进一步匹配理论和实验数据}
+我们先前对于次极大的分析和模拟给了我们充分的理论支撑来得出次极大产生原因的结论
+\begin{enumerate}
+    \item 声源的非理想平面波发射是导致近场次极大现象的主要原因。
+    \item 换能器发射的高次谐波是中远端次极大现象的主要原因。
+    \item 近场次极大的多峰现象是声源非理想平面波发射和高次谐波发射的共同结果。
+\end{enumerate}
+\par
+考虑实际的声速测量实验中空气存在的损耗和反射衰减，我尝试采用差分优化参数来匹配实验数据的峰位置和峰高，可惜在有限的时间内暂时没有得到令人满意的拟合结果。
+\par
+实际模拟的参数有：
+\begin{itemize}
+    \item 基频声波的反射衰减模长$R$，相位$\phi_R$，在空气中传播的衰减因子$\gamma$
+    \item 二次谐波的相对振幅比例$A_2$,反射衰减模长$R_2$，相位$\phi_{R_2}$，在空气中传播的衰减因子$\gamma_2$
+    \item 三次谐波的相对振幅比例$A_3$,反射衰减模长$R_3$，相位$\phi_{R_3}$，在空气中传播的衰减因子$\gamma_3$
+\end{itemize}
+\par
+以下是过程中输出的部分结果的实验数据和模拟结果的对比图
+\begin{figure}[H]
+    \caption{实验数据和模拟结果的对比图(差分优化部分成果)}
+    \centering
+    \begin{subfigure}[b]{0.15\textwidth}
+        \includegraphics[width=\textwidth]{img/fit/param_0_0960_loss70.958.jpg}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.15\textwidth}
+        \includegraphics[width=\textwidth]{img/fit/param_0_2605_loss64.950.jpg}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.15\textwidth}
+        \includegraphics[width=\textwidth]{img/fit/param_0_5624_loss42.550.png}
+    \end{subfigure}
+    \label{fig:R_comparison_plot_harmonics2}
+\end{figure}
+
+
+\section{结论与讨论}
+\label{sec:conclusion}
+通过对于实验参数的仿真模拟，虽然最后拟合多重参数时没有得到仿真和实验数据匹配的结果，但是我们对于次极大的产生机理有了充分的理论了解和支撑，并且对于声源的非理想平面波发射和高次谐波发射的共同作用有了更深刻的理解。
+这部分理论分析也能更好地解释实验中观察到的现象，比如振幅极值点与同反相点的位置偏差，也帮助我们评估不同测量方式的误差。
+\subsection{振幅极值点与同反相点的位置偏差分析}
+实验中观察到，使用极值法测定的振幅极大（或极小）值点的位置，与使用相位法（或李萨如图形）测定的接收信号与发射信号同相（或反相）点的位置存在微小的系统性偏差。理论上，在理想的无边界平面波或理想驻波中，这两个位置应该是重合的（都发生在距离声源或反射面 $n \lambda / 2$ 或 $(n+1/2)\lambda / 2$ 的整数倍处）。产生偏差的主要原因包括：
+\begin{itemize}
+    \item \textbf{回程差：} 声速测定仪的丝杆传动结构存在回程差，两次测量之间这个回程差会造成位置测定偏差。但是根据实验测量数据，一次改变转动方向产生的回程差量级大概在$0.1$mm左右，该因素并不能完全解释极值点和同相反相点之间的偏差（大约$0.3mm$）。
+    \item \textbf{反射相移：} 当声波在界面反射时，除了可能存在的半波损失，还可能因为界面的性质（非完全刚性或存在吸声）引入额外的相位移动 $\phi_R$。这导致反射波的相位在反射点并非简单为$\pi$。入射波与带有额外相移的反射波叠加形成的（准）驻波场中，总振幅的极值点位置将不再严格处于 $n \lambda / 2$ 的位置，而是会发生偏移。我们的模拟图\ref{fig:reflection_far}则证实了这一点，当模拟的反射相位 $\phi_R$ 不为$\pi$ 时，振幅极大值的位置会相对理论位置发生偏移。
+    \begin{figure}[H]
+        \caption{反射相位$\phi_R$对振幅极大值位置的影响}
+        \label{fig:reflection_far}
+        \centering
+        \includegraphics[width=0.45\textwidth]{img/phi_comparison_plot_far_field_zoom.pdf}
+    \end{figure}
+    \item \textbf{近场效应与非理想波源：} 在靠近发射换能器的区域（近场），声场分布复杂，并非简单的平面波或球面波（如图 \ref{fig:single_transducer}和图\ref{fig:reflection_near}所示的模拟结果）。同时，换能器具有有限尺寸和指向性，接收器也是对有限面积上的声压进行平均。这些非理想因素使得在近场区域，振幅和相位的空间关系偏离理想模型，导致极值点与理论相位点不重合。
+    \begin{figure}[H]
+        \caption{近场效应与非理想波源}
+        \label{fig:reflection_near}
+        \centering
+        \includegraphics[width=0.45\textwidth]{img/phi_comparison_plot_near_field_zoom.pdf}
+    \end{figure}
+\end{itemize}
+
+
+\subsection{不同测量方法结果的比较与讨论}
+测量的四个声速结果分别为
+\begin{equation}
+    \begin{aligned}
+        \text{极值法:}\quad&v_1 = (347.28 \pm 0.14) &\,\si{m/s} \\
+        \text{相位法:}\quad&v_2 = (345.75 \pm 0.19) &\,\si{m/s} \\
+        \text{多普勒法:}\quad&v_3 = \;\;( 347.1 \pm 1.0) &\,\si{m/s} \\
+        \text{气体状态参量法:}\quad&v_4 = \quad \quad 345.2  &\,\si{m/s} \\
+    \end{aligned}
+\end{equation}
+\par
+按照上述分析，我们可以大致定论，极值法的不可消除的系统误差是最大的，并且在近场区域，由于声场分布的复杂性，极值法和相位法都会存在较大的偏差。相较之下，气体状态参量法理论上应该具有最小的误差。
+
+\par % 增加一个段落分隔
+但是实验上我认为气体状态参量法仍存在较大的测量误差。该方法的误差主要源于温度(T)和湿度(H)测量的随机误差的标准不确定度(\(\sigma_T, \sigma_{H}\))，以及饱和水蒸气压(\(p_s\))线性插值引入的系统偏差。这些误差共同影响最终声速 \(v\) 的准确性，其中随机误差可通过误差传递估算其对声速的不确定度贡献 \(\sigma_v\)，而插值误差则引入一个系统偏差 \(\Delta v_{sys}\)。
+
+\par % 增加一个段落分隔
+实验数据显示，通过相位法和极值法（基于波长测量 $c=f\lambda$）得到的声速通常略大于通过气体状态参量法（$c = \sqrt{\gamma R_M T / M}$）计算得到的结果。可能的原因有：
+
+\begin{itemize}
+    \item \textbf{非理想驻波系统误差：（主要影响极值法）} 正如前面分析的，反射相移、近场效应、传播衰减等因素会导致测量的极大值点发生系统性偏移。如果这种偏移导致测量的多个半波长总长度 $\sum (\lambda/2)$ 略微偏大（标准栅状信号叠加一个衰减包络会让极值点提前，幅度越大提前越多，所以会偏大），则计算得到的波长 $\lambda$ 和声速 $v$ 也会系统性偏大。
+    \item \textbf{高次谐波的影响：(主要影响相位法)} 换能器发射的高次谐波叠加在基频上，影响相位测定的准确性，但一般基频信号幅度较大，高次谐波影响并不会很大，实验上在远场也基本没有发现高次谐波的显著影响。
+    \item \textbf{状态参量法的近似：} 该方法基于理想气体假设。实际空气中的水蒸气含量（湿度）会影响其平均摩尔质量 $M$ 和绝热指数 $\gamma$，从而影响计算结果。温度 $T$ 的测量准确性和均匀性也至关重要。通常理想气体模型在标准状态下给出的声速可能略低于实际值。
+    \item \textbf{频率准确性：（极值法、相位法）} 信号发生器的显示频率和实际频率存在偏差，如果信号源显示频率偏大则相位法和极值法测得的波长偏大，声速偏大。实验上观测到信号源输出频率并不是很稳定，存在波动，这个影响不好定量分析。
+\end{itemize}
+
+\subsection{实验思考}
+\begin{itemize}
+    \item \textbf{极值法中 CH1 的作用：} 尽管极值法主要观察 CH2（接收信号）的幅度，但将 CH1（发射信号）接入示波器作为触发源仍然是有益的。稳定的触发可以确保 CH2 波形在屏幕上稳定显示，便于准确判断幅度最大或最小的位置，尤其是在信号幅度变化较平缓或存在噪声干扰时。
+    \item \textbf{换能器对准条件：} 为了获得更准确的测量结果，两个换能器除了应保持平行外，还需要满足以下条件：
+        \begin{itemize}
+            \item \textbf{共轴对准：} 两个换能器的中心应尽可能在同一条平行于丝杠导轨的直线上。
+            \item \textbf{正对放置：} 换能器的有效辐射/接收面应直接相对。
+        \end{itemize}
+    这些条件有助于使声波传播更接近理想的一维模型，减少因声束偏离、接收面积上的相位差等因素引入的误差，同时也能够确保测量的距离 $l$ 能够更准确地反映声波沿轴线的传播距离。
+\end{itemize}
+% --- 参考文献 ---
+% 如果有引用文献，取消下面的注释
+% \begin{thebibliography}{99} % 99 表示参考文献条目的最大[REDACTED]位数
+% \bibitem{label1} 作者. 书名[M]. 出版地: 出版社, 年份.
+% \bibitem{label2} 作者. 文献题名[J]. 刊名, 年份, 卷(期): 起止页码.
+% \end{thebibliography}
+
+
+\end{document}
+% --- 文档结束 ---
+
+

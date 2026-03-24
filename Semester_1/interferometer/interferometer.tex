@@ -1,0 +1,599 @@
+\documentclass[12pt]{article}
+\usepackage{xeCJK}
+\usepackage{fontspec}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{circuitikz}
+\usepackage{subcaption}
+\setCJKmainfont{Songti SC}
+\geometry{a4paper, margin=1in, top=1in}
+\setlength{\parindent}{12pt}
+% 页眉页脚设置
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{10pt}
+%\fancyhead[L]{\raisebox{-0.5\height}{\includegraphics[width=0.15\textwidth]{pku_logo.png}}}
+\fancyhead[R]{\small 普通物理实验报告}
+\fancyhead[C]{\small 实验名称：迈克尔逊干涉仪和光源的时间相干性}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\title{\Large\textbf{迈克尔逊干涉仪实验报告}}
+\author{普通物理实验\\
+        [REDACTED]\\
+         \\
+        姓名：\underline{\hspace{1cm}[REDACTED]\hspace{1cm}} \\
+        学号：\underline{\hspace{0.5cm}[REDACTED]\hspace{0.5cm}} \\
+        序号：\underline{\hspace{1.3cm}[REDACTED]\hspace{1.3cm}}}
+\date{\today}
+\begin{document}
+\maketitle
+\section{迈克尔逊干涉仪的调节及现象}
+\subsection{观察非定域干涉}
+\subsubsection{调节要点总结}
+\begin{enumerate}
+    \item 让激光光点在两个反射镜M1,M2中心，这样就可以保证入射光线严格45度入射，光路对称；
+    \item 加物镜不要离干涉仪太远，否则光线太暗，条纹不清晰；
+    \item 加入物镜后会在后方形成均匀光斑和一个亮点，将亮点调入小孔中，再将光斑调整到中心就可以确保物镜共轴；
+    \item 先自准直粗调反射镜大致垂直,螺丝位于适中状态，再细调使干涉条纹位于屏中心。
+\end{enumerate}
+\subsubsection{观察现象}
+现象观察过程如下：
+
+\begin{enumerate}
+    \item 当两排反射光点亮点都与小孔重合时，加入物镜即可在屏上看到干涉条纹。细调反射镜M2倾角，
+    使干涉条纹位于屏中心（如图\ref{fig:interference}a）。此时两个反射像S1，S2连线与观察屏大致垂直，
+    因此可以观察到清晰的圆环干涉条纹；
+
+    \item 进一步调节光程，使得条纹疏密适中。此时，可观察到同心圆环干涉条纹，
+    条纹中间疏四周密（如图\ref{fig:interference}b）；
+
+    \item 在此基础上将屏旋转一定角度，可观察到椭圆条纹（如图\ref{fig:interference}c）；
+
+    \item 当缩短光程差到条纹最粗、条纹条数最少时，只要两个反射像S1，S2连线与观察屏不完全垂直，
+    即可观察到直条纹（如图\ref{fig:interference}d）。这种现象也可通过细调反射镜倾角使其更加明显。
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{img/1.jpeg}
+        \caption{未调节光程}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{img/2.jpeg}
+        \caption{同心圆环条纹}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{img/3.jpeg}
+        \caption{椭圆条纹}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{img/4.jpeg}
+        \caption{直条纹}
+    \end{subfigure}
+    \caption{迈克尔逊干涉仪观察到的各种干涉条纹}
+    \label{fig:interference}
+\end{figure}
+\subsubsection{条纹变化现象观察}
+反射镜初始位于近端，开始顺时针旋转粗动手轮，转动过程中观察到以下现象：
+
+\begin{enumerate}
+    \item 初始状态时，可观察到清晰的同心圆环干涉条纹，由于两臂光程差较大，此时圆环较为密集（如图\ref{fig:swallow}a）；
+    \item 继续旋转，条纹开始向内收缩，条纹吞入，环数逐渐减小（如图\ref{fig:swallow}b）；
+    \item 进一步旋转，条纹继续向中心聚拢，同时变得更加稀疏，此时条纹仍在吞入（如图\ref{fig:swallow}c）；
+    \item 再继续旋转，条纹达到最粗之后，条纹由吞入转吐出，此时两臂光程差接近0，条纹基本不可见（如图\ref{fig:swallow}d）；
+    \item 最后，条纹又由疏转密，由粗转细，此时条纹不断吐出（如图\ref{fig:swallow}e）。
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.19\textwidth}
+        \includegraphics[width=\textwidth]{img/s1.jpeg}
+        \caption{初始条纹}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+        \includegraphics[width=\textwidth]{img/s2.jpeg}
+        \caption{条纹吞入}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+        \includegraphics[width=\textwidth]{img/s3.jpeg}
+        \caption{继续吞入}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+        \includegraphics[width=\textwidth]{img/s4.jpeg}
+        \caption{条纹最粗}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+        \includegraphics[width=\textwidth]{img/s5.jpeg}
+        \caption{条纹吐出}
+    \end{subfigure}
+    \caption{条纹吞吐现象的观察过程}
+    \label{fig:swallow}
+\end{figure}
+
+\subsubsection{条纹变化原因分析}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=0.6]
+        % 点光源S1和S2
+        \draw[fill] (0,0) circle (2pt) node[below] {$S_1$};
+        \draw[fill] (-2,0) circle (2pt) node[below] {$S_2$};
+        
+        % 接收屏E
+        \draw[thick] (6,-1) -- (6,2) node[right] {$E$};
+        
+        % 从S1和S2发出的光线
+        \draw[blue,->] (0,0) -- (6,1);
+        \draw[blue,->] (-2,0) -- (6,1);
+        
+        % 标注角度θ
+        \draw[->] (0.5,0) arc (0:15:0.5) node[below] at (1,0) {$\theta$};
+        
+        % 标注光程差
+        \draw[dashed] (0,0) -- (-0.05,0.25);
+        \draw[<->] (-2,0.2) -- (0,0.45) node[above] at (-1,0.23) {$\Delta L$};
+        
+        % 标注r和z
+        \draw (6,1) -- (6,0) node[right] at (6.5,0.5) {$r$};
+        \draw (0,0) -- (6,0) node[below] at (3,0) {$z$};
+        
+        % 添加说明文字
+        \node[below] at (3,-1) {非定域干涉示意图};
+    \end{tikzpicture}
+\end{figure}
+
+\quad 条纹吞吐现象的原因是由于两臂光程差的变化引起的,我们可以用点光源S通过M1与M2成的像S1和S2来分析，屏幕上的干涉条纹即两个点源干涉形成的条纹。
+当S1、S2的连线与观察屏E大致垂直时，我们可以观察到圆条纹。
+光程差表达式如下:
+\begin{equation}
+\centering
+\begin{aligned}
+    \Delta L&\approx 2d\,cos\,\theta \approx 2d(1-\frac{r^2}{2z^2})=k\lambda \\
+    \Delta r_k&\approx \frac{\lambda z^2}{2r_kd}
+\end{aligned}
+\end{equation}
+由上面的表达式可以看出:
+\begin{enumerate}
+    \item 随着条纹半径增加，条纹级数k减小，$\Delta r_k$也随之减小，意味着条纹越来越密集；
+    \item 随着镜距差$d$减小，对于一个特定的级次$k$，相应的$r_k$也变小，从而观察到“吞”的现象；反之，当$d$增大时，对于一个特定的级次$k$，相应的$r_k$也增大，观察到“吐”的现象；
+    \item 随着镜距差$d$减小，同一个$r$对应条纹宽度$\Delta r_k$增大，条纹变得更加稀疏。反之，当$d$增大时，同一个$r$对应条纹宽度$\Delta r_k$减小，条纹变得更加密集。
+\end{enumerate}
+\quad 因此，顺时针转动粗动手柄时，M1由近端移向远端，M1和M2'先靠近后远离,实验结果和理论相符：
+\[
+\begin{aligned}
+\text{镜距变化情况:}\;\;\;&\text{减} &\rightarrow \text{减} &\rightarrow \;\;\;\;\;\;\approx 0 &\rightarrow \text{增} &\rightarrow \text{增} \\
+\text{条纹疏密情况:}\;\;\;&\text{密} &\rightarrow \text{疏} &\rightarrow \;\;\text{非常疏} &\rightarrow \text{疏} &\rightarrow \text{密} \\
+\text{条纹粗细情况:}\;\;\;&\text{细} &\rightarrow \text{粗} &\rightarrow \;\;\text{非常粗} &\rightarrow \text{粗} &\rightarrow \text{细} \\
+\text{条纹吞吐情况:}\;\;\;&\text{吞} &\rightarrow \text{吞} &\rightarrow \;\;\text{吞转吐} &\rightarrow \text{吐} &\rightarrow \text{吐} 
+\end{aligned}
+\]
+\subsection{观察定域干涉-等倾干涉}
+\quad 在非定域干涉调节到屏幕中有3-5条圆条纹时，去掉屏幕，在物镜和干涉仪之间加入毛玻璃，此时用眼睛观察反射镜中可以看到大致等倾干涉的条纹，
+如图\ref{fig:eq_incline}[b]所示。
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth,height=5cm]{img/setup.jpeg}
+        \caption{等倾干涉装置示意图}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[height=5cm]{img/eq_incline.jpeg}
+        \caption{未严格调节时的等倾干涉条纹}
+    \end{subfigure}
+    \caption{等倾干涉实验装置与初步现象}
+    \label{fig:eq_incline}
+\end{figure}
+
+接下来，上下左右移动眼睛，观察到上下基本没有条纹吞吐现象，左右移动出现条纹吞吐现象，说明反射镜上下倾角基本调节准确，左右存在不平行的情况。\\
+\par
+微调反射镜M2左右倾角，使得左右移动眼睛没有条纹吞吐，然后再\textbf{调节条纹到非常粗的状态}，此时重复上述调节，\textbf{可使调节更加准确}。通过这样的调节方式，我们就可以观察到非常清晰的严格等倾干涉条纹。
+\subsubsection{条纹变化现象观察}
+\quad 在严格调节到等倾干涉后，从近端顺时针转动粗动手轮，我们可以观察到以下现象：
+\begin{enumerate}
+    \item 初始状态下，由于反射镜M1和M2'相隔太远，条纹过于密集，看起来像没有条纹一样（亦或是超出空间相干长度）（如图\ref{fig:eq_swallow}a）；
+    \item 开始旋转时，条纹渐渐出现，但较为密集且细（如图\ref{fig:eq_swallow}b）；
+    \item 继续旋转，条纹变得稀疏且粗，此时可以清楚地分辨每一条干涉条纹（如图\ref{fig:eq_swallow}c）；
+    \item 当M1与M2'重合时，此时光程差为0，条纹变得极其模糊不可见，（如图\ref{fig:eq_swallow}d）；
+    \item 继续旋转，条纹重新变得清晰可见，但较为稀疏且粗（如图\ref{fig:eq_swallow}e）；
+    \item 进一步旋转，条纹逐渐变密而细（如图\ref{fig:eq_swallow}f）；
+    \item 最终，条纹又回到不可见状态，同1（如图\ref{fig:eq_swallow}g）。
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.24\textwidth}
+        \includegraphics[width=\textwidth]{img/eq1.jpeg}
+        \caption{初始不可见}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \includegraphics[width=\textwidth]{img/eq2.jpeg}
+        \caption{条纹出现}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \includegraphics[width=\textwidth]{img/eq3.jpeg}
+        \caption{稀疏条纹}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \includegraphics[width=\textwidth]{img/eq4.jpeg}
+        \caption{条纹消失}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{0.24\textwidth}
+        \includegraphics[width=\textwidth]{img/eq5.jpeg}
+        \caption{稀疏条纹}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \includegraphics[width=\textwidth]{img/eq6.jpeg}
+        \caption{条纹变密}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \includegraphics[width=\textwidth]{img/eq7.jpeg}
+        \caption{最终不可见}
+    \end{subfigure}
+    \caption{等倾干涉条纹变化过程}
+    \label{fig:eq_swallow}
+\end{figure}
+\subsubsection{条纹产生物理原理}
+\quad 我们可以这样理解等倾干涉:反射镜M1和反射镜M2关于半透半反镜的像M2'错开一定空间距离形成等效空气薄膜。根据上述调节，使得M1和M2'平行。这样，光线在M1和M2'之间反射后，光程差只和入射角有关，而条纹在视网膜上的位置即代表光线的方向。扩展光源上不同发光点只要倾角相同，在无穷远（也就是眼睛聚焦）形成的干涉图像都是相同的，因此它们会非相干叠加得到同心圆环条纹。
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=0.8]
+    % Draw M2'
+    \draw[dashed] (-2,1) -- (2,1);
+    \node[above] at (1.2,1) {M2'};
+    
+    % Draw M1
+    \draw[thick] (-2,0) -- (2,0);
+    \node[below] at (1.2,0) {M1};
+    
+    % Draw light rays
+    \draw[->] (-0.8,2) -- (-0.4,1);
+    \draw[->] (-0.4,1) -- (0,0);
+    \draw[->] (0,0) -- (0.4,1);
+    \draw[->] (0.4,1) -- (0.8,2);
+    \draw[->] (-0.4,1) -- (0,2);
+    % Label angle theta
+    \draw[dashed] (-0.4,0.5) -- (-0.4,1.5);
+    \draw (-0.4,0.7) arc (-90:-60:0.2);
+    \node at (-0.4,0.3) {$\theta$};
+    
+    % Label d
+    \draw[<->] (2.5,0) -- (2.5,1);
+    \node at (2.8,1.5) {$d$};
+    
+    % Label incident and reflected rays
+    \node at (-1,3) {入射光};
+    \node at (1,3) {反射光};
+    \end{tikzpicture}
+    \caption{等倾干涉原理图}
+    \label{fig:eq_incline_principle}
+\end{figure}
+
+等倾干涉条纹的产生原理如下：
+\begin{enumerate}
+    \item 两个反射镜M1和M2'形成等倾平行薄膜，入射光束经过分束后在两个镜面反射，最终在观察点E处经透镜焦面聚焦（眼睛）重合；
+    \item 对于不同入射角的光线，其光程差为：$\Delta = 2d\cos\theta$，其中d为两镜面间距，$\theta$为入射角；
+    \item 当光程差为波长整数倍时($\Delta = k\lambda$)，在该方向上可以观察到亮纹；
+    \item 由于等倾角的存在，相同入射角的光线形成等倾干涉环，这就是我们观察到的条纹；
+    \item 当镜距d变化时，对应的入射角$\theta$也随之变化，导致条纹的疏密变化。当d趋近于0时，所有方向的光程差都趋近于0，条纹消失。
+\end{enumerate}
+\subsection{观察定域干涉-等厚干涉}
+在调整到严格等倾后，旋转M2反射镜水平微调螺钉一圈，将M1和M2'错开一个角度即可观察到等厚近直条纹，M1从近处移动到远处，条纹经历以下变化：
+\begin{enumerate}
+    \item 初始状态下，条纹向右弯曲且较为密集，此时M1和M2'相隔较远，条纹不清晰，衬比度不高,视场几乎均匀（如图\ref{fig:eq_thick}a）；
+    \item 随着M1移动，M1和M2'接近，条纹逐渐变得疏松变直，但仍向右弯曲（如图\ref{fig:eq_thick}b）；
+    \item 当M1与M2'中心距离接近0时，可以观察到近似直条纹（如图\ref{fig:eq_thick}c）；
+    \item 继续移动M1，M1远离M2'，条纹开始向左弯曲，且逐渐变密（如图\ref{fig:eq_thick}d）；
+    \item 最终，M1与M2'相隔较远条纹呈现向左弯曲且密集的状态，视场几乎均匀（如图\ref{fig:eq_thick}e）。
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.19\textwidth}
+        \includegraphics[width=\textwidth]{img/th1.jpeg}
+        \caption{向右弯曲}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+        \includegraphics[width=\textwidth]{img/th2.jpeg}
+        \caption{右弯变疏}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+        \includegraphics[width=\textwidth]{img/th3.jpeg}
+        \caption{近似直条纹}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+        \includegraphics[width=\textwidth]{img/th4.jpeg}
+        \caption{左弯变密}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+        \includegraphics[width=\textwidth]{img/th5.jpeg}
+        \caption{向左弯曲}
+    \end{subfigure}
+    \caption{等厚干涉条纹变化过程}
+    \label{fig:eq_thick}
+\end{figure}
+\subsubsection{等厚条纹产生物理原理}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=0.8]
+    % First diagram
+    \begin{scope}[xshift=-8cm]
+        \draw[thick] (-1,0) -- (1,0);
+        \draw[dashed,thick] (-0.98,1) -- (0.98,1.2);
+        \node[below] at (0,-0.3) {M1};
+        \node[above] at (0.2,1.3) {M2'};
+        \node[below] at (0,-1) {(a) 初始状态};
+    \end{scope}
+    
+    % Second diagram
+    \begin{scope}[xshift=-4cm]
+        \draw[thick] (-1,0.7) -- (1,0.7);
+        \draw[dashed,thick] (-0.98,1) -- (0.98,1.2);
+        \node[below] at (0,-0.3) {M1};
+        \node[above] at (0.1,1.3) {M2'};
+        \node[below] at (0,-1) {(b) M1接近};
+    \end{scope}
+    
+    % Third diagram
+    \begin{scope}[xshift=0cm]
+        \draw[thick] (-1,1.1) -- (1,1.1);
+        \draw[dashed,thick] (-0.98,1) -- (0.98,1.2);
+        \node[below] at (0,0.3) {M1};
+        \node[above] at (0,1.3) {M2'};
+        \node[below] at (0,-1) {(c) 中心重合};
+    \end{scope}
+
+    % Fourth diagram
+    \begin{scope}[xshift=4cm]
+        \draw[thick] (-1,1.5) -- (1,1.5);
+        \draw[dashed,thick] (-0.98,1) -- (0.98,1.2);
+        \node[below] at (0,2.3) {M1};
+        \node[above] at (0,0.1) {M2'};
+        \node[below] at (0,-1) {(d) M1远离};
+    \end{scope}
+
+    % Fifth diagram
+    \begin{scope}[xshift=8cm]
+        \draw[thick] (-1,2.8) -- (1,2.8);
+        \draw[dashed,thick] (-0.98,1) -- (0.98,1.2);
+        \node[below] at (0,3.5) {M1};
+        \node[above] at (0,0.1) {M2'};
+        \node[below] at (0,-1) {(e) 最终状态};
+    \end{scope}
+    \end{tikzpicture}
+    \caption{不同状态下反射镜M1与M2'的相对位置关系}
+    \label{fig:mirror_positions}
+\end{figure}
+等厚条纹的产生原理如下：
+\begin{enumerate}
+    \item 等厚干涉是由两镜面M1和M2'之间形成的\underline{具有不同厚度的空气薄膜产生的}。当两镜面相交形成一个小角度时，光源的不同发光点在该薄膜两表面反射后产生干涉；
+    \item 由于两个镜面相交，薄膜厚度随空间位置变化，因此光程差也随位置变化。\underline{条纹在同一厚度处产生}，所以称为等厚干涉，定域在空气膜也就是反射镜表面附近；
+    \item 迈克尔逊干涉仪产生的这种干涉条纹一般情况不属于等厚条纹，只有在M1和M2'之间形成的\underline{空气薄膜厚度较小时},才能近似观察到等距直线条纹，此时光线入射角基本相同；
+    \item 条纹的弯曲现象可以由M1与M2'的相对位置来解释：对于一个特定条纹，其上每一处光程都是相同的，有$\Delta L\approx 2nhcos\,\theta$。可以看出，靠近楔形空气薄膜边缘的点会对应更大的入射角$\theta$，因此条纹会\underline{向厚度更大的方向弯曲}；
+    \item 当两镜面距离过大时，由于\underline{超出光源的空间相干长度}，干涉条纹的对比度降低，最终变得难以观察。
+\end{enumerate}
+\subsection{白光等厚干涉}
+\quad 在等厚干涉的基础上，我们可以用白光光源代替单色光源，观察到白光等厚干涉的现象。
+\subsubsection{白光干涉调节要点}
+\begin{enumerate}
+    \item 在单色激光调节到等厚干涉条纹接近直线但不完全直的区域时，打开白光光源。
+    \item 通过调节白光灯罩，使得条纹在视场中占据一半空间，另一半保持原亮度。
+    \item 延续先前转动微动手轮的方向小心旋转，维持、\underline{微动手轮同向转动（消除空程差）}，慢慢调节则可观察到白光等厚干涉条纹。
+    \item 由于仪器空程差较大且粗动手轮和微动手轮不联动，微动手轮示数不是实际值，\underline{需要对齐粗动刻度进行标定}。
+\end{enumerate}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[height=\textwidth]{img/white_light.jpeg}
+        \caption{白光等厚干涉调节示意图}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[height=\textwidth]{img/white_th.jpeg}
+        \caption{白光等厚干涉条纹}
+    \end{subfigure}
+    \caption{白光等厚干涉的调节与结果}
+    \label{fig:white_interference}
+\end{figure}
+\quad 在实验中，我们可以观察到：
+\begin{enumerate}
+    \item 在等厚干涉的基础上，白光光源产生的条纹由于不同波长的光线产生的干涉，对应的条纹间距不同因此会出现色散现象。
+    \item 在观察到的条纹中，中心位置的条纹颜色为白色且最亮，两侧颜色逐渐变浅，最终消失。
+    \item 调节光程，将中心白条纹调到视场中央，\underline{该位置则对应着两臂光程相等的位置}。
+\end{enumerate}
+\quad 根据实验原理，我们先对齐微动手轮的刻度，当视窗中刻度和$0.0$对齐时，微动手轮读数为：
+\begin{equation*}
+    \text{粗动手轮读数：} x_0 = 0.00797\,mm
+\end{equation*}
+当白光中心干涉白条纹位于反射镜视野中央时，此时的粗动和微动手轮读数为：
+\begin{equation*}
+    \text{读数：} x_1 = 47.01330\,mm
+\end{equation*}
+因此，实际的读数为：
+\begin{equation}
+    \text{实际读数：} x = x_1 - x_0 = 47.00533\,mm
+\end{equation}
+\subsection{白光等倾干涉}
+由于白光等倾干涉要求极小的光程差（空间相干性的限制）和反射镜M1和M2'严格平行，实验过程中我没能调整出完整的白光等倾圆条纹，但是也调整出白光等倾干涉的局部条纹如下：
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[height=5cm]{img/white_eq1.jpeg}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[height=5cm]{img/white_eq2.jpeg}
+    \end{subfigure}
+    \caption{白光等倾干涉局部}
+    \label{fig:white_eq_incline}
+\end{figure}
+\section{测量光源的时间相干性}
+\subsection{等厚干涉测量白光，橙光，黄光的相干长度}
+\subsubsection{白光}
+\quad 调整迈克尔逊干涉仪到白光等厚干涉中央条纹位置，此时两臂等长。
+观察到中央条纹一侧只有$k_1$条白条纹,其中
+\begin{equation*}
+    k_1\,=\,1
+\end{equation*}
+取白光平均波长$\lambda_1=550\,nm$计算，得到白光的相干长度和相干时间（有效数字多保留一位）为：
+\begin{equation}
+\begin{aligned}
+    \Delta L_{1max}&\approx \;\;\;\;\;\;k_1\lambda_1 &\approx 5.5\times 10^{-7}\,m \\
+    t_1\;\;\;\;&=\;\;\;\frac{\Delta L_{1max}}{c}&=1.8 \times 10^{-15}\,s
+\end{aligned}
+\end{equation}
+\subsubsection{橙光}
+\quad 在白光等厚干涉的基础上，加入橙色滤光片，即可看到橙光主导的等厚干涉条纹。旋转微动手轮，观察到原中央条纹一侧只有$k_2$条彩色亮条纹，其中
+
+\begin{equation*}
+    k_2\,=\,11
+\end{equation*}
+取橙光波长$\lambda_2=625\,nm$计算，得到橙光的相干长度和相干时间为：
+\begin{equation}
+\begin{aligned}
+    \Delta L_{2max}&\approx \;\;\;\;\;\;k_2\lambda_2 &\approx 6.9\times 10^{-6}\,m \\
+    t_2\;\;\;\;&=\;\;\;\frac{\Delta L_{2max}}{c}&=2.3 \times 10^{-14}\,s
+\end{aligned}
+\end{equation}
+
+\subsubsection{黄光}
+\quad 重新调整出白光等厚干涉，加入黄色滤光片（实验中发现\; \underline{滤光片加在毛玻璃后面}可以使光场更亮,\underline{能看到更多级次的条纹}），即可看到黄光主导的等厚干涉条纹。旋转微动手轮，观察到原中央条纹一侧只有$k_3$条彩色亮条纹，其中
+
+\begin{equation*}
+    k_3\,=\,56
+\end{equation*}
+取黄光波长$\lambda_2=578\,nm$计算，得到黄光的相干长度和相干时间为：
+\begin{equation}
+\begin{aligned}
+    \Delta L_{3max}&\approx \;\;\;\;\;\;k_3\lambda_3 &\approx 3.2\times 10^{-5}\,m \\
+    t_3\;\;\;\;&=\;\;\;\frac{\Delta L_{3max}}{c}&=1.1 \times 10^{-13}\,s
+\end{aligned}
+\end{equation}
+
+\subsection{测量低压汞灯的双黄线波长差和相干长度}
+\subsubsection{双黄波长差测量}
+\textbf{方法一：测量光拍对应的反射镜移动量}
+\vspace{0.2cm}
+\par
+从白光等厚干涉位置开始，同向旋转微动手轮，记录条纹衬比度极低，条纹最不清晰时反射镜M1的位置如下：
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
+        \hline
+        光拍节点序号 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\
+        \hline
+        位置d/mm & 47.994 & 48.076 & 48.150 & 48.226 & 48.307 & 48.385 & 48.468 \\
+        \hline
+    \end{tabular}
+\caption{汞黄双黄线光拍节点位置数据}
+\end{table}
+
+\begin{figure}[H]
+    \includegraphics[width=0.9\textwidth]{Graph1.pdf}
+    \caption{汞黄双黄线光拍节点位置图}
+\end{figure}
+
+\vspace{0.5cm}
+作图线性拟合直线即可得到，汞灯双黄线形成的光拍每两个节点之间反射镜移动的距离$\Delta d$为:
+\vspace{0.3cm}
+\begin{equation*}
+    \begin{aligned}
+        \Delta d&=0.0785\,mm \\
+        \sigma_{\Delta d}&=0.0005\,mm
+    \end{aligned}
+\end{equation*}
+\par 
+因此计算得到双黄线波长差为：(取平均波长$\overline{\lambda}=578.05\,nm)$
+\begin{equation*}
+\begin{aligned}
+    \Delta \lambda&= \;\;\;\;\;\;\;\frac {\overline{\lambda}^2}{2\Delta d} &= 2.13\,nm \\
+    \sigma_{\Delta \lambda} &= \;\;\;\Delta \lambda \times \frac{\sigma_{\Delta d}}{\Delta d} &= 0.02\,nm
+\end{aligned}
+\end{equation*}
+最终测量结果
+\begin{equation}
+\begin{aligned}
+    \text{相干长度:}&\;\;L_{max}=\Delta d=7.85\times 10^{-5}\,m \\
+    \text{相干时间:}&\;\;t=\frac{L_{max}}{c}=2.62\times 10^{-13}\,s \\
+    \text{双线波长差:}&\;\;\Delta \lambda \pm \sigma_{\Delta \lambda} = (2.13\pm0.02)\,nm
+\end{aligned}
+\end{equation}
+\textbf{方法2：计数单个光拍内光强峰个数$\Delta k$}
+\vspace{0.3cm}
+\par
+通过计数可以得到:
+\begin{equation*}
+    \Delta k=273
+\end{equation*}
+\quad 于是，可以计算得到汞灯黄线的波长差为：(取平均波长$\overline{\lambda}=578.05\,nm)$
+\begin{equation}
+    \Delta \lambda=\frac{\overline{\lambda}}{\Delta k}=2.12\,nm
+\end{equation}
+\vspace{0.5cm}
+\quad 比较两种方法得到的波长差，可以发现两者较为接近，说明实验结果较为合理。
+
+\subsubsection{测量低压汞灯的相干长度}
+\quad 白光等倾干涉中央条纹位置：
+\begin{equation*}
+    d_0\,=\,47.992\,mm
+\end{equation*}
+\quad 继续转动粗动手轮，微调反射镜使得视野中能够看到黄光等倾干涉（在实验中我发现可以\textbf{借助激光定域干涉找严格等倾位置}，即可迅速看到中央圆环）.
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=5cm]{img/yellow_incline.jpeg}
+    \caption{黄光等倾中央干涉条纹}
+    \label{fig:yellow_incline}
+\end{figure}
+继续移动反射镜，指导中央圆条纹模糊不清，看不到干涉条纹为止，记录此时的反射镜位置$d_{max}$:
+\begin{equation*}
+    d_{max}\,=\,68.115\,mm
+\end{equation*}
+计算得到汞灯黄线的相干长度和相干时间(考虑误差，只保留3位有效数字):
+\begin{equation}
+\begin{aligned}
+    \Delta L_{max}\,&=\,2(d_{max}-d_0) =40.3\,mm \\
+    t\,&=\;\;\;\;\,\frac{\Delta L_{max}}{c}\;\;\;\; =1.34\times 10^{-10}\,s
+\end{aligned}
+\end{equation}
+\section{实验分析与总结}
+\quad 通过本次实验，我对迈克尔逊干涉仪的调节和使用有了深入的理解。以下是一些重要的实验反思：
+
+\begin{enumerate}
+    \item \textbf{实验调节技巧}
+    \begin{itemize}
+        \item 调节干涉仪时要注意光路对称性，保证激光入射角度严格45度；
+        \item 物镜的位置和共轴性对干涉条纹的清晰度影响很大，物镜不要离干涉仪太远；
+        \item 反射镜调节时应先粗调后细调，保持螺丝在适中状态；
+        \item 毛玻璃和滤光片的摆放顺序可能影响条纹亮度，也就会改变实验误差；
+        \item 测量汞灯黄线相干长度时可以借助激光定域干涉找严格等倾位置。
+    \end{itemize}
+
+    \item \textbf{实验现象理解}
+    \begin{itemize}
+        \item 通过观察非定域、等倾、等厚干涉，加深了对光的干涉现象的物理理解，尤其是对于等厚干涉、等倾干涉的物理本质有了更佳深刻的理解；
+    \end{itemize}
+
+    \item \textbf{误差分析}
+    \begin{enumerate}
+        \item 系统误差：
+        \begin{itemize}
+            \item 迈克尔逊干涉仪的空程差
+            \item 微动手轮和粗动手轮的不联动性
+        \end{itemize}
+        \item 随机误差：
+        \begin{itemize}
+            \item 反射镜位置读数误差
+            \item 条纹消失位置判断的主观性
+        \end{itemize}
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}

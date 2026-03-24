@@ -1,0 +1,268 @@
+\documentclass[12pt]{article}
+\usepackage{xeCJK}
+\usepackage{fontspec}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{circuitikz}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{cancel}
+\setCJKmainfont{Songti SC}
+\geometry{a4paper, margin=1in, top=1in}
+\setlength{\parindent}{12pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{10pt}
+%\fancyhead[L]{\raisebox{-0.5\height}{\includegraphics[width=0.15\textwidth]{pku_logo.png}}}
+\fancyhead[R]{\small 普通物理实验报告}
+\fancyhead[C]{\small 实验名称：直流平衡电桥测量电阻}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\title{\Large\textbf{直流平衡电桥实验报告}}
+\author{普通物理实验\\
+        [REDACTED]\\
+         \\
+        姓名：\underline{\hspace{1cm}[REDACTED]\hspace{1cm}} \\
+        学号：\underline{\hspace{0.5cm}[REDACTED]\hspace{0.5cm}} \\
+        序号：\underline{\hspace{1.3cm}[REDACTED]\hspace{1.3cm}}}
+\date{\today}
+\begin{document}
+\maketitle
+\section{摘要}
+\quad 本次实验使用惠斯通直流平衡电桥测量了待测电阻的阻值，并计算了对应电桥灵敏度。通过改变测量条件，研究电桥参数对于电桥灵敏度和测量结果的影响。实验还学习使用交换桥臂法测量待测电阻的阻值和电桥灵敏度的理论值，并进行了误差分析。
+\section{直流平衡电桥测量电阻}
+\subsection{实验时间、地点与仪器}
+\begin{itemize}
+    \item 实验时间：2025年4月2日下午
+    \item 实验地点：北京大学物理学院南楼233室
+    \item 仪器：UTP33137FL电源、VC9506万用电表 $\times 2$、$100\,\Omega ,1000\,\Omega$定值电阻(精确度0.1$\%$)、$10k\Omega$电阻$\times 2$，待测电阻、电位器、AC5/2型检流计、ZX96型直流电阻箱（其接触电阻为12$m\Omega$）。
+\end{itemize}
+\quad ZX96型电阻箱的仪器允差如下表\ref{tab:ZX96}所示：
+\begin{table}[H]
+    \centering
+    \begin{tabular}{ccccccc}
+        档位($\Omega$) & $\times 10000$ & $\times 1000$ & $\times 100$         & $\times 10$ & $\times 1$  & $\times 0.1$ \\ \hline
+        准确度(允差e)     & $\pm 0.1\%$    & $\pm 0.1\%$   & \textbf{$\pm 0.1\%$} & $\pm 0.1\%$ & $\pm 0.5\%$ & $\pm 2\%$   
+    \end{tabular}
+    \caption{ZX96型电阻箱的仪器允差}
+    \label{tab:ZX96}
+\end{table}
+AC5/2型检流计的仪器参数如下：
+\begin{table}[H]
+    \centering
+    \begin{tabular}{cc}
+        分度值：$1.5\times 10^{-6}$安/格 & 内阻：$43\,\Omega$
+    \end{tabular}
+\end{table}
+
+\subsection{实验原理}
+\begin{figure}[H]
+    \centering
+    \begin{circuitikz}[scale=1.5]
+        \draw (0,0) to[short] (0,1);
+        \draw (0,1) to[generic, l=$R_1$] (2,1);
+        \draw (2,1) to[generic, l={$R_x$}] (4,1);
+        \draw (4,1) to[short] (4,0);
+        \draw (2,0) to[generic, l=$R_0$] (4,0); 
+        \draw (2,0) to[generic, l={$R_2$}] (0,0);
+        \draw (0,-1) to[short, i={$I_0$}, reversed] (0,0);
+        \draw (0,-1) to[short] (1.5,-1);
+        \draw (1.5,-1) to[battery2, l={$E$}] (2.5,-1);
+        \draw (2.5,-1) to[short] (4,-1);
+        \draw (4,-1) to[short] (4,0);
+        \draw (2,1) to[ammeter, l=$G$] (2,0);
+    \end{circuitikz}
+    \caption{惠斯通电桥}
+    \label{fig:bridge}
+\end{figure}
+\quad 调节电桥使得检流计$G$中没有电流通过，即电桥平衡，此时有
+\begin{equation}
+    \frac{R_1}{R_x} = \frac{R_2}{R_0}
+\end{equation}
+\quad 电桥灵敏度:在电桥平衡时，$R_x$的微小变化$\Delta R_x$会引起检流计$G$的微小偏转格数$\Delta n$，则电桥灵敏度为
+\begin{equation}
+    S = \frac{\Delta n}{\frac{\Delta R_x}{R_x}} =\frac{\Delta n}{\frac{\Delta R_0}{R_0}}
+\end{equation}
+\quad 实际测量中，会在检流计$G$中串联一个电阻$R_h$，以保护检流计，图中未画出。
+\subsection{实验测量数据}
+\subsubsection{不同条件下电阻与灵敏度测量}
+\quad 先用万用电表粗测$R_x$的值，得到
+\[
+    R_x = \SI{32.88}{\ohm} 
+\]
+\quad 同时测量了$10k(A)$和$10k(B)$的阻值，得到
+\[
+    R_{10k(A)} = \SI{10.058}{\kohm}, \quad R_{10k(B)} = \SI{10.117}{\kohm}
+\]
+\quad 按图\ref{fig:bridge}连接电路，改变比例臂比值，调节$R_p$电阻箱阻值，使得电桥平衡，记录$R_p$的值，计算$R_x$的值。在电桥平衡点附近小范围内改变$R_p$的值，记录检流计示数变化量，计算得到对应的电桥灵敏度。
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|cccc|ccc|ccc|}
+        \hline
+        \multicolumn{4}{|c|}{条件}                                                                                                                & \multicolumn{3}{c|}{直接测量量}                                                                          & \multicolumn{3}{c|}{间接计算量}                                                                                                                                                                \\ \hline
+        \multicolumn{1}{|c|}{E/V}                  & \multicolumn{1}{c|}{$R_h/\Omega$}       & \multicolumn{1}{c|}{$R_1/\Omega$} & $R_2/\Omega$ & \multicolumn{1}{c|}{$R_0/\Omega$} & \multicolumn{1}{c|}{$R_0'/\Omega$} & $\Delta n$ & \multicolumn{1}{c|}{$\Delta R_0 /\Omega$} & \multicolumn{1}{c|}{$R_x/\Omega$}                                                                                          & S                \\ \hline
+        \multicolumn{1}{|c|}{\multirow{5}{*}{2.0}} & \multicolumn{1}{c|}{\multirow{4}{*}{0}} & \multicolumn{1}{c|}{100}          & 100          & \multicolumn{1}{c|}{32.9}         & \multicolumn{1}{c|}{33.0}                          & 7.9        & \multicolumn{1}{c|}{0.10}                 & \multicolumn{1}{c|}{32.90}                                                                                                 & $2.6\times 10^3$ \\ \cline{3-10} 
+        \multicolumn{1}{|c|}{}                     & \multicolumn{1}{c|}{}                   & \multicolumn{1}{c|}{100}          & 1000         & \multicolumn{1}{c|}{329.0}        & \multicolumn{1}{c|}{331.0}                         & 4.2        & \multicolumn{1}{c|}{2.0}                  & \multicolumn{1}{c|}{32.90}                                                                                                 & $6.9\times 10^2$ \\ \cline{3-10} 
+        \multicolumn{1}{|c|}{}                     & \multicolumn{1}{c|}{}                   & \multicolumn{1}{c|}{10k(A)}       & 10k(B)       & \multicolumn{1}{c|}{33.1}         & \multicolumn{1}{c|}{38.1}                          & 5.3        & \multicolumn{1}{c|}{5.0}                  & \multicolumn{1}{c|}{\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}交换桥臂\\ 32.90\end{tabular}}} & 35               \\ \cline{3-8} \cline{10-10} 
+        \multicolumn{1}{|c|}{}                     & \multicolumn{1}{c|}{}                   & \multicolumn{1}{c|}{10k(B)}       & 10k(A)       & \multicolumn{1}{c|}{32.7}         & \multicolumn{1}{c|}{36.7}                          & 4.2        & \multicolumn{1}{c|}{4.0}                  & \multicolumn{1}{c|}{}                                                                                                      & 34               \\ \cline{2-10} 
+        \multicolumn{1}{|c|}{}                     & \multicolumn{1}{c|}{3k(3007)}           & \multicolumn{1}{c|}{100}          & 100          & \multicolumn{1}{c|}{32.9}         & \multicolumn{1}{c|}{35.0}                          & 4.7        & \multicolumn{1}{c|}{2.1}                  & \multicolumn{1}{c|}{32.90}                                                                                                      & 74               \\ \hline
+        \multicolumn{1}{|c|}{1.0}                  & \multicolumn{1}{c|}{0}                  & \multicolumn{1}{c|}{100}          & 100          & \multicolumn{1}{c|}{32.9}         & \multicolumn{1}{c|}{33.1}                          & 7.2        & \multicolumn{1}{c|}{0.2}                  & \multicolumn{1}{c|}{32.90}                                                                                                  & $1.2\times 10^3$ \\ \hline
+        \end{tabular}
+    \caption{不同比例臂下的电阻测量与灵敏度测量结果}
+\end{table}
+从表格中可以得到，直流平衡惠斯通电桥测量得到的$R_x$值为$32.90\Omega$，与万用电表测得的$32.88\Omega$基本一致，下面将以第一组数据为例，计算电阻值的相对误差。
+\par
+\subsubsection{直流电桥电阻测量结果的不确定度分析}
+\vspace{1em}
+待测电阻$R_x$的相对误差包含两部分：
+\begin{itemize}
+    \item 示零器灵敏度引起的不确定度（$B_1$类不确定度$\sigma_{B1}=\delta R_x$）\\
+        取检流计偏转0.2格对应的$R_x$变化量作为其不确定度$\delta R_x$，由公式$S=\frac{\Delta n}{\frac{\Delta R_x}{R_x}}$，可以得到
+        \begin{equation*}
+            \frac{\delta R_x}{R_x} = \frac{0.2}{S}
+        \end{equation*}
+        代入$S=2.6\times 10^3$，得到
+        \begin{equation*}
+            \frac{\delta R_x}{R_x} = \frac{0.2}{2.6\times 10^3} = 7.7\times 10^{-5}
+        \end{equation*}
+    \item 桥臂电阻级别引起的不确定度（$B_2$类不确定度$\sigma_{B2}$）\\
+    \text{根据不确定度合成公式}:\\
+    \begin{equation*}
+        \frac{\sigma_{B2}(R_x)}{R_x} = \sqrt{ (\frac{\sigma_{B2}(R_1)}{R_1})^2+(\frac{\sigma_{B2}(R_2)}{R_2})^2+(\frac{\sigma_{B2}(R_0)}{R_0})^2}
+    \end{equation*}
+    分别计算每一个桥臂电阻的相对误差，然后合成得到$R_x$的相对误差。
+    \begin{itemize}
+        \item
+        \[
+        \frac{\sigma_{B2}(R_1)}{R_1} = \frac{\frac{e(R_1)}{R_1}}{\sqrt{3}}=\frac{\alpha\%}{\sqrt{3}}=5.8\times10^{-4}
+        \]
+        \item 
+        \[
+        \frac{\sigma_{B2}(R_2)}{R_2} = \frac{\frac{e(R_2)}{R_2}}{\sqrt{3}}=\frac{\alpha\%}{\sqrt{3}}=5.8\times10^{-4}
+        \]
+        \item 
+        \[
+        \frac{\sigma_{B2}(R_0)}{R_0} = \frac{\frac{e(R_0)}{R_0}}{\sqrt{3}}=\frac{30\times0.1\%+2\times0.5\%+0.9\times2\%+0.012}{32.9\times\sqrt{3}}\cancel{\frac{\Omega}{\Omega}}=\frac{0.070}{32.9\times\sqrt{3}}=1.2\times10^{-3}
+        \]
+    \end{itemize}
+\end{itemize}
+则$R_x$的相对误差为
+\begin{equation*}
+\begin{aligned}
+    \frac{\Delta R_x}{R_x} &= \sqrt{(\frac{\delta R_x}{R_x})^2+(\frac{\sigma_{B2}(R_1)}{R_1})^2+(\frac{\sigma_{B2}(R_2)}{R_2})^2+(\frac{\sigma_{B2}(R_0)}{R_0})^2} \\
+    &= \sqrt{(7.7\times10^{-5})^2+(5.8\times10^{-4})^2+(5.8\times10^{-4})^2+(1.2\times10^{-3})^2} \\
+    &= 1.5\times10^{-3} \\
+    \Delta R_x &= R_x\times\frac{\Delta R_x}{R_x} \\
+    &= 32.9\times1.5\times10^{-3} \\
+    &= 0.05\Omega
+\end{aligned}
+\end{equation*}
+综上，待测电阻$R_x$的测量结果为
+\begin{equation}
+    R_x = (32.90\pm0.05)\,\Omega
+\end{equation}
+同理，计算其他几组测量条件下的待测电阻不确定度，得到
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|cccc|c|}
+        \hline
+        \multicolumn{4}{|c|}{条件}                                                                                                                & Rx测量结果                      \\ \hline
+        \multicolumn{1}{|c|}{E/V}                  & \multicolumn{1}{c|}{$R_h/\Omega$}       & \multicolumn{1}{c|}{$R_1/\Omega$} & $R_2/\Omega$  & $(R_x\pm\sigma_{R_x})/\Omega$ \\ \hline
+        \multicolumn{1}{|c|}{\multirow{3}{*}{2.0}} & \multicolumn{1}{c|}{\multirow{2}{*}{0}} & \multicolumn{1}{c|}{100}          & 100          & $32.90\pm0.05$              \\ \cline{3-5} 
+        \multicolumn{1}{|c|}{}                     & \multicolumn{1}{c|}{}                   & \multicolumn{1}{c|}{100}          & 1000         & $32.90\pm0.04$                       \\ \cline{2-5} 
+        \multicolumn{1}{|c|}{}                     & \multicolumn{1}{c|}{3k(3007)}           & \multicolumn{1}{c|}{100}          & 100          & $32.9\pm0.1$                       \\ \hline
+        \multicolumn{1}{|c|}{1.0}                  & \multicolumn{1}{c|}{0}                  & \multicolumn{1}{c|}{100}          & 100          & $32.90\pm0.05$                      \\ \hline
+        \end{tabular}
+    \caption{不同测量条件下的待测电阻测量结果}
+    \end{table}
+\subsubsection{交换桥臂法测量电阻的不确定度分析}
+\quad 交换桥臂法适用于比例臂电阻误差较大或者比例臂未知的情况。
+根据\ref{fig:bridge}的第3、4行测量数据，交换桥臂测量得到的电阻箱阻值分别为$R_0(1)=33.1\Omega$和$R_0(2)=32.7\Omega$，则待测电阻$R_x$的测量结果为
+\begin{equation*}
+    R_x = \sqrt{R_0(1)\,R_0(2)} = \sqrt{33.1\times32.7} \approx 32.90 \Omega
+\end{equation*}
+\quad 分别计算$R_0(1)$和$R_0(2)$的相对误差，然后合成得到$R_x$的相对误差，对于每一个$R_0$测量值，都有对应的B1和B2类不确定度。
+\quad 对于$R_0(1)$,计算其相对误差：
+    \begin{equation*}
+    \begin{aligned}[t]
+    &\delta R_0(1) = \frac{0.2}{S}\times R_0(1) = \frac{0.2}{35}\times33.1\,\Omega = 0.19\,\Omega \\
+    &\sigma_{B1}(R_0(1)) = \frac{e(R_0(1))}{\sqrt{3}} = \frac{30\times0.1\%+3\times0.5\%+0.1\times2\%+0.012}{\sqrt{3}}\Omega = 0.034\,\Omega \\
+    &\sigma(R_0(1)) = \sqrt{\delta R_0(1)^2+\sigma_{B1}(R_0(1))^2}=0.2\,\Omega 
+    \end{aligned}
+    \end{equation*}
+\quad 对于$R_0(2)$,计算其相对误差：
+    \begin{equation*}
+    \begin{aligned}[t]
+    &\delta R_0(2) = \frac{0.2}{S}\times R_0(2) = \frac{0.2}{34}\times32.7\,\Omega = 0.19\,\Omega \\
+    &\sigma_{B1}(R_0(2)) = \frac{e(R_0(2))}{\sqrt{3}} = \frac{30\times0.1\%+2\times0.5\%+0.7\times2\%+0.012}{\sqrt{3}}\Omega = 0.038\,\Omega \\
+    &\sigma(R_0(2)) = \sqrt{\delta R_0(2)^2+\sigma_{B1}(R_0(2))^2}=0.2\,\Omega 
+    \end{aligned}
+    \end{equation*}
+\quad 合成得到$R_x$的相对误差：
+    \begin{equation*}
+    \begin{aligned}[t]
+    \frac{\sigma(R_x)}{R_x} &= \sqrt{(\frac{\sigma(R_0(1))}{2R_0(1)})^2+(\frac{\sigma(R_0(2))}{2R_0(2)}^2)} \\
+    &= \sqrt{(\frac{0.2}{32.7})^2+(\frac{0.2}{33.1})^2} = 8.6\times10^{-3}\\
+    \sigma(R_x) &= R_x\times\frac{\sigma(R_x)}{R_x} \\
+    &= 0.3\Omega
+    \end{aligned}
+    \end{equation*}
+\quad 综上，待测电阻$R_x$的测量结果为
+\begin{equation}
+    R_x = (32.9\pm0.3)\,\Omega
+\end{equation}
+\subsubsection{电桥灵敏度的理论计算}
+根据电桥灵敏度的计算公式：
+\begin{equation*}
+    S = \frac{S_i\cdot E}{R_1+R_2+R_0+R_x+R_g(2+\frac{R_1}{R_x}+\frac{R_0}{R_2})}
+\end{equation*}
+\quad 代入$R_g=43\,\Omega$和$S_i=\frac{1}{1.5\times10^{-6}\text{A/格}}$，得到不同测量条件下的电桥灵敏度理论值。
+以第一个测量条件为例，代入$E=2.0\,\text{V}$，$R_1=100\,\Omega$，$R_2=100\,\Omega$，$R_0=32.9\,\Omega$，$R_x=32.9\,\Omega$，得到：
+
+\begin{equation*}
+    S = \frac{2.0V\times \frac{1}{1.5\times10^{-6}\text{A/格}}}{100\,\Omega+100\,\Omega+32.9\,\Omega+32.9\,\Omega+43\,\Omega\times(2+\frac{100\,\Omega}{32.9\,\Omega}+\frac{32.9\,\Omega}{100\,\Omega})} \approx 2.68\times10^3
+\end{equation*}
+同理，计算其他几组测量条件下的电桥灵敏度理论值，得到：
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|cccc|c|c|}
+        \hline
+        \multicolumn{4}{|c|}{条件} & \multicolumn{1}{c|}{S理论值} & \multicolumn{1}{c|}{S测量值} \\ \hline
+        \multicolumn{1}{|c|}{E/V}                  & \multicolumn{1}{c|}{$R_h/\Omega$}       & \multicolumn{1}{c|}{$R_1/\Omega$} & $R_2/\Omega$ & $S_{th}$ & $S_{mea}$ \\ \hline
+        \multicolumn{1}{|c|}{\multirow{5}{*}{2.0}} & \multicolumn{1}{c|}{\multirow{4}{*}{0}} & \multicolumn{1}{c|}{100}          & 100          & $2.68\times10^3$ & $2.6\times 10^3$ \\ \cline{3-6} 
+        \multicolumn{1}{|c|}{}                     & \multicolumn{1}{c|}{}                   & \multicolumn{1}{c|}{100}          & 1000         & $7.88\times10^2$ & $6.9\times 10^2$ \\ \cline{3-6}
+        \multicolumn{1}{|c|}{}                     & \multicolumn{1}{c|}{}                   & \multicolumn{1}{c|}{10k(A)}       & 10k(B)       & 39.8 & 35 \\ \cline{3-6}
+        \multicolumn{1}{|c|}{}                     & \multicolumn{1}{c|}{}                   & \multicolumn{1}{c|}{10k(B)}       & 10k(A)       & 39.7 & 34 \\ \cline{2-6}
+        \multicolumn{1}{|c|}{}                     & \multicolumn{1}{c|}{3k(3007)}           & \multicolumn{1}{c|}{100}          & 100          & 80.1 & 74 \\ \hline
+        \multicolumn{1}{|c|}{1.0}                  & \multicolumn{1}{c|}{0}                  & \multicolumn{1}{c|}{100}          & 100          & $1.34\times10^3$ & $1.2\times 10^3$ \\ \hline
+    \end{tabular}
+    \caption{不同测量条件下电桥灵敏度的理论值与测量值}
+\end{table}
+\section{实验总结与反思}
+\subsection{实验操作要点}
+\begin{itemize}
+    \item 在通电前尤其注意电路安全，包括仪器安全，人身安全，电源输出调至最小，防止烧坏元件，尤其是$100\,\Omega,1000\,\Omega$的定值电阻，限制功率$0.25W$,需格外注意电源输出不能太高。
+    \item 实验过程中要注意保护检流计，通电时保护电阻$R_h$调到最大，之后再逐渐减小。这个过程有助于加深对于电桥灵敏度在实际测量中的作用的理解，通过改变$R_h$阻值从而改变电桥灵敏度从小增大，在保护检流计和精确测量中找到平衡点。
+\end{itemize}
+\subsection{实验反思}
+\begin{itemize}
+    \item 实验发现，在不同测量条件下使用电桥测量，都能取得一致的结果$R_x=32.90\Omega$，说明\underline{电桥测量具有很高的精确性}。实验过程中通过学习调整测量条件，研究了不同因素对于电桥灵敏度的影响。
+    \begin{itemize}
+        \item 电源电压$E$：$E$越大，$S$越大。
+        \item 桥臂电阻比值：$R_1/R_x，R_0/R_2$中的大者越大，$S$越小，这也体现\underline{对称测量能有更高的测量准确度的物理思想}。
+        \item 桥臂电阻$R_1,R_2,R_0$：$R_1,R_2,R_0$越大，$S$越小。
+        \item 检流计内阻$R_g$：$R_g$越大，$S$越小。
+        \item 检流计越灵敏，$S$越大。
+    \end{itemize}
+    \item 测量电阻的实验误差主要来源于电桥灵敏度和桥臂电阻阻值的误差。以第1和第2组测量条件为例，如果改变比例臂大小，会使得可调电阻$R_0$能有更高的数值，也意味着更小的电阻误差，但是这又会减小电桥灵敏度，使得$S$减小，$R_x$的误差增大。可见\underline{测量条件的选取一般是一厢情愿的}，这也启发我们在选取测量条件时应该综合考量，在精确度和灵敏度之间找到平衡点。
+    \item 交换桥臂法可以在桥臂电阻不准确的情况得到准确的测量结果，本次测量中交换测量的不确定度偏大，主要原因是$10k\,\Omega$的比例臂电阻太大影响了电桥灵敏度。但交换桥臂复称的物理思想值得借鉴。
+    \item 通过计算电桥灵敏度的理论值和实测，对电桥灵敏度加深理解，算出来的理论值略偏大，可能是由于检流计灵敏度没有达到标称值。
+\end{itemize}
+\end{document}
+
+
