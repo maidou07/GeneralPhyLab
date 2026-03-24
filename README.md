@@ -1,4 +1,4 @@
-Lab Reports of General Physics - Spring,25 & Fall,25
+# Lab Reports of General Physics - Spring,25 & Fall,25
 
 ## License / 开源协议
 
